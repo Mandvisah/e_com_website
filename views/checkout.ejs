@@ -1,0 +1,405 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </nav>
+
+            <h1 class="mb-4">Checkout</h1>
+
+            <div class="row">
+                <!-- Order Summary -->
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fas fa-shipping-fast"></i> Shipping Information</h5>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="loadUserProfile()">
+                                    <i class="fas fa-user"></i> Load My Details
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="updateProfileFromCheckout()" style="display: none;" id="updateProfileBtn">
+                                    <i class="fas fa-save"></i> Update My Profile
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info" id="profile-status" style="display: none;">
+                                <i class="fas fa-info-circle"></i>
+                                <span id="profile-message">Your saved profile details have been loaded.</span>
+                            </div>
+                            
+                            <form id="checkout-form">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">First Name *</label>
+                                        <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Last Name *</label>
+                                        <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Address *</label>
+                                    <input type="text" class="form-control" id="address" placeholder="Enter your street address" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">City *</label>
+                                        <input type="text" class="form-control" id="city" placeholder="Enter your city" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">State *</label>
+                                        <input type="text" class="form-control" id="state" placeholder="Enter your state" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">ZIP Code *</label>
+                                        <input type="text" class="form-control" id="zipCode" placeholder="Enter your ZIP code" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Country</label>
+                                    <input type="text" class="form-control" id="country" placeholder="Enter your country" value="United States">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-credit-card"></i> Payment Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                This is a demo checkout. No real payment will be processed.
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="cod" checked>
+                                <label class="form-check-label" for="cashOnDelivery">
+                                    <i class="fas fa-money-bill-wave"></i> Cash on Delivery
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="card">
+                                <label class="form-check-label" for="creditCard">
+                                    <i class="fas fa-credit-card"></i> Credit/Debit Card (Demo)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-shopping-cart"></i> Order Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="order-items">
+                                <!-- Cart items will be loaded here -->
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping:</span>
+                                <span id="shipping">$0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tax:</span>
+                                <span id="tax">$0.00</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Total:</strong>
+                                <strong id="total">$0.00</strong>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100" onclick="placeOrder()">
+                                <i class="fas fa-check"></i> Place Order
+                            </button>
+                            
+                            <a href="/cart" class="btn btn-outline-secondary w-100 mt-2">
+                                <i class="fas fa-arrow-left"></i> Back to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadCartItems();
+    checkAuthStatus();
+    // Automatically load user profile data
+    setTimeout(loadUserProfile, 500);
+});
+
+function checkAuthStatus() {
+    const isLoggedIn = !!localStorage.getItem('userToken');
+    if (!isLoggedIn) {
+        alert('Please login to proceed with checkout');
+        window.location.href = '/login?redirect=/checkout';
+    }
+}
+
+async function loadUserProfile() {
+    try {
+        const response = await axios.get('/api/v1/users/profile', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+            }
+        });
+        
+        const user = response.data;
+        
+        // Populate form fields with user data
+        if (user.firstName) document.getElementById('firstName').value = user.firstName;
+        if (user.lastName) document.getElementById('lastName').value = user.lastName;
+        if (user.email) document.getElementById('email').value = user.email;
+        if (user.phone) document.getElementById('phone').value = user.phone;
+        if (user.street) document.getElementById('address').value = user.street;
+        if (user.city) document.getElementById('city').value = user.city;
+        if (user.zip) document.getElementById('zipCode').value = user.zip;
+        if (user.country) document.getElementById('country').value = user.country;
+        
+        // Show success message
+        showProfileStatus('Your saved profile details have been loaded automatically.', 'success');
+        
+        // Show update profile button
+        document.getElementById('updateProfileBtn').style.display = 'inline-block';
+        
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        showProfileStatus('Could not load your saved details. Please fill the form manually.', 'warning');
+    }
+}
+
+async function updateProfileFromCheckout() {
+    const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        phone: document.getElementById('phone').value,
+        street: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        zip: document.getElementById('zipCode').value,
+        country: document.getElementById('country').value
+    };
+    
+    try {
+        await axios.put('/api/v1/users/profile', formData, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        showProfileStatus('Your profile has been updated successfully!', 'success');
+        
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        showProfileStatus('Error updating profile. Please try again.', 'danger');
+    }
+}
+
+function showProfileStatus(message, type) {
+    const statusDiv = document.getElementById('profile-status');
+    const messageSpan = document.getElementById('profile-message');
+    
+    statusDiv.className = `alert alert-${type}`;
+    messageSpan.textContent = message;
+    statusDiv.style.display = 'block';
+    
+    // Hide after 5 seconds
+    setTimeout(() => {
+        statusDiv.style.display = 'none';
+    }, 5000);
+}
+
+function loadCartItems() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (cart.length === 0) {
+        document.getElementById('order-items').innerHTML = `
+            <div class="text-center py-4">
+                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                <p>Your cart is empty</p>
+                <a href="/products" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        `;
+        return;
+    }
+    
+    loadCartProducts(cart);
+}
+
+async function loadCartProducts(cart) {
+    try {
+        let subtotal = 0;
+        const itemsHtml = [];
+        
+        for (const item of cart) {
+            try {
+                const response = await axios.get(`/api/v1/products/${item.productId}`);
+                const product = response.data;
+                const itemTotal = product.price * item.quantity;
+                subtotal += itemTotal;
+                
+                itemsHtml.push(`
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">${product.name}</h6>
+                            <small class="text-muted">Qty: ${item.quantity}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="fw-bold">$${itemTotal.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `);
+            } catch (error) {
+                console.error('Error loading product:', error);
+            }
+        }
+        
+        document.getElementById('order-items').innerHTML = itemsHtml.join('');
+        
+        const shipping = subtotal > 50 ? 0 : 5.99;
+        const tax = subtotal * 0.08;
+        const total = subtotal + shipping + tax;
+        
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+        document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        
+    } catch (error) {
+        console.error('Error loading cart products:', error);
+    }
+}
+
+async function placeOrder() {
+    console.log('=== Place Order Function Called ===');
+    
+    const form = document.getElementById('checkout-form');
+    
+    if (!form.checkValidity()) {
+        console.log('Form validation failed');
+        form.reportValidity();
+        return;
+    }
+    
+    const paymentMethodElement = document.querySelector('input[name="paymentMethod"]:checked');
+    if (!paymentMethodElement) {
+        alert('Please select a payment method');
+        return;
+    }
+    
+    const paymentMethod = paymentMethodElement.value;
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('userToken');
+    
+    console.log('Cart items:', cart);
+    console.log('User data:', user);
+    console.log('Token exists:', !!token);
+    
+    if (cart.length === 0) {
+        alert('Your cart is empty');
+        return;
+    }
+    
+    if (!user._id) {
+        alert('User information not found. Please login again.');
+        window.location.href = '/login?redirect=checkout';
+        return;
+    }
+
+    // Transform cart items to match backend expected format
+    const orderItems = cart.map(item => ({
+        product: item.productId || item._id,
+        quantity: item.quantity || 1
+    }));
+
+    console.log('Transformed order items:', orderItems);
+
+    const orderData = {
+        orderItems: orderItems,
+        shippingAddress1: document.getElementById('address').value,
+        shippingAddress2: '', // Optional field
+        city: document.getElementById('city').value,
+        zip: document.getElementById('zipCode').value,
+        country: document.getElementById('country').value,
+        phone: document.getElementById('phone').value,
+        status: 'pending',
+        user: user._id
+    };
+    
+    console.log('Final order data:', orderData);
+    
+    try {
+        // Show loading
+        const placeOrderBtn = event.target;
+        const originalText = placeOrderBtn.innerHTML;
+        placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Placing Order...';
+        placeOrderBtn.disabled = true;
+        
+        console.log('Sending request to /api/v1/orders...');
+        
+        const response = await axios.post('/api/v1/orders', orderData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        console.log('Order response:', response.data);
+        
+        // Clear cart
+        localStorage.removeItem('cart');
+        
+        // Show success message
+        alert('Order placed successfully!');
+        
+        // Redirect to order confirmation or orders page
+        window.location.href = response.data._id ? `/order/${response.data._id}` : '/orders';
+        
+    } catch (error) {
+        console.error('Error placing order:', error);
+        console.error('Error response:', error.response);
+        
+        let errorMessage = 'Error placing order. Please try again.';
+        if (error.response?.data?.message) {
+            errorMessage = error.response.data.message;
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+        
+        alert('Error placing order: ' + errorMessage);
+        
+        // Reset button
+        const placeOrderBtn = event.target;
+        placeOrderBtn.innerHTML = '<i class="fas fa-check"></i> Place Order';
+        placeOrderBtn.disabled = false;
+    }
+}
+</script>

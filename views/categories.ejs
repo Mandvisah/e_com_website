@@ -1,0 +1,119 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Product Categories</h1>
+            
+            <div id="categories-container" class="row">
+                <!-- Categories will be loaded here -->
+            </div>
+            
+            <!-- Loading Spinner -->
+            <div id="loading-spinner" class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Categories page DOMContentLoaded');
+    
+    // Load categories first
+    loadCategories();
+    
+    // Update navigation after main.js loads
+    setTimeout(() => {
+        if (typeof updateNavigation === 'function') {
+            updateNavigation();
+            console.log('Updated navigation on categories page');
+        }
+        
+        if (typeof updateCartCount === 'function') {
+            updateCartCount();
+            console.log('Updated cart count on categories page');
+        }
+    }, 100);
+});
+
+async function loadCategories() {
+    try {
+        const response = await axios.get('/api/v1/categories');
+        const categories = response.data;
+        displayCategories(categories);
+    } catch (error) {
+        console.error('Error loading categories:', error);
+        document.getElementById('categories-container').innerHTML = `
+            <div class="col-12 text-center">
+                <div class="alert alert-danger">Error loading categories. Please try again later.</div>
+            </div>
+        `;
+    }
+    document.getElementById('loading-spinner').style.display = 'none';
+}
+
+function displayCategories(categories) {
+    const container = document.getElementById('categories-container');
+    
+    if (categories.length === 0) {
+        container.innerHTML = `
+            <div class="col-12 text-center">
+                <div class="alert alert-info">No categories found.</div>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = categories.map(category => `
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card category-card h-100" onclick="window.location.href='/category/${category._id}'">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-tag fa-4x" style="color: ${category.color || '#667eea'}"></i>
+                    </div>
+                    <h5 class="card-title">${category.name}</h5>
+                    <p class="card-text text-muted">${category.icon || 'Click to view products in this category'}</p>
+                    <div class="mt-auto">
+                        <button class="btn btn-outline-primary">View Products</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+</script>
+
+<!-- Force navigation update script for categories page -->
+<script>
+// Force navigation update when page loads
+window.addEventListener('load', function() {
+    console.log('Categories page fully loaded - forcing navigation update');
+    
+    // Direct navigation update
+    const isLoggedIn = !!localStorage.getItem('userToken');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    if (isLoggedIn && user.name) {
+        // Get elements
+        const loginLink = document.getElementById('login-link');
+        const registerLink = document.getElementById('register-link');
+        const userDropdown = document.getElementById('user-dropdown');
+        const userName = document.getElementById('user-name');
+        
+        // Hide login/register
+        if (loginLink) loginLink.style.display = 'none';
+        if (registerLink) registerLink.style.display = 'none';
+        
+        // Show user dropdown
+        if (userDropdown) userDropdown.style.display = 'block';
+        if (userName) userName.textContent = user.name || user.email || 'User';
+    }
+    
+    // Also call main.js function if available
+    if (typeof window.updateNavigation === 'function') {
+        window.updateNavigation();
+    }
+});
+</script>

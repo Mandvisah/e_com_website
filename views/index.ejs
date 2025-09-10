@@ -1,0 +1,112 @@
+<div class="hero-section bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold">Welcome to Our Store</h1>
+                <p class="lead">Discover amazing products at unbeatable prices. Shop now and get the best deals!</p>
+                <a href="/products" class="btn btn-light btn-lg">Shop Now</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://via.placeholder.com/500x300?text=E-Commerce+Hero" class="img-fluid rounded" alt="Hero Image">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Featured Categories -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Shop by Category</h2>
+            <div id="categories-container" class="row">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Featured Products</h2>
+            <div id="featured-products" class="row">
+                <!-- Featured products will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadCategories();
+    loadFeaturedProducts();
+});
+
+async function loadCategories() {
+    try {
+        const response = await axios.get('/api/v1/categories');
+        const categories = response.data;
+        const container = document.getElementById('categories-container');
+        
+        container.innerHTML = categories.map(category => `
+            <div class="col-md-4 mb-4">
+                <div class="card category-card h-100" onclick="window.location.href='/category/${category._id}'">
+                    <div class="card-body text-center">
+                        <i class="fas fa-tag fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">${category.name}</h5>
+                        <p class="card-text text-muted">${category.color || 'Explore this category'}</p>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
+async function loadFeaturedProducts() {
+    try {
+        const response = await axios.get('/api/v1/products?featured=true');
+        const products = response.data;
+        const container = document.getElementById('featured-products');
+        
+        if (products.length === 0) {
+            // If no featured products, load first 6 products
+            const allProductsResponse = await axios.get('/api/v1/products');
+            const allProducts = allProductsResponse.data.slice(0, 6);
+            displayProducts(allProducts, container);
+        } else {
+            displayProducts(products, container);
+        }
+    } catch (error) {
+        console.error('Error loading featured products:', error);
+    }
+}
+
+function displayProducts(products, container) {
+    container.innerHTML = products.map(product => `
+        <div class="col-md-4 mb-4">
+            <div class="card product-card h-100">
+                <img src="${product.image || 'https://via.placeholder.com/300x200?text=Product'}" class="card-img-top product-image" alt="${product.name}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">${product.name}</h5>
+                    <p class="card-text text-muted">${product.description}</p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center" style="z-index:10; position:relative;">
+                            <span class="h5 text-primary mb-0">$${product.price}</span>
+                            <button class="btn btn-primary" style="z-index:11; position:relative;" onclick="alert('Added to cart!')">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+</script>
+
+<!-- Main JavaScript file with cart functions -->
+<script src="/js/main.js"></script>
+
+<!-- 3D Animations Enhancement Script -->
+<script src="/js/3d-animations.js"></script>

@@ -1,0 +1,169 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4"><i class="fas fa-cogs me-2"></i>Admin Dashboard</h1>
+        </div>
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="row mb-5">
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <i class="fas fa-box fa-2x mb-2"></i>
+                    <h5 id="total-products">-</h5>
+                    <small>Total Products</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-success text-white">
+                <div class="card-body">
+                    <i class="fas fa-tags fa-2x mb-2"></i>
+                    <h5 id="total-categories">-</h5>
+                    <small>Categories</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-info text-white">
+                <div class="card-body">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <h5 id="total-users">-</h5>
+                    <small>Users</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-warning text-white">
+                <div class="card-body">
+                    <i class="fas fa-shopping-cart fa-2x mb-2"></i>
+                    <h5 id="total-orders">-</h5>
+                    <small>Orders</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Management Sections -->
+    <div class="row">
+        <!-- Product Management -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-box me-2"></i>Product Management</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Manage your product inventory, add new products, update existing ones.</p>
+                    <div class="d-grid gap-2">
+                        <a href="/admin/add-product" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </a>
+                        <a href="/admin/products" class="btn btn-outline-primary">
+                            <i class="fas fa-list"></i> View All Products
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Category Management -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-tags me-2"></i>Category Management</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Organize your products by creating and managing categories.</p>
+                    <div class="d-grid gap-2">
+                        <a href="/admin/add-category" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add New Category
+                        </a>
+                        <a href="/admin/categories" class="btn btn-outline-success">
+                            <i class="fas fa-list"></i> View All Categories
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Management -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="fas fa-shopping-cart me-2"></i>Order Management</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Track and manage customer orders, update order status.</p>
+                    <div class="d-grid gap-2">
+                        <a href="/admin/orders" class="btn btn-outline-warning">
+                            <i class="fas fa-list"></i> View All Orders
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Management -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>User Management</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Manage customer accounts and admin users.</p>
+                    <div class="d-grid gap-2">
+                        <a href="/admin/users" class="btn btn-outline-info">
+                            <i class="fas fa-list"></i> View All Users
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadDashboardStats();
+});
+
+async function loadDashboardStats() {
+    try {
+        // Load products count
+        const productsResponse = await axios.get('/api/v1/products');
+        document.getElementById('total-products').textContent = productsResponse.data.length;
+        
+        // Load categories count
+        const categoriesResponse = await axios.get('/api/v1/categories');
+        document.getElementById('total-categories').textContent = categoriesResponse.data.length;
+        
+        // Load users count (if you have a count endpoint)
+        try {
+            const usersResponse = await axios.get('/api/v1/users/get/count', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+                }
+            });
+            document.getElementById('total-users').textContent = usersResponse.data.userCount || 0;
+        } catch (error) {
+            document.getElementById('total-users').textContent = 'N/A';
+        }
+        
+        // Load orders count
+        try {
+            const ordersResponse = await axios.get('/api/v1/orders', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+                }
+            });
+            document.getElementById('total-orders').textContent = ordersResponse.data.length || 0;
+        } catch (error) {
+            document.getElementById('total-orders').textContent = 'N/A';
+        }
+        
+    } catch (error) {
+        console.error('Error loading dashboard stats:', error);
+    }
+}
+</script>

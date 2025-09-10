@@ -1,0 +1,141 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Category</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-plus-circle me-2"></i>Add New Category</h3>
+                </div>
+                <div class="card-body">
+                    <form id="add-category-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Category Name *</label>
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="e.g., Electronics, Clothing, Books">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="icon" class="form-label">Icon (Font Awesome class)</label>
+                            <input type="text" class="form-control" id="icon" name="icon" placeholder="e.g., fa-laptop, fa-tshirt, fa-book">
+                            <div class="form-text">
+                                Optional: Use Font Awesome icon classes. 
+                                <a href="https://fontawesome.com/icons" target="_blank">Browse icons</a>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="color" class="form-label">Category Color</label>
+                            <input type="color" class="form-control form-control-color" id="color" name="color" value="#667eea">
+                            <div class="form-text">Choose a color theme for this category</div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-secondary me-md-2" onclick="goBack()">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Add Category
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Existing Categories -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-list me-2"></i>Existing Categories</h5>
+                </div>
+                <div class="card-body">
+                    <div id="categories-list">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadExistingCategories();
+});
+
+async function loadExistingCategories() {
+    try {
+        const response = await axios.get('/api/v1/categories');
+        const categories = response.data;
+        const container = document.getElementById('categories-list');
+        
+        if (categories && categories.length > 0) {
+            container.innerHTML = categories.map(category => `
+                <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                    <div>
+                        <i class="fas ${category.icon || 'fa-tag'}" style="color: ${category.color || '#667eea'}"></i>
+                        <strong class="ms-2">${category.name}</strong>
+                    </div>
+                    <span class="badge" style="background-color: ${category.color || '#667eea'}">${category._id}</span>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = '<p class="text-muted text-center">No categories created yet. Add your first category above!</p>';
+        }
+    } catch (error) {
+        console.error('Error loading categories:', error);
+        document.getElementById('categories-list').innerHTML = '<p class="text-danger text-center">Error loading categories</p>';
+    }
+}
+
+document.getElementById('add-category-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const categoryData = {
+        name: formData.get('name'),
+        icon: formData.get('icon') || 'fa-tag',
+        color: formData.get('color') || '#667eea'
+    };
+    
+    try {
+        showToast('Creating category...', 'info');
+        
+        const response = await axios.post('/api/v1/categories', categoryData, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+            }
+        });
+        
+        showToast('Category created successfully!', 'success');
+        
+        // Reset form
+        this.reset();
+        document.getElementById('color').value = '#667eea';
+        
+        // Reload categories list
+        loadExistingCategories();
+        
+    } catch (error) {
+        console.error('Error creating category:', error);
+        const message = error.response?.data?.message || 'Failed to create category. Please try again.';
+        showToast(message, 'error');
+    }
+});
+
+function goBack() {
+    window.history.back();
+}
+</script>

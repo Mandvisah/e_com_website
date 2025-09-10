@@ -1,0 +1,101 @@
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3><i class="fas fa-sign-in-alt me-2"></i>Login</h3>
+                </div>
+                <div class="card-body">
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember-me">
+                            <label class="form-check-label" for="remember-me">
+                                Remember me
+                            </label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr>
+                    
+                    <div class="text-center">
+                        <p class="mb-0">Don't have an account? <a href="/register">Register here</a></p>
+                        <p class="mt-2"><a href="/forgot-password">Forgot your password?</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+console.log('Login page script loaded');
+console.log('showToast function available:', typeof showToast);
+console.log('axios available:', typeof axios);
+
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    console.log('Login form submitted');
+    
+    const formData = new FormData(this);
+    const loginData = {
+        email: formData.get('email'),
+        password: formData.get('password')
+    };
+    
+    console.log('Login data:', loginData);
+    
+    try {
+        console.log('Sending login request to /api/v1/users/login');
+        const response = await axios.post('/api/v1/users/login', loginData);
+        console.log('Login response:', response.data);
+        
+        if (response.data.token) {
+            localStorage.setItem('userToken', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            console.log('Token and user saved to localStorage');
+            
+            if (typeof showToast === 'function') {
+                showToast('Login successful! Redirecting...', 'success');
+            } else {
+                console.log('showToast not available, using alert');
+                alert('Login successful! Redirecting...');
+            }
+            
+            // Redirect to checkout if came from cart, otherwise go home
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+            
+            setTimeout(() => {
+                window.location.href = redirect === 'checkout' ? '/checkout' : '/';
+            }, 1500);
+        } else {
+            console.error('No token in response');
+            alert('Login failed: No token received');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        console.error('Error response:', error.response?.data);
+        const message = error.response?.data?.message || 'Login failed. Please try again.';
+        
+        if (typeof showToast === 'function') {
+            showToast(message, 'error');
+        } else {
+            console.log('showToast not available, using alert for error');
+            alert('Login failed: ' + message);
+        }
+    }
+});
+</script>

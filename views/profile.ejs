@@ -1,0 +1,325 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+                </ol>
+            </nav>
+
+            <h1 class="mb-4">My Profile</h1>
+
+            <div class="row justify-content-center">
+                <!-- User Profile Card -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <div class="profile-avatar mb-3">
+                                <i class="fas fa-user-circle fa-5x text-primary"></i>
+                            </div>
+                            <h3 id="profile-name" class="mb-1">Loading...</h3>
+                            <p class="text-muted mb-0" id="profile-email">Loading...</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">
+                                <i class="fas fa-info-circle text-primary"></i> Personal Information
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">First Name</label>
+                                    <div class="profile-detail" id="display-firstName">-</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Last Name</label>
+                                    <div class="profile-detail" id="display-lastName">-</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Email Address</label>
+                                    <div class="profile-detail" id="display-email">-</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Phone Number</label>
+                                    <div class="profile-detail" id="display-phone">-</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Date of Birth</label>
+                                    <div class="profile-detail" id="display-dateOfBirth">-</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Member Since</label>
+                                    <div class="profile-detail" id="display-memberSince">-</div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+                            
+                            <!-- Account Statistics -->
+                            <h5 class="card-title mb-3">
+                                <i class="fas fa-chart-bar text-success"></i> Account Summary
+                            </h5>
+                            <div class="row text-center mb-4">
+                                <div class="col-4">
+                                    <div class="stat-card">
+                                        <div class="h3 text-primary mb-1" id="total-orders">0</div>
+                                        <small class="text-muted">Total Orders</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-card">
+                                        <div class="h3 text-success mb-1" id="total-spent">$0.00</div>
+                                        <small class="text-muted">Total Spent</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-card">
+                                        <div class="h3 text-info mb-1" id="active-orders">0</div>
+                                        <small class="text-muted">Active Orders</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                <a href="/edit-profile" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> Edit Profile
+                                </a>
+                                <a href="/orders" class="btn btn-outline-primary">
+                                    <i class="fas fa-shopping-bag"></i> View Orders
+                                </a>
+                                <button type="button" class="btn btn-outline-danger" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-avatar {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-avatar::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #007bff, #6610f2);
+    border-radius: 50%;
+    z-index: -1;
+    animation: profileGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes profileGlow {
+    0% { opacity: 0.5; }
+    100% { opacity: 0.8; }
+}
+
+.profile-detail {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #495057;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card {
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 0.375rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 2px solid #dee2e6;
+}
+
+.btn {
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.text-primary {
+    color: #007bff !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-info {
+    color: #17a2b8 !important;
+}
+
+.breadcrumb {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+}
+
+/* Custom animations for stats */
+.h3 {
+    animation: countUp 1s ease-out;
+}
+
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade in animation for edit form */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .d-md-flex {
+        flex-direction: column;
+    }
+    
+    .btn {
+        margin-bottom: 0.5rem;
+    }
+    
+    .profile-detail {
+        font-size: 1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuthStatus();
+    loadProfile();
+    loadAccountSummary();
+});
+
+function checkAuthStatus() {
+    const isLoggedIn = !!localStorage.getItem('userToken');
+    if (!isLoggedIn) {
+        alert('Please login to view your profile');
+        window.location.href = '/login?redirect=/profile';
+    }
+}
+
+async function loadProfile() {
+    try {
+        const response = await axios.get('/api/v1/users/profile', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+            }
+        });
+        
+        const user = response.data;
+        
+        // Update display fields
+        document.getElementById('profile-name').textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.name || 'User';
+        document.getElementById('profile-email').textContent = user.email;
+        
+        document.getElementById('display-firstName').textContent = user.firstName || 'Not provided';
+        document.getElementById('display-lastName').textContent = user.lastName || 'Not provided';
+        document.getElementById('display-email').textContent = user.email;
+        document.getElementById('display-phone').textContent = user.phone || 'Not provided';
+        document.getElementById('display-dateOfBirth').textContent = user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : 'Not provided';
+        document.getElementById('display-memberSince').textContent = new Date(user.createdAt || Date.now()).toLocaleDateString();
+        
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        alert('Error loading profile information');
+    }
+}
+
+async function loadAccountSummary() {
+    try {
+        const response = await axios.get('/api/v1/users/summary', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+            }
+        });
+        
+        const summary = response.data;
+        document.getElementById('total-orders').textContent = summary.totalOrders || 0;
+        document.getElementById('total-spent').textContent = `$${(summary.totalSpent || 0).toFixed(2)}`;
+        document.getElementById('active-orders').textContent = summary.activeOrders || 0;
+        
+    } catch (error) {
+        console.error('Error loading account summary:', error);
+        // Keep default values if API fails
+    }
+}
+
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        // Clear localStorage
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('cart');
+        
+        // Show logout message
+        alert('You have been logged out successfully!');
+        
+        // Redirect to home page
+        window.location.href = '/';
+    }
+}
+
+function getStatusBadgeClass(status) {
+    switch (status) {
+        case 'pending':
+            return 'bg-warning text-dark';
+        case 'processing':
+            return 'bg-info text-white';
+        case 'shipped':
+            return 'bg-primary text-white';
+        case 'delivered':
+            return 'bg-success text-white';
+        case 'cancelled':
+            return 'bg-danger text-white';
+        default:
+            return 'bg-secondary text-white';
+    }
+}
+</script>

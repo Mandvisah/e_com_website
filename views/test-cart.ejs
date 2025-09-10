@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Test Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Cart Functionality Test</h1>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Test Cart Functions</h3>
+                <button class="btn btn-primary mb-2" onclick="testCartFunctions()">Test All Functions</button>
+                <button class="btn btn-success mb-2" onclick="addToCart('test-product-123')">Add Test Product</button>
+                <button class="btn btn-info mb-2" onclick="window.testAddToCart()">Run Test Function</button>
+                <button class="btn btn-warning mb-2" onclick="checkFunctions()">Check Function Availability</button>
+            </div>
+            <div class="col-md-6">
+                <h3>Console Output</h3>
+                <div id="output" class="border p-3" style="height: 300px; overflow-y: auto; background-color: #f8f9fa;">
+                    <p>Click buttons to test functionality...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript file with cart functions -->
+    <script src="/js/main.js"></script>
+    
+    <script>
+        // Override console.log to display in our output div
+        const originalLog = console.log;
+        const outputDiv = document.getElementById('output');
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            outputDiv.innerHTML += '<div>' + args.join(' ') + '</div>';
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        };
+        
+        function testCartFunctions() {
+            console.log('=== Starting Cart Function Tests ===');
+            
+            // Test 1: Check if functions exist
+            console.log('1. Checking function availability:');
+            console.log('   window.addToCart exists:', typeof window.addToCart);
+            console.log('   window.updateCartCount exists:', typeof window.updateCartCount);
+            console.log('   window.showToast exists:', typeof window.showToast);
+            
+            // Test 2: Check localStorage
+            console.log('2. LocalStorage test:');
+            const testCart = [{ productId: 'test', quantity: 1 }];
+            localStorage.setItem('testCart', JSON.stringify(testCart));
+            const retrieved = JSON.parse(localStorage.getItem('testCart'));
+            console.log('   LocalStorage working:', JSON.stringify(retrieved));
+            
+            // Test 3: Try to add to cart
+            console.log('3. Testing addToCart function:');
+            if (typeof window.addToCart === 'function') {
+                try {
+                    window.addToCart('test-product-456', 2);
+                    console.log('   addToCart executed successfully');
+                } catch (error) {
+                    console.log('   addToCart error:', error.message);
+                }
+            } else {
+                console.log('   addToCart function not available');
+            }
+            
+            console.log('=== Test Complete ===');
+        }
+        
+        function checkFunctions() {
+            console.log('=== Function Availability Check ===');
+            console.log('window.addToCart:', typeof window.addToCart);
+            console.log('window.updateCartCount:', typeof window.updateCartCount);
+            console.log('window.showToast:', typeof window.showToast);
+            console.log('window.ecommerceApp:', typeof window.ecommerceApp);
+            console.log('window.testAddToCart:', typeof window.testAddToCart);
+            
+            if (window.ecommerceApp) {
+                console.log('ecommerceApp.addToCart:', typeof window.ecommerceApp.addToCart);
+            }
+        }
+        
+        // Run initial check when page loads
+        window.addEventListener('load', function() {
+            console.log('Page loaded, running initial check...');
+            checkFunctions();
+        });
+    </script>
+</body>
+</html>
