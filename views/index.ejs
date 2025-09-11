@@ -93,7 +93,7 @@ function displayProducts(products, container) {
                     <div class="mt-auto">
                         <div class="d-flex justify-content-between align-items-center" style="z-index:10; position:relative;">
                             <span class="h5 text-primary mb-0">$${product.price}</span>
-                            <button class="btn btn-primary" style="z-index:11; position:relative;" onclick="alert('Added to cart!')">
+                            <button class="btn btn-primary" style="z-index:11; position:relative;" onclick="addToCart('${product._id}')">
                                 <i class="fas fa-cart-plus"></i> Add to Cart
                             </button>
                         </div>
