@@ -1,6 +1,6 @@
-# E-Commerce Website
+# Inventory Management System
 
-A modern, full-stack e-commerce web application built with Node.js, Express.js, MongoDB, and EJS templating. This project demonstrates best practices in authentication, cart management, order processing, and admin control, with a stylish and responsive frontend.
+A modern, full-stack Inventory Management System (IMS) built with Node.js, Express.js, MongoDB, and EJS templating. The application supports product/catalog management, user authentication, inventory tracking, a shopping-style cart for order creation, and an admin panel for managing products, categories, users, and orders.
 
 ## Features
 
