@@ -55,16 +55,7 @@
                             </label>
                         </div>
                         
-                        <!-- Admin Registration (for development) -->
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
-                            <label class="form-check-label" for="isAdmin">
-                                <strong class="text-danger">Register as Admin (Development Mode)</strong>
-                            </label>
-                            <div class="form-text text-warning">
-                                ⚠️ Only check this if you need admin access
-                            </div>
-                        </div>
+                        <!-- Admin registration option removed for security: users cannot self-register as admin -->
                         
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">
@@ -104,7 +95,8 @@ document.getElementById('register-form').addEventListener('submit', async functi
         zip: formData.get('zip'),
         city: formData.get('city'),
         country: formData.get('country'),
-        isAdmin: formData.get('isAdmin') === 'on' // Convert checkbox to boolean
+        // Do not allow users to self-register as admin. Server enforces isAdmin = false for public registration.
+        // isAdmin field intentionally omitted.
     };
     
     console.log('Register data:', registerData);

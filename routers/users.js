@@ -286,18 +286,19 @@ router.put('/:id', async (req, res) => {
         return res.status(400).send({ message: 'User with this email already exists', success: false });
     }
 
-    let user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      passwordHash: bcrypt.hashSync(req.body.password, 10),
-      street: req.body.street,
-      apartment: req.body.apartment,
-      city: req.body.city,
-      zip: req.body.zip,
-      country: req.body.country,
-      phone: req.body.phone,
-      isAdmin: req.body.isAdmin === true || req.body.isAdmin === 'true', // Handle admin registration
-    });
+        // Important: do NOT allow self-registration as admin. Force isAdmin to false for public registration.
+        let user = new User({
+            name: req.body.name,
+            email: req.body.email,
+            passwordHash: bcrypt.hashSync(req.body.password, 10),
+            street: req.body.street,
+            apartment: req.body.apartment,
+            city: req.body.city,
+            zip: req.body.zip,
+            country: req.body.country,
+            phone: req.body.phone,
+            isAdmin: false,
+        });
 
     try {
         user = await user.save();
