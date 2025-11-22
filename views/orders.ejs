@@ -1,35 +1,108 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb" class="mb-4">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">My Orders</li>
-                </ol>
-            </nav>
+<!-- Custom Luxury Styles -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+        --luxury-navy: #0f172a;
+        --luxury-charcoal: #1e293b;
+        --luxury-gold: #d4af37;
+        --luxury-champagne: #f5e6d3;
+        --luxury-pearl: #f8fafc;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+    }
+    
+    .luxury-heading {
+        font-family: 'Playfair Display', serif;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .luxury-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .luxury-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+        border-color: var(--luxury-gold);
+    }
+    
+    .gold-text {
+        color: var(--luxury-gold);
+    }
+</style>
 
-            <h1 class="mb-4">My Orders</h1>
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-sm mb-8">
+            <a href="/" class="text-slate-400 hover:text-yellow-500 transition-colors">
+                <i class="fas fa-home mr-1"></i>Home
+            </a>
+            <span class="text-slate-500">/</span>
+            <span class="text-yellow-500 font-medium">My Orders</span>
+        </nav>
+        
+        <!-- Hero Content -->
+        <div class="max-w-3xl">
+            <h1 class="luxury-heading text-5xl sm:text-6xl font-bold leading-tight mb-4">
+                My <span class="gold-text">Orders</span>
+            </h1>
+            <p class="text-lg text-slate-300 leading-relaxed">
+                Track and manage all your purchases in one place
+            </p>
+        </div>
+    </div>
+</section>
 
-            <div id="orders-container">
-                <!-- Orders will be loaded here -->
+<!-- Orders Content -->
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div id="orders-container" class="space-y-6">
+        <!-- Orders will be loaded here -->
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="text-center py-16" style="display: none;">
+        <div class="inline-block animate-spin rounded-full h-16 w-16 border-4 border-slate-300 border-t-yellow-600 mb-4"></div>
+        <p class="text-slate-600 font-medium text-lg">Loading your orders...</p>
+    </div>
+
+    <!-- No Orders Message -->
+    <div id="no-orders" class="text-center py-16" style="display: none;">
+        <div class="luxury-card p-12 max-w-2xl mx-auto">
+            <div class="mb-8">
+                <i class="fas fa-shopping-bag text-7xl text-slate-400"></i>
             </div>
-
-            <!-- Loading Spinner -->
-            <div id="loading-spinner" class="text-center my-5" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-3">Loading your orders...</p>
-            </div>
-
-            <!-- No Orders Message -->
-            <div id="no-orders" class="text-center my-5" style="display: none;">
-                <div class="alert alert-info">
-                    <h4><i class="fas fa-shopping-bag"></i> No Orders Yet</h4>
-                    <p>You haven't placed any orders yet.</p>
-                    <a href="/products" class="btn btn-primary">Start Shopping</a>
-                </div>
-            </div>
+            <h3 class="luxury-heading text-3xl font-bold text-slate-900 mb-4">No Orders Yet</h3>
+            <p class="text-slate-600 text-lg mb-8">You haven't placed any orders yet. Start exploring our premium collection!</p>
+            <a href="/products" class="inline-block px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition-all transform hover:scale-105 shadow-lg">
+                <i class="fas fa-store mr-2"></i>Start Shopping
+            </a>
         </div>
     </div>
 </div>
@@ -84,61 +157,108 @@ function displayOrders(orders) {
     const container = document.getElementById('orders-container');
     
     container.innerHTML = orders.map(order => `
-        <div class="card mb-3">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <div>
-                    <h6 class="mb-0">Order #${order._id.slice(-8).toUpperCase()}</h6>
-                    <small class="text-muted">Placed on ${new Date(order.createdAt).toLocaleDateString()}</small>
-                </div>
-                <div>
-                    <span class="badge ${getStatusBadgeClass(order.status)}">${order.status}</span>
+        <div class="luxury-card overflow-hidden shadow-lg">
+            <!-- Order Header -->
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-6 py-4">
+                <div class="flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <h3 class="luxury-heading text-xl font-bold mb-1">Order #${order._id.slice(-8).toUpperCase()}</h3>
+                        <p class="text-slate-300 text-sm">
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            Placed on ${new Date(order.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </p>
+                    </div>
+                    <div>
+                        <span class="inline-flex items-center px-4 py-2 rounded-full font-semibold text-sm ${getStatusBadgeClass(order.status)}">
+                            ${getStatusIcon(order.status)}
+                            ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        </span>
+                    </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h6>Items:</h6>
-                        <div class="order-items">
+            
+            <!-- Order Body -->
+            <div class="p-6">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Items Section -->
+                    <div class="md:col-span-2">
+                        <h4 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
+                            <i class="fas fa-box-open text-yellow-600 mr-2"></i>
+                            Order Items
+                        </h4>
+                        <div class="space-y-3">
                             ${order.items ? order.items.map(item => `
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div>
-                                        <span class="fw-semibold">${item.name || 'Product'}</span>
-                                        <small class="text-muted"> (Qty: ${item.quantity})</small>
+                                <div class="flex justify-between items-center p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+                                    <div class="flex-1">
+                                        <p class="font-semibold text-slate-900">${item.name || 'Product'}</p>
+                                        <p class="text-sm text-slate-600">Quantity: ${item.quantity}</p>
                                     </div>
-                                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                                    <div class="text-right">
+                                        <p class="font-bold text-yellow-600 text-lg">$${(item.price * item.quantity).toFixed(2)}</p>
+                                        <p class="text-xs text-slate-500">$${item.price.toFixed(2)} each</p>
+                                    </div>
                                 </div>
-                            `).join('') : '<p class="text-muted">No items information available</p>'}
+                            `).join('') : '<p class="text-slate-500 italic">No items information available</p>'}
                         </div>
                     </div>
-                    <div class="col-md-4 text-md-end">
-                        <h6>Total: <span class="text-primary">$${order.totalAmount ? order.totalAmount.toFixed(2) : '0.00'}</span></h6>
-                        <div class="mt-3">
-                            <a href="/order/${order._id}" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-eye"></i> View Details
-                            </a>
-                            ${order.status === 'pending' ? `
-                                <button class="btn btn-outline-danger btn-sm ms-2" onclick="cancelOrder('${order._id}')">
-                                    <i class="fas fa-times"></i> Cancel
-                                </button>
-                            ` : ''}
+                    
+                    <!-- Summary Section -->
+                    <div class="md:col-span-1">
+                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl p-6 border-2 border-yellow-200">
+                            <h4 class="text-lg font-bold text-slate-900 mb-4">Order Summary</h4>
+                            <div class="space-y-3 mb-4">
+                                <div class="flex justify-between text-slate-700">
+                                    <span>Subtotal:</span>
+                                    <span class="font-semibold">$${order.totalAmount ? (order.totalAmount - 10).toFixed(2) : '0.00'}</span>
+                                </div>
+                                <div class="flex justify-between text-slate-700">
+                                    <span>Shipping:</span>
+                                    <span class="font-semibold">$10.00</span>
+                                </div>
+                                <div class="border-t-2 border-yellow-300 pt-3 flex justify-between items-center">
+                                    <span class="text-lg font-bold text-slate-900">Total:</span>
+                                    <span class="luxury-heading text-2xl font-bold text-yellow-600">$${order.totalAmount ? order.totalAmount.toFixed(2) : '0.00'}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <a href="/order/${order._id}" class="block w-full px-4 py-3 bg-slate-900 text-white text-center font-semibold rounded-lg hover:bg-slate-800 transition-all transform hover:scale-105">
+                                    <i class="fas fa-eye mr-2"></i>View Details
+                                </a>
+                                ${order.status === 'pending' ? `
+                                    <button onclick="cancelOrder('${order._id}')" class="block w-full px-4 py-3 border-2 border-red-500 text-red-500 text-center font-semibold rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                                        <i class="fas fa-times mr-2"></i>Cancel Order
+                                    </button>
+                                ` : ''}
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 ${order.shippingAddress ? `
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Shipping Address:</h6>
-                            <address class="text-muted small">
-                                ${order.shippingAddress.firstName} ${order.shippingAddress.lastName}<br>
-                                ${order.shippingAddress.address}<br>
-                                ${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}
-                            </address>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Payment Method:</h6>
-                            <span class="text-muted">${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Credit Card'}</span>
+                    <div class="mt-6 pt-6 border-t border-slate-200">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-3 flex items-center">
+                                    <i class="fas fa-map-marker-alt text-yellow-600 mr-2"></i>
+                                    Shipping Address
+                                </h5>
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <p class="font-semibold text-slate-900">${order.shippingAddress.firstName} ${order.shippingAddress.lastName}</p>
+                                    <p class="text-slate-600 text-sm mt-1">${order.shippingAddress.address}</p>
+                                    <p class="text-slate-600 text-sm">${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-3 flex items-center">
+                                    <i class="fas fa-credit-card text-yellow-600 mr-2"></i>
+                                    Payment Method
+                                </h5>
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <p class="font-semibold text-slate-900">${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Credit Card'}</p>
+                                    <p class="text-slate-600 text-sm mt-1">${order.paymentMethod === 'cod' ? 'Pay when you receive your order' : 'Payment processed securely'}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ` : ''}
@@ -150,17 +270,34 @@ function displayOrders(orders) {
 function getStatusBadgeClass(status) {
     switch (status) {
         case 'pending':
-            return 'bg-warning text-dark';
+            return 'bg-amber-500 text-white';
         case 'processing':
-            return 'bg-info';
+            return 'bg-blue-500 text-white';
         case 'shipped':
-            return 'bg-primary';
+            return 'bg-purple-500 text-white';
         case 'delivered':
-            return 'bg-success';
+            return 'bg-green-500 text-white';
         case 'cancelled':
-            return 'bg-danger';
+            return 'bg-red-500 text-white';
         default:
-            return 'bg-secondary';
+            return 'bg-slate-500 text-white';
+    }
+}
+
+function getStatusIcon(status) {
+    switch (status) {
+        case 'pending':
+            return '<i class="fas fa-clock mr-2"></i>';
+        case 'processing':
+            return '<i class="fas fa-cog fa-spin mr-2"></i>';
+        case 'shipped':
+            return '<i class="fas fa-shipping-fast mr-2"></i>';
+        case 'delivered':
+            return '<i class="fas fa-check-circle mr-2"></i>';
+        case 'cancelled':
+            return '<i class="fas fa-times-circle mr-2"></i>';
+        default:
+            return '<i class="fas fa-info-circle mr-2"></i>';
     }
 }
 
@@ -201,3 +338,28 @@ function showLoading(show) {
     }
 }
 </script>
+
+<style>
+    /* Additional utility classes */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+</style>
