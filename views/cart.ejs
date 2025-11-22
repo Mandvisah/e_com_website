@@ -67,7 +67,22 @@
     animation: float 3s ease-in-out infinite;
 }
 .animate-slideIn {
-    animation: slideIn 0.5s ease-out forwards;
+    animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Smooth transitions */
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Radio button custom styling */
+input[type="radio"]:checked {
+    accent-color: #d4af37;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
 }
 </style>
 
@@ -101,30 +116,85 @@
                     </h5>
                 </div>
                 <div class="p-6">
-                    <div id="order-summary" class="space-y-4">
+                    <!-- Promo Code Section -->
+                    <div class="mb-5 pb-5 border-b border-slate-200">
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Promo Code
+                        </label>
+                        <div class="flex gap-2">
+                            <input type="text" id="promo-code" placeholder="Enter code" class="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-slate-500 transition-colors text-sm uppercase">
+                            <button onclick="applyPromoCode()" class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors font-medium text-sm">
+                                Apply
+                            </button>
+                        </div>
+                        <div id="promo-message" class="text-xs mt-2"></div>
+                    </div>
+
+                    <!-- Shipping Options -->
+                    <div class="mb-5 pb-5 border-b border-slate-200">
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Shipping Method
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg cursor-pointer hover:border-slate-400 hover:bg-slate-50 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="shipping" value="0" checked class="text-slate-800" onchange="updateShippingCost()">
+                                    <div>
+                                        <div class="font-medium text-slate-800 text-sm">Standard Shipping</div>
+                                        <div class="text-xs text-slate-500">5-7 business days</div>
+                                    </div>
+                                </div>
+                                <span class="font-semibold text-green-600 text-sm">FREE</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg cursor-pointer hover:border-slate-400 hover:bg-slate-50 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="shipping" value="15" class="text-slate-800" onchange="updateShippingCost()">
+                                    <div>
+                                        <div class="font-medium text-slate-800 text-sm">Express Shipping</div>
+                                        <div class="text-xs text-slate-500">2-3 business days</div>
+                                    </div>
+                                </div>
+                                <span class="font-semibold text-slate-800 text-sm">$15.00</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg cursor-pointer hover:border-slate-400 hover:bg-slate-50 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="shipping" value="30" class="text-slate-800" onchange="updateShippingCost()">
+                                    <div>
+                                        <div class="font-medium text-slate-800 text-sm">Overnight Shipping</div>
+                                        <div class="text-xs text-slate-500">Next business day</div>
+                                    </div>
+                                </div>
+                                <span class="font-semibold text-slate-800 text-sm">$30.00</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="order-summary" class="space-y-3">
                         <div class="flex justify-between items-center text-slate-700">
-                            <span class="font-medium">Subtotal:</span>
+                            <span class="text-sm">Subtotal</span>
                             <span id="subtotal" class="font-semibold">$0.00</span>
                         </div>
                         <div class="flex justify-between items-center text-slate-700">
-                            <span class="font-medium">Shipping:</span>
+                            <span class="text-sm">Shipping</span>
                             <span id="shipping" class="font-semibold text-green-600">Free</span>
                         </div>
+                        <div id="discount-row" class="flex justify-between items-center text-green-600" style="display: none;">
+                            <span class="text-sm">Discount</span>
+                            <span id="discount" class="font-semibold">-$0.00</span>
+                        </div>
                         <div class="flex justify-between items-center text-slate-700">
-                            <span class="font-medium">Tax:</span>
+                            <span class="text-sm">Tax (8%)</span>
                             <span id="tax" class="font-semibold">$0.00</span>
                         </div>
-                        <div class="border-t border-slate-200 pt-4"></div>
+                        <div class="border-t border-slate-300 my-3"></div>
                         <div class="flex justify-between items-center">
-                            <strong class="text-lg text-slate-900">Total:</strong>
-                            <strong id="total" class="text-2xl font-bold text-amber-600">$0.00</strong>
+                            <strong class="text-lg text-slate-900">Total</strong>
+                            <strong id="total" class="text-2xl font-bold text-slate-900">$0.00</strong>
                         </div>
-                        <button class="w-full py-4 bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 mb-3 flex items-center justify-center" id="checkout-btn" onclick="proceedToCheckout()">
-                            <i class="fas fa-credit-card mr-2"></i>
+                        <button class="w-full py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors mb-2" id="checkout-btn" onclick="openCheckoutForm()">
                             Proceed to Checkout
                         </button>
-                        <a href="/products" class="w-full py-3 border-2 border-slate-800 text-slate-900 rounded-xl font-semibold hover:bg-slate-900 hover:text-white transition-all duration-300 flex items-center justify-center">
-                            <i class="fas fa-arrow-left mr-2"></i>
+                        <a href="/products" class="w-full py-2 text-center block text-slate-600 hover:text-slate-900 transition-colors text-sm">
                             Continue Shopping
                         </a>
                     </div>
@@ -133,6 +203,165 @@
         </div>
     </div>
     
+    <!-- Checkout Form Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 flex items-center justify-between sticky top-0">
+                <h3 class="text-2xl font-bold" style="font-family: 'Playfair Display', serif;">
+                    <i class="fas fa-shopping-bag mr-3 text-amber-400"></i>Complete Your Order
+                </h3>
+                <button onclick="closeCheckoutForm()" class="text-white hover:text-amber-400 transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <form id="checkout-form" class="p-6 space-y-6">
+                <!-- Personal Information -->
+                <div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-user mr-2 text-amber-600"></i>Personal Information
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Full Name *</label>
+                            <input type="text" id="checkout-name" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address *</label>
+                            <input type="email" id="checkout-email" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Phone Number *</label>
+                            <input type="tel" id="checkout-phone" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="+1 234 567 8900">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Alternative Phone</label>
+                            <input type="tel" id="checkout-alt-phone" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="+1 234 567 8901">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2 text-amber-600"></i>Shipping Address
+                    </h4>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Street Address *</label>
+                            <input type="text" id="checkout-address" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="123 Main Street, Apt 4B">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">City *</label>
+                                <input type="text" id="checkout-city" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="New York">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">State/Province *</label>
+                                <input type="text" id="checkout-state" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="NY">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">ZIP/Postal Code *</label>
+                                <input type="text" id="checkout-zip" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="10001">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Country *</label>
+                            <select id="checkout-country" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all">
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                                <option value="IN">India</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-credit-card mr-2 text-amber-600"></i>Payment Method
+                    </h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-600 transition-all">
+                            <input type="radio" name="payment-method" value="card" checked class="mr-3">
+                            <i class="fas fa-credit-card text-amber-600 mr-3"></i>
+                            <span class="font-semibold text-slate-800">Credit/Debit Card</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-600 transition-all">
+                            <input type="radio" name="payment-method" value="paypal" class="mr-3">
+                            <i class="fab fa-paypal text-blue-600 mr-3"></i>
+                            <span class="font-semibold text-slate-800">PayPal</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-600 transition-all">
+                            <input type="radio" name="payment-method" value="cod" class="mr-3">
+                            <i class="fas fa-money-bill-wave text-green-600 mr-3"></i>
+                            <span class="font-semibold text-slate-800">Cash on Delivery</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Order Notes -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">
+                        <i class="fas fa-comment-alt mr-2 text-amber-600"></i>Order Notes (Optional)
+                    </label>
+                    <textarea id="checkout-notes" rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100 transition-all" placeholder="Any special instructions for your order..."></textarea>
+                </div>
+
+                <!-- Order Summary in Modal -->
+                <div class="bg-slate-50 p-4 rounded-lg border-2 border-slate-200">
+                    <h4 class="text-lg font-bold text-slate-900 mb-3 flex items-center">
+                        <i class="fas fa-receipt mr-2 text-amber-600"></i>Order Summary
+                    </h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>Subtotal:</span>
+                            <span id="modal-subtotal" class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Shipping:</span>
+                            <span id="modal-shipping" class="font-semibold">Free</span>
+                        </div>
+                        <div id="modal-discount-row" class="flex justify-between text-green-600" style="display: none;">
+                            <span>Discount:</span>
+                            <span id="modal-discount" class="font-semibold">-$0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Tax:</span>
+                            <span id="modal-tax" class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="border-t-2 border-slate-300 pt-2 mt-2">
+                            <div class="flex justify-between text-lg">
+                                <strong>Total:</strong>
+                                <strong id="modal-total" class="text-amber-600">$0.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="flex items-start">
+                    <input type="checkbox" id="terms-checkbox" required class="mt-1 mr-3">
+                    <label for="terms-checkbox" class="text-sm text-slate-700">
+                        I agree to the <a href="#" class="text-amber-600 hover:underline">Terms & Conditions</a> and <a href="#" class="text-amber-600 hover:underline">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeCheckoutForm()" class="flex-1 py-3 border-2 border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-slate-100 transition-all">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 py-3 bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                        <i class="fas fa-check-circle mr-2"></i>Place Order
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Empty Cart Message -->
     <div id="empty-cart" class="text-center py-12" style="display: none;">
         <div class="max-w-2xl mx-auto">
@@ -303,45 +532,38 @@ function displayCart(cartItems) {
     // Display cart items
     console.log('Rendering cart HTML...');
     container.innerHTML = cartItems.map((item, index) => `
-        <div class="cart-item border-b border-slate-200 p-6 hover:bg-slate-50 transition-all duration-300 animate-slideIn" data-product-id="${item._id}" style="animation-delay: ${index * 0.1}s">
-            <div class="grid grid-cols-1 md:grid-cols-6 gap-6 items-center">
-                <div class="md:col-span-1 flex justify-center md:justify-start">
-                    <div class="relative group">
-                        <img src="${item.image || 'https://via.placeholder.com/120x120?text=Product'}" 
-                             class="w-24 h-24 object-cover rounded-xl shadow-md group-hover:shadow-xl transition-all duration-300 group-hover:scale-105" 
-                             alt="${item.name}">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-xl transition-all duration-300"></div>
-                    </div>
+        <div class="cart-item p-5 hover:bg-slate-50 transition-all duration-300 animate-slideIn" data-product-id="${item._id}" style="animation-delay: ${index * 0.1}s; border-bottom: 1px solid #e2e8f0;">
+            <div class="flex flex-col md:flex-row gap-5 items-center">
+                <div class="flex-shrink-0">
+                    <img src="${item.image || 'https://via.placeholder.com/120x120?text=Product'}" 
+                         class="w-24 h-24 object-cover rounded-lg shadow-sm border border-slate-200" 
+                         alt="${item.name}">
                 </div>
-                <div class="md:col-span-2">
-                    <h5 class="text-lg font-bold text-slate-900 mb-2" style="font-family: 'Playfair Display', serif;">${item.name}</h5>
-                    <p class="text-slate-600 text-sm mb-2 line-clamp-2">${item.description ? item.description.substring(0, 80) + '...' : 'No description available'}</p>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
-                        <i class="fas fa-tag mr-1"></i>${item.brand || 'No brand'}
-                    </span>
+                <div class="flex-grow">
+                    <h5 class="text-lg font-semibold text-slate-800 mb-1">${item.name}</h5>
+                    <p class="text-slate-500 text-sm mb-2">${item.description ? item.description.substring(0, 80) + '...' : 'Quality product'}</p>
+                    ${item.brand ? `<span class="inline-block px-2 py-1 text-xs bg-slate-100 text-slate-600 rounded">${item.brand}</span>` : ''}
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-amber-600">$${item.price}</div>
-                    <div class="text-xs text-slate-500">per item</div>
-                </div>
-                <div class="flex items-center justify-center">
-                    <div class="flex items-center bg-slate-100 rounded-lg p-1">
-                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white hover:bg-slate-900 hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" onclick="updateQuantity('${item._id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>
-                            <i class="fas fa-minus text-sm"></i>
-                        </button>
-                        <span class="mx-4 font-bold text-lg text-slate-900">${item.quantity}</span>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white hover:bg-slate-900 hover:text-white transition-all duration-300" onclick="updateQuantity('${item._id}', ${item.quantity + 1})">
-                            <i class="fas fa-plus text-sm"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between md:justify-around">
+                <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
                     <div class="text-center">
-                        <div class="text-xl font-bold text-green-600">$${(item.price * item.quantity).toFixed(2)}</div>
-                        <div class="text-xs text-slate-500">total</div>
+                        <div class="text-xl font-bold text-slate-800">$${item.price}</div>
+                        <div class="text-xs text-slate-400">each</div>
                     </div>
-                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-red-200 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 ml-4" onclick="removeFromCart('${item._id}')" title="Remove item">
-                        <i class="fas fa-trash"></i>
+                    <div class="flex items-center border border-slate-200 rounded-lg">
+                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed" onclick="updateQuantity('${item._id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>
+                            <i class="fas fa-minus text-xs text-slate-600"></i>
+                        </button>
+                        <span class="w-12 text-center font-semibold text-slate-800">${item.quantity}</span>
+                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 transition-colors" onclick="updateQuantity('${item._id}', ${item.quantity + 1})">
+                            <i class="fas fa-plus text-xs text-slate-600"></i>
+                        </button>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-slate-800">$${(item.price * item.quantity).toFixed(2)}</div>
+                        <div class="text-xs text-slate-400">total</div>
+                    </div>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors" onclick="removeFromCart('${item._id}')" title="Remove">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
@@ -356,16 +578,36 @@ function displayCart(cartItems) {
 }
 
 function updateOrderSummary(subtotal, shipping, tax, total) {
+    // Apply discount if promo code is active
+    let discountAmount = 0;
+    if (promoApplied && currentDiscount > 0) {
+        discountAmount = subtotal * (currentDiscount / 100);
+        document.getElementById('discount-row').style.display = 'flex';
+        document.getElementById('discount').textContent = `-$${discountAmount.toFixed(2)}`;
+    } else {
+        document.getElementById('discount-row').style.display = 'none';
+    }
+    
+    // Use selected shipping cost
+    const selectedShipping = document.querySelector('input[name="shipping"]:checked');
+    if (selectedShipping) {
+        shipping = parseFloat(selectedShipping.value);
+    }
+    
+    // Recalculate total with discount
+    const finalSubtotal = subtotal - discountAmount;
+    const finalTotal = finalSubtotal + shipping + tax;
+    
     document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
     document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
     document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-    document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('total').textContent = `$${finalTotal.toFixed(2)}`;
     
     // Update checkout button state
     const checkoutBtn = document.getElementById('checkout-btn');
-    if (total > 0) {
+    if (finalTotal > 0) {
         checkoutBtn.disabled = false;
-        checkoutBtn.innerHTML = `<i class="fas fa-credit-card mr-2"></i>Proceed to Checkout ($${total.toFixed(2)})`;
+        checkoutBtn.innerHTML = `<i class="fas fa-credit-card mr-2"></i>Proceed to Checkout ($${finalTotal.toFixed(2)})`;
     } else {
         checkoutBtn.disabled = true;
         checkoutBtn.innerHTML = `<i class="fas fa-credit-card mr-2"></i>Proceed to Checkout`;
@@ -427,22 +669,152 @@ function removeFromCart(productId) {
     }
 }
 
-function proceedToCheckout() {
+// Global variables for pricing
+let currentDiscount = 0;
+let currentShippingCost = 0;
+let promoApplied = false;
+
+function updateShippingCost() {
+    const selectedShipping = document.querySelector('input[name="shipping"]:checked');
+    currentShippingCost = parseFloat(selectedShipping.value);
+    loadCart(); // Reload to recalculate totals
+}
+
+function applyPromoCode() {
+    const promoInput = document.getElementById('promo-code');
+    const promoCode = promoInput.value.trim().toUpperCase();
+    const promoMessage = document.getElementById('promo-message');
+    
+    // Promo codes (you can customize these)
+    const promoCodes = {
+        'SAVE10': 10,
+        'SAVE20': 20,
+        'WELCOME15': 15,
+        'FIRST25': 25
+    };
+    
+    if (promoCodes[promoCode]) {
+        currentDiscount = promoCodes[promoCode];
+        promoApplied = true;
+        promoMessage.innerHTML = `<i class="fas fa-check-circle text-green-600"></i> <span class="text-green-600 font-semibold">${currentDiscount}% discount applied!</span>`;
+        promoInput.disabled = true;
+        loadCart(); // Reload to recalculate totals
+    } else {
+        promoMessage.innerHTML = `<i class="fas fa-times-circle text-red-600"></i> <span class="text-red-600">Invalid promo code</span>`;
+        setTimeout(() => {
+            promoMessage.innerHTML = '';
+        }, 3000);
+    }
+}
+
+function openCheckoutForm() {
     if (cart.length === 0) {
         alert('Your cart is empty!');
         return;
     }
     
-    // Check if user is logged in (you can implement this based on your auth system)
-    const isLoggedIn = localStorage.getItem('userToken'); // Adjust based on your auth
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem('userToken');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     
     if (!isLoggedIn) {
         if (confirm('You need to login to proceed to checkout. Would you like to login now?')) {
-            window.location.href = '/login?redirect=checkout';
+            window.location.href = '/login?redirect=/cart';
         }
-    } else {
-        window.location.href = '/checkout';
+        return;
     }
+    
+    // Pre-fill user information
+    if (user.name) document.getElementById('checkout-name').value = user.name;
+    if (user.email) document.getElementById('checkout-email').value = user.email;
+    
+    // Copy totals to modal
+    document.getElementById('modal-subtotal').textContent = document.getElementById('subtotal').textContent;
+    document.getElementById('modal-shipping').textContent = document.getElementById('shipping').textContent;
+    document.getElementById('modal-tax').textContent = document.getElementById('tax').textContent;
+    document.getElementById('modal-total').textContent = document.getElementById('total').textContent;
+    
+    if (promoApplied) {
+        document.getElementById('modal-discount-row').style.display = 'flex';
+        document.getElementById('modal-discount').textContent = document.getElementById('discount').textContent;
+    }
+    
+    // Show modal
+    document.getElementById('checkout-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCheckoutForm() {
+    document.getElementById('checkout-modal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Handle checkout form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('checkout-name').value,
+                email: document.getElementById('checkout-email').value,
+                phone: document.getElementById('checkout-phone').value,
+                altPhone: document.getElementById('checkout-alt-phone').value,
+                address: document.getElementById('checkout-address').value,
+                city: document.getElementById('checkout-city').value,
+                state: document.getElementById('checkout-state').value,
+                zip: document.getElementById('checkout-zip').value,
+                country: document.getElementById('checkout-country').value,
+                paymentMethod: document.querySelector('input[name="payment-method"]:checked').value,
+                notes: document.getElementById('checkout-notes').value,
+                items: cart,
+                subtotal: document.getElementById('subtotal').textContent,
+                shipping: document.getElementById('shipping').textContent,
+                tax: document.getElementById('tax').textContent,
+                discount: promoApplied ? document.getElementById('discount').textContent : '$0.00',
+                total: document.getElementById('total').textContent
+            };
+            
+            try {
+                // Show loading state
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                submitBtn.disabled = true;
+                
+                // Send order to backend
+                const response = await axios.post('/api/v1/orders', formData, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+                    }
+                });
+                
+                if (response.data) {
+                    // Clear cart
+                    localStorage.removeItem('cart');
+                    cart = [];
+                    
+                    // Show success message
+                    alert('Order placed successfully! You will receive a confirmation email shortly.');
+                    
+                    // Redirect to orders page
+                    window.location.href = '/orders';
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                alert('Failed to place order. Please try again.');
+                
+                // Reset button
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Place Order';
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});
+
+function proceedToCheckout() {
+    openCheckoutForm();
 }
 </script>
 

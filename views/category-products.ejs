@@ -346,8 +346,8 @@ function displayProducts(products) {
                                         class="px-6 py-3 border-2 border-slate-900 text-slate-900 font-semibold rounded-lg hover:bg-slate-900 hover:text-white transition-all">
                                     <i class="fas fa-eye mr-2"></i>View Details
                                 </button>
-                                <button onclick="event.stopPropagation(); addToCart('${product._id}')" 
-                                        class="flex-1 px-6 py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition-all transform hover:scale-105 shadow-lg ${product.countInStock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                <button class="add-to-cart-btn flex-1 px-6 py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition-all transform hover:scale-105 shadow-lg ${product.countInStock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                        data-product-id="${product._id}"
                                         ${product.countInStock === 0 ? 'disabled' : ''}>
                                     <i class="fas fa-cart-plus mr-2"></i>${product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
                                 </button>
@@ -386,8 +386,8 @@ function displayProducts(products) {
                             <i class="fas fa-box mr-1"></i>${product.countInStock} left
                         </span>
                     </div>
-                    <button onclick="event.stopPropagation(); addToCart('${product._id}')" 
-                            class="w-full px-4 py-2.5 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition-all transform hover:scale-105 shadow-md relative z-10 ${product.countInStock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                    <button class="add-to-cart-btn w-full px-4 py-2.5 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition-all transform hover:scale-105 shadow-md relative z-10 ${product.countInStock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                            data-product-id="${product._id}"
                             ${product.countInStock === 0 ? 'disabled' : ''}>
                         <i class="fas fa-cart-plus mr-2"></i>${product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
                     </button>
@@ -395,6 +395,9 @@ function displayProducts(products) {
             </div>
         `).join('');
     }
+    
+    // Add event delegation for Add to Cart buttons
+    attachCartEventListeners();
 }
 
 function updateProductCount() {
@@ -499,8 +502,32 @@ function showLoading(show) {
     }
 }
 
+// Event delegation for Add to Cart buttons
+function attachCartEventListeners() {
+    const container = document.getElementById('products-container');
+    
+    // Remove any existing listeners
+    const oldContainer = container.cloneNode(false);
+    
+    // Add event delegation
+    container.addEventListener('click', function(e) {
+        const addToCartBtn = e.target.closest('.add-to-cart-btn');
+        
+        if (addToCartBtn && !addToCartBtn.disabled) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const productId = addToCartBtn.getAttribute('data-product-id');
+            
+            if (productId && typeof window.addToCart === 'function') {
+                window.addToCart(productId);
+            }
+        }
+    });
+}
+
 // Note: addToCart function is provided by main.js
-// Using the global addToCart function instead of local implementation
+// Using the global window.addToCart function
 </script>
 
 <style>

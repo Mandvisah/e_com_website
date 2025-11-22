@@ -1,86 +1,126 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb" class="mb-4">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Search Results</li>
-                </ol>
-            </nav>
+<!-- Luxury Hero Section -->
+<div class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-16">
+    <div class="absolute inset-0 pattern-grid opacity-10"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center animate-fade-in-up">
+            <h1 class="luxury-heading text-4xl md:text-5xl text-white mb-3">
+                <i class="fas fa-search text-yellow-500 mr-3"></i>
+                Search Results
+            </h1>
+            <p class="text-lg text-slate-300 mb-4" id="search-info">
+                Searching for: "<%= query %>"
+            </p>
+            <div class="inline-flex items-center gap-3 bg-slate-800/50 backdrop-blur-sm px-6 py-3 rounded-full">
+                <i class="fas fa-box text-yellow-500"></i>
+                <span id="results-count" class="text-white font-semibold">0 results</span>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container mx-auto px-4 py-12">
+    <!-- Luxury Filter & Search Section -->
+    <div class="luxury-card mb-8 animate-fade-in-up">
+        <div class="luxury-card-header">
+            <div class="flex items-center gap-4">
+                <div class="bg-yellow-600 rounded-full p-3">
+                    <i class="fas fa-filter text-slate-900"></i>
+                </div>
                 <div>
-                    <h1 class="mb-2">Search Results</h1>
-                    <p class="text-muted" id="search-info">Searching for: "<%= query %>"</p>
-                </div>
-                <div>
-                    <span id="results-count" class="badge bg-primary fs-6">0 results</span>
-                </div>
-            </div>
-
-            <!-- Search and Filter Options -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="text" id="search-input" class="form-control" placeholder="Search products..." value="<%= query %>">
-                        <button class="btn btn-primary" onclick="performSearch()">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <select id="category-filter" class="form-select" onchange="filterResults()">
-                        <option value="">All Categories</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select id="sort-select" class="form-select" onchange="sortResults()">
-                        <option value="">Sort by</option>
-                        <option value="name">Name A-Z</option>
-                        <option value="-name">Name Z-A</option>
-                        <option value="price">Price Low to High</option>
-                        <option value="-price">Price High to Low</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Search Results -->
-            <div id="search-results" class="row">
-                <!-- Results will be loaded here -->
-            </div>
-
-            <!-- Loading Spinner -->
-            <div id="loading-spinner" class="text-center my-5" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-3">Searching products...</p>
-            </div>
-
-            <!-- No Results -->
-            <div id="no-results" class="text-center my-5" style="display: none;">
-                <div class="alert alert-info">
-                    <h4><i class="fas fa-search"></i> No Results Found</h4>
-                    <p>We couldn't find any products matching your search criteria.</p>
-                    <div class="mt-3">
-                        <button class="btn btn-primary me-2" onclick="clearSearch()">
-                            <i class="fas fa-redo"></i> Clear Search
-                        </button>
-                        <a href="/products" class="btn btn-outline-primary">
-                            <i class="fas fa-box"></i> Browse All Products
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Search Suggestions -->
-            <div id="search-suggestions" class="mt-4" style="display: none;">
-                <h5>Suggested Searches:</h5>
-                <div class="d-flex flex-wrap gap-2" id="suggestions-list">
-                    <!-- Suggestions will be loaded here -->
+                    <h5 class="text-white text-xl font-bold mb-1">
+                        Refine Your Search
+                    </h5>
+                    <p class="text-slate-300 text-sm mb-0">
+                        Use filters to find exactly what you're looking for
+                    </p>
                 </div>
             </div>
         </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="search-input" class="luxury-label">
+                        <i class="fas fa-search text-yellow-500 mr-2"></i>Search Query
+                    </label>
+                    <div class="relative">
+                        <input type="text" 
+                               id="search-input" 
+                               class="luxury-input pr-24" 
+                               placeholder="Search products..." 
+                               value="<%= query %>"
+                               onkeypress="if(event.key === 'Enter') performSearch()">
+                        <button onclick="performSearch()" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-yellow-600 hover:bg-yellow-700 text-slate-900 px-4 py-2 rounded-lg transition-colors duration-300 font-semibold">
+                            <i class="fas fa-search mr-1"></i> Search
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label for="category-filter" class="luxury-label">
+                        <i class="fas fa-tags text-yellow-500 mr-2"></i>Category
+                    </label>
+                    <select id="category-filter" class="luxury-input" onchange="filterResults()">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sort-select" class="luxury-label">
+                        <i class="fas fa-sort text-yellow-500 mr-2"></i>Sort By
+                    </label>
+                    <select id="sort-select" class="luxury-input" onchange="sortResults()">
+                        <option value="">Sort Options</option>
+                        <option value="name">Name A-Z</option>
+                        <option value="-name">Name Z-A</option>
+                        <option value="price">Price: Low to High</option>
+                        <option value="-price">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="text-center py-16" style="display: none;">
+        <div class="inline-flex flex-col items-center gap-4">
+            <div class="animate-spin rounded-full h-16 w-16 border-4 border-slate-300 border-t-yellow-500"></div>
+            <p class="text-slate-600 text-lg font-semibold">Searching products...</p>
+        </div>
+    </div>
+
+    <!-- No Results -->
+    <div id="no-results" class="text-center py-16" style="display: none;">
+        <div class="max-w-md mx-auto bg-slate-50 rounded-2xl p-8 shadow-lg">
+            <div class="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-search text-slate-400 text-3xl"></i>
+            </div>
+            <h4 class="text-2xl font-bold text-slate-800 mb-2">No Results Found</h4>
+            <p class="text-slate-600 mb-6">We couldn't find any products matching your search criteria.</p>
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button onclick="clearSearch()" class="px-6 py-3 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors duration-300 font-semibold">
+                    <i class="fas fa-redo mr-2"></i> Clear Search
+                </button>
+                <a href="/products" class="px-6 py-3 bg-yellow-600 text-slate-900 rounded-xl hover:bg-yellow-700 transition-colors duration-300 font-semibold">
+                    <i class="fas fa-box mr-2"></i> Browse All Products
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Suggestions -->
+    <div id="search-suggestions" class="mb-8 animate-fade-in-up" style="display: none;">
+        <div class="bg-slate-50 rounded-2xl p-6">
+            <h5 class="text-slate-800 text-lg font-bold mb-4">
+                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                Suggested Searches:
+            </h5>
+            <div class="flex flex-wrap gap-3" id="suggestions-list">
+                <!-- Suggestions will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Results -->
+    <div id="search-results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Results will be loaded here -->
     </div>
 </div>
 
@@ -175,46 +215,75 @@ function displayResults(results) {
     hideNoResults();
     
     container.innerHTML = results.map(product => `
-        <div class="col-md-4 col-sm-6 mb-4">
-            <div class="card product-card h-100">
-                <img src="${product.image || 'https://via.placeholder.com/300x200?text=Product'}" 
-                     class="card-img-top product-image" 
+        <div class="luxury-product-card group animate-fade-in-up">
+            <div class="relative overflow-hidden rounded-t-2xl bg-slate-100" style="height: 280px;">
+                <img src="${product.image || 'https://via.placeholder.com/300x280?text=Product'}" 
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                      alt="${product.name}"
-                     onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">${highlightSearchTerm(product.name, document.getElementById('search-input').value)}</h5>
-                    <p class="card-text text-muted flex-grow-1">${highlightSearchTerm(product.description || 'No description available', document.getElementById('search-input').value)}</p>
-                    <div class="mt-auto">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="h5 text-primary mb-0">$${parseFloat(product.price).toFixed(2)}</span>
-                            <span class="text-muted small">
-                                <i class="fas fa-box"></i> 
-                                Stock: ${product.countInStock || 0}
-                            </span>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" onclick="addToCart('${product._id}')" 
-                                    ${(product.countInStock || 0) === 0 ? 'disabled' : ''}>
-                                <i class="fas fa-cart-plus"></i> 
-                                ${(product.countInStock || 0) === 0 ? 'Out of Stock' : 'Add to Cart'}
-                            </button>
-                            <a href="/product/${product._id}" class="btn btn-outline-secondary btn-sm">
-                                <i class="fas fa-eye"></i> View Details
-                            </a>
-                        </div>
+                     onerror="this.src='https://via.placeholder.com/300x280?text=Image+Not+Found'">
+                <div class="absolute top-4 right-4 z-10">
+                    <span class="luxury-badge ${(product.countInStock || 0) === 0 ? 'bg-red-500' : 'bg-green-500'}">
+                        ${(product.countInStock || 0) === 0 ? 'Out of Stock' : 'In Stock'}
+                    </span>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            </div>
+            
+            <div class="p-6 bg-white">
+                <h3 class="luxury-heading text-lg font-bold text-slate-800 mb-2 line-clamp-2 min-h-[3.5rem]">
+                    ${highlightSearchTerm(product.name, document.getElementById('search-input').value)}
+                </h3>
+                <p class="text-slate-600 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
+                    ${highlightSearchTerm(product.description || 'No description available', document.getElementById('search-input').value)}
+                </p>
+                
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
+                    <div class="luxury-price">
+                        $${parseFloat(product.price).toFixed(2)}
+                    </div>
+                    <div class="text-slate-500 text-sm">
+                        <i class="fas fa-box mr-1"></i>
+                        ${product.countInStock || 0}
                     </div>
                 </div>
+                
+                <div class="flex gap-2">
+                    <button class="luxury-button flex-1 add-to-cart-btn" 
+                            data-product-id="${product._id}"
+                            ${(product.countInStock || 0) === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-cart-plus mr-2"></i>
+                        ${(product.countInStock || 0) === 0 ? 'Out of Stock' : 'Add to Cart'}
+                    </button>
+                </div>
+                <a href="/product/${product._id}" class="block mt-2 text-center px-4 py-2 border-2 border-slate-800 text-slate-800 rounded-xl hover:bg-slate-800 hover:text-white transition-colors duration-300 font-semibold text-sm">
+                    <i class="fas fa-eye mr-2"></i> View Details
+                </a>
             </div>
         </div>
     `).join('');
+    
+    // Re-attach event listeners for Add to Cart buttons
+    attachCartListeners();
 }
 
 function highlightSearchTerm(text, searchTerm) {
     if (!searchTerm || !text) return text;
     
     const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
+    return text.replace(regex, '<span class="bg-yellow-200 text-slate-900 px-1 rounded">$1</span>');
+}
+
+function attachCartListeners() {
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.getAttribute('data-product-id');
+            if (productId) {
+                addToCart(productId);
+            }
+        });
+    });
 }
 
 function filterResults() {
@@ -305,7 +374,7 @@ async function loadSearchSuggestions(query) {
         const container = document.getElementById('suggestions-list');
         
         container.innerHTML = suggestions.map(suggestion => 
-            `<button class="btn btn-outline-secondary btn-sm" onclick="performSearch('${suggestion}')">${suggestion}</button>`
+            `<button class="px-4 py-2 bg-white border-2 border-slate-300 text-slate-700 rounded-xl hover:border-yellow-500 hover:text-slate-900 hover:bg-yellow-50 transition-all duration-300 font-medium" onclick="performSearch('${suggestion}')">${suggestion}</button>`
         ).join('');
         
         document.getElementById('search-suggestions').style.display = 'block';
@@ -315,12 +384,18 @@ async function loadSearchSuggestions(query) {
     }
 }
 
-// Add to cart function (if not already defined globally)
+// Add to cart function - use global function if available
 function addToCart(productId) {
-    if (typeof window.ecommerceApp !== 'undefined' && window.ecommerceApp.addToCart) {
-        window.ecommerceApp.addToCart(productId);
+    if (typeof window.addToCart === 'function') {
+        window.addToCart(productId);
     } else {
         // Fallback implementation
+        const userToken = localStorage.getItem('userToken');
+        if (!userToken) {
+            window.location.href = '/login';
+            return;
+        }
+        
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const existingItem = cart.find(item => item.productId === productId);
         
@@ -332,15 +407,17 @@ function addToCart(productId) {
         
         localStorage.setItem('cart', JSON.stringify(cart));
         
-        // Update cart count if element exists
+        // Update cart count
         const cartCountElement = document.getElementById('cart-count');
         if (cartCountElement) {
             const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
             cartCountElement.textContent = totalItems;
         }
         
-        // Show success message
-        alert('Product added to cart!');
+        // Show toast if available
+        if (typeof showToast === 'function') {
+            showToast('Product added to cart!', 'success');
+        }
     }
 }
 </script>
