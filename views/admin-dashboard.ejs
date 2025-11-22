@@ -1,123 +1,442 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="mb-4"><i class="fas fa-cogs me-2"></i>Admin Dashboard</h1>
-        </div>
+<!-- Custom Luxury Styles -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+        --luxury-navy: #0f172a;
+        --luxury-charcoal: #1e293b;
+        --luxury-gold: #d4af37;
+        --luxury-champagne: #f5e6d3;
+        --luxury-pearl: #f8fafc;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        min-height: 100vh;
+    }
+    
+    .luxury-heading {
+        font-family: 'Playfair Display', serif;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+    }
+    
+    @keyframes countUp {
+        from { opacity: 0; transform: scale(0.5); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+        50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.6); }
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .luxury-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .luxury-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(15, 23, 42, 0.2);
+        border-color: var(--luxury-gold);
+    }
+    
+    .stat-card {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: rotate(45deg);
+        transition: all 0.6s;
+    }
+    
+    .stat-card:hover::before {
+        animation: shimmer 1.5s infinite;
+    }
+    
+    .stat-number {
+        animation: countUp 0.6s ease-out;
+    }
+    
+    .management-card {
+        position: relative;
+    }
+    
+    .management-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--luxury-gold), transparent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s ease;
+    }
+    
+    .management-card:hover::after {
+        transform: scaleX(1);
+    }
+    
+    .badge-pulse {
+        animation: glow 2s ease-in-out infinite;
+    }
+    
+    .hero-icon {
+        animation: float 4s ease-in-out infinite;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #d4af37, #b8941f);
+        border-radius: 10px;
+        border: 2px solid #f1f5f9;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #b8941f, #9a7a19);
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
     </div>
     
-    <!-- Quick Stats -->
-    <div class="row mb-5">
-        <div class="col-md-3 mb-3">
-            <div class="card text-center bg-primary text-white">
-                <div class="card-body">
-                    <i class="fas fa-box fa-2x mb-2"></i>
-                    <h5 id="total-products">-</h5>
-                    <small>Total Products</small>
+    <!-- Animated gradient blobs -->
+    <div class="absolute top-0 -left-20 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
+    <div class="absolute -bottom-20 right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="text-center md:text-left">
+                <div class="inline-block mb-4">
+                    <span class="px-4 py-2 bg-gradient-to-r from-yellow-600/20 to-yellow-500/20 border border-yellow-600/30 rounded-full text-yellow-500 text-sm font-semibold tracking-wide badge-pulse">
+                        <i class="fas fa-crown mr-2"></i>Administrator Access
+                    </span>
+                </div>
+                <h1 class="luxury-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4">
+                    Admin <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500">Dashboard</span>
+                </h1>
+                <p class="text-slate-300 text-lg sm:text-xl mb-6 max-w-2xl">
+                    Complete control center for your luxury e-commerce platform
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <div class="flex items-center gap-2 text-slate-400">
+                        <i class="fas fa-check-circle text-green-400"></i>
+                        <span class="text-sm">Real-time Updates</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-400">
+                        <i class="fas fa-shield-check text-blue-400"></i>
+                        <span class="text-sm">Secure Access</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-400">
+                        <i class="fas fa-bolt text-yellow-400"></i>
+                        <span class="text-sm">Quick Actions</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-center bg-success text-white">
-                <div class="card-body">
-                    <i class="fas fa-tags fa-2x mb-2"></i>
-                    <h5 id="total-categories">-</h5>
-                    <small>Categories</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-center bg-info text-white">
-                <div class="card-body">
-                    <i class="fas fa-users fa-2x mb-2"></i>
-                    <h5 id="total-users">-</h5>
-                    <small>Users</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-center bg-warning text-white">
-                <div class="card-body">
-                    <i class="fas fa-shopping-cart fa-2x mb-2"></i>
-                    <h5 id="total-orders">-</h5>
-                    <small>Orders</small>
+            <div class="hidden lg:block">
+                <div class="relative">
+                    <i class="fas fa-shield-alt text-8xl text-yellow-500/30 hero-icon"></i>
+                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full blur-xl opacity-50"></div>
+                    <div class="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full blur-xl opacity-50"></div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Management Sections -->
-    <div class="row">
-        <!-- Product Management -->
-        <div class="col-lg-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-box me-2"></i>Product Management</h5>
+</section>
+
+<!-- Quick Stats -->
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-10 mb-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Products Stat -->
+        <div class="luxury-card stat-card p-8 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 text-white relative overflow-hidden" style="animation: fadeInUp 0.6s ease-out;">
+            <div class="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8">
+                <i class="fas fa-box text-8xl text-yellow-500 opacity-10"></i>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-yellow-500/30">
+                        <i class="fas fa-box text-3xl text-yellow-500"></i>
+                    </div>
+                    <span class="text-xs font-bold bg-yellow-500/20 text-yellow-500 px-4 py-2 rounded-full backdrop-blur-sm border border-yellow-500/30">PRODUCTS</span>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">Manage your product inventory, add new products, update existing ones.</p>
-                    <div class="d-grid gap-2">
-                        <a href="/admin/add-product" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Add New Product
-                        </a>
-                        <a href="/admin/products" class="btn btn-outline-primary">
-                            <i class="fas fa-list"></i> View All Products
-                        </a>
+                <h3 id="total-products" class="stat-number text-5xl font-bold mb-2 tracking-tight text-yellow-500">-</h3>
+                <p class="text-slate-300 text-sm font-medium">Total Products in Store</p>
+                <div class="mt-4 pt-4 border-t border-slate-700">
+                    <div class="flex items-center text-xs text-slate-400">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        <span>Inventory Management</span>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Category Management -->
-        <div class="col-lg-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="fas fa-tags me-2"></i>Category Management</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Organize your products by creating and managing categories.</p>
-                    <div class="d-grid gap-2">
-                        <a href="/admin/add-category" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Add New Category
-                        </a>
-                        <a href="/admin/categories" class="btn btn-outline-success">
-                            <i class="fas fa-list"></i> View All Categories
-                        </a>
+        <!-- Categories Stat -->
+        <div class="luxury-card stat-card p-8 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 text-white relative overflow-hidden" style="animation: fadeInUp 0.7s ease-out;">
+            <div class="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8">
+                <i class="fas fa-tags text-8xl text-yellow-500 opacity-10"></i>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-yellow-500/30">
+                        <i class="fas fa-tags text-3xl text-yellow-500"></i>
                     </div>
+                    <span class="text-xs font-bold bg-yellow-500/20 text-yellow-500 px-4 py-2 rounded-full backdrop-blur-sm border border-yellow-500/30">CATEGORIES</span>
+                </div>
+                <h3 id="total-categories" class="stat-number text-5xl font-bold mb-2 tracking-tight text-yellow-500">-</h3>
+                <p class="text-slate-300 text-sm font-medium">Active Categories</p>
+                <div class="mt-4 pt-4 border-t border-slate-700">
+                    <div class="flex items-center text-xs text-slate-400">
+                        <i class="fas fa-layer-group mr-2"></i>
+                        <span>Product Organization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Users Stat -->
+        <div class="luxury-card stat-card p-8 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 text-white relative overflow-hidden" style="animation: fadeInUp 0.8s ease-out;">
+            <div class="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8">
+                <i class="fas fa-users text-8xl text-yellow-500 opacity-10"></i>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-yellow-500/30">
+                        <i class="fas fa-users text-3xl text-yellow-500"></i>
+                    </div>
+                    <span class="text-xs font-bold bg-yellow-500/20 text-yellow-500 px-4 py-2 rounded-full backdrop-blur-sm border border-yellow-500/30">USERS</span>
+                </div>
+                <h3 id="total-users" class="stat-number text-5xl font-bold mb-2 tracking-tight text-yellow-500">-</h3>
+                <p class="text-slate-300 text-sm font-medium">Registered Users</p>
+                <div class="mt-4 pt-4 border-t border-slate-700">
+                    <div class="flex items-center text-xs text-slate-400">
+                        <i class="fas fa-user-shield mr-2"></i>
+                        <span>Account Management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Orders Stat -->
+        <div class="luxury-card stat-card p-8 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 text-white relative overflow-hidden" style="animation: fadeInUp 0.9s ease-out;">
+            <div class="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8">
+                <i class="fas fa-shopping-cart text-8xl text-yellow-500 opacity-10"></i>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-yellow-500/30">
+                        <i class="fas fa-shopping-cart text-3xl text-yellow-500"></i>
+                    </div>
+                    <span class="text-xs font-bold bg-yellow-500/20 text-yellow-500 px-4 py-2 rounded-full backdrop-blur-sm border border-yellow-500/30">ORDERS</span>
+                </div>
+                <h3 id="total-orders" class="stat-number text-5xl font-bold mb-2 tracking-tight text-yellow-500">-</h3>
+                <p class="text-slate-300 text-sm font-medium">Total Orders Placed</p>
+                <div class="mt-4 pt-4 border-t border-slate-700">
+                    <div class="flex items-center text-xs text-slate-400">
+                        <i class="fas fa-receipt mr-2"></i>
+                        <span>Sales Tracking</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- Management Sections -->
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="text-center mb-12">
+        <h2 class="luxury-heading text-4xl font-bold text-slate-900 mb-3">Management Center</h2>
+        <p class="text-slate-600 text-lg">Quick access to all administrative functions</p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Product Management -->
+        <div class="luxury-card management-card overflow-hidden group">
+            <div class="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950 text-white p-8 relative overflow-hidden border-t-4 border-yellow-500">
+                <div class="absolute top-0 right-0 w-40 h-40 -mr-10 -mt-10">
+                    <i class="fas fa-box text-9xl text-yellow-500 opacity-10 transform rotate-12"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4 backdrop-blur-sm border border-yellow-500/30">
+                                <i class="fas fa-box text-2xl text-yellow-500"></i>
+                            </div>
+                            <h3 class="luxury-heading text-3xl font-bold mb-2">Product Management</h3>
+                            <p class="text-slate-300 text-sm font-medium">Inventory Control & Stock Management</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-8 bg-white">
+                <p class="text-slate-600 mb-6 leading-relaxed">Manage your product inventory, add new products, update existing ones, and control stock levels with real-time updates.</p>
+                <div class="space-y-3">
+                    <a href="/admin/add-product" class="group/btn block w-full px-6 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-xl hover:from-yellow-500 hover:to-yellow-400 transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-2xl">
+                        <i class="fas fa-plus mr-2 group-hover/btn:rotate-90 transition-transform duration-300"></i>Add New Product
+                    </a>
+                    <a href="/admin/products" class="group/btn block w-full px-6 py-4 border-2 border-slate-900 text-slate-900 font-semibold rounded-xl hover:bg-slate-900 hover:text-white transition-all text-center hover:shadow-lg">
+                        <i class="fas fa-list mr-2 group-hover/btn:translate-x-1 transition-transform duration-300"></i>View All Products
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Management -->
+        <div class="luxury-card management-card overflow-hidden group">
+            <div class="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950 text-white p-8 relative overflow-hidden border-t-4 border-yellow-500">
+                <div class="absolute top-0 right-0 w-40 h-40 -mr-10 -mt-10">
+                    <i class="fas fa-tags text-9xl text-yellow-500 opacity-10 transform rotate-12"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4 backdrop-blur-sm border border-yellow-500/30">
+                                <i class="fas fa-tags text-2xl text-yellow-500"></i>
+                            </div>
+                            <h3 class="luxury-heading text-3xl font-bold mb-2">Category Management</h3>
+                            <p class="text-slate-300 text-sm font-medium">Product Organization & Classification</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-8 bg-white">
+                <p class="text-slate-600 mb-6 leading-relaxed">Organize your products by creating and managing categories for better navigation and enhanced user experience.</p>
+                <div class="space-y-3">
+                    <a href="/admin/add-category" class="group/btn block w-full px-6 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-xl hover:from-yellow-500 hover:to-yellow-400 transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-2xl">
+                        <i class="fas fa-plus mr-2 group-hover/btn:rotate-90 transition-transform duration-300"></i>Add New Category
+                    </a>
+                    <a href="/admin/categories" class="group/btn block w-full px-6 py-4 border-2 border-slate-900 text-slate-900 font-semibold rounded-xl hover:bg-slate-900 hover:text-white transition-all text-center hover:shadow-lg">
+                        <i class="fas fa-list mr-2 group-hover/btn:translate-x-1 transition-transform duration-300"></i>View All Categories
+                    </a>
                 </div>
             </div>
         </div>
         
         <!-- Order Management -->
-        <div class="col-lg-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-warning text-white">
-                    <h5 class="mb-0"><i class="fas fa-shopping-cart me-2"></i>Order Management</h5>
+        <div class="luxury-card management-card overflow-hidden group">
+            <div class="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950 text-white p-8 relative overflow-hidden border-t-4 border-yellow-500">
+                <div class="absolute top-0 right-0 w-40 h-40 -mr-10 -mt-10">
+                    <i class="fas fa-shopping-cart text-9xl text-yellow-500 opacity-10 transform rotate-12"></i>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">Track and manage customer orders, update order status.</p>
-                    <div class="d-grid gap-2">
-                        <a href="/admin/orders" class="btn btn-outline-warning">
-                            <i class="fas fa-list"></i> View All Orders
-                        </a>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4 backdrop-blur-sm border border-yellow-500/30">
+                                <i class="fas fa-shopping-cart text-2xl text-yellow-500"></i>
+                            </div>
+                            <h3 class="luxury-heading text-3xl font-bold mb-2">Order Management</h3>
+                            <p class="text-slate-300 text-sm font-medium">Sales Tracking & Fulfillment</p>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="p-8 bg-white">
+                <p class="text-slate-600 mb-6 leading-relaxed">Track and manage customer orders, update order status, and handle order fulfillment efficiently with real-time updates.</p>
+                <div class="space-y-3">
+                    <a href="/admin/orders" class="group/btn block w-full px-6 py-4 border-2 border-slate-900 text-slate-900 font-semibold rounded-xl hover:bg-slate-900 hover:text-white transition-all text-center hover:shadow-lg">
+                        <i class="fas fa-list mr-2 group-hover/btn:translate-x-1 transition-transform duration-300"></i>View All Orders
+                    </a>
                 </div>
             </div>
         </div>
         
         <!-- User Management -->
-        <div class="col-lg-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>User Management</h5>
+        <div class="luxury-card management-card overflow-hidden group">
+            <div class="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950 text-white p-8 relative overflow-hidden border-t-4 border-yellow-500">
+                <div class="absolute top-0 right-0 w-40 h-40 -mr-10 -mt-10">
+                    <i class="fas fa-users text-9xl text-yellow-500 opacity-10 transform rotate-12"></i>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">Manage customer accounts and admin users.</p>
-                    <div class="d-grid gap-2">
-                        <a href="/admin/users" class="btn btn-outline-info">
-                            <i class="fas fa-list"></i> View All Users
-                        </a>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4 backdrop-blur-sm border border-yellow-500/30">
+                                <i class="fas fa-users text-2xl text-yellow-500"></i>
+                            </div>
+                            <h3 class="luxury-heading text-3xl font-bold mb-2">User Management</h3>
+                            <p class="text-slate-300 text-sm font-medium">Account Control & Permissions</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="p-8 bg-white">
+                <p class="text-slate-600 mb-6 leading-relaxed">Manage customer accounts, admin users, and handle user permissions and access controls with comprehensive security.</p>
+                <div class="space-y-3">
+                    <a href="/admin/users" class="group/btn block w-full px-6 py-4 border-2 border-slate-900 text-slate-900 font-semibold rounded-xl hover:bg-slate-900 hover:text-white transition-all text-center hover:shadow-lg">
+                        <i class="fas fa-list mr-2 group-hover/btn:translate-x-1 transition-transform duration-300"></i>View All Users
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions Footer -->
+    <div class="mt-12 luxury-card p-8 bg-gradient-to-r from-slate-50 to-slate-100">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-center md:text-left">
+                <h3 class="luxury-heading text-2xl font-bold text-slate-900 mb-2">Need Help?</h3>
+                <p class="text-slate-600">Access documentation or contact support for assistance</p>
+            </div>
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button class="px-6 py-3 bg-white border-2 border-slate-300 text-slate-700 font-semibold rounded-xl hover:border-slate-900 hover:text-slate-900 transition-all shadow-sm hover:shadow-md">
+                    <i class="fas fa-book mr-2"></i>Documentation
+                </button>
+                <button class="px-6 py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <i class="fas fa-headset mr-2"></i>Contact Support
+                </button>
             </div>
         </div>
     </div>
