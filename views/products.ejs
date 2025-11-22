@@ -167,6 +167,27 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCategories();
     loadProducts();
     
+    // Event delegation for Add to Cart buttons
+    document.getElementById('products-container').addEventListener('click', function(e) {
+        const addToCartBtn = e.target.closest('.add-to-cart-btn');
+        if (addToCartBtn && !addToCartBtn.disabled) {
+            e.stopPropagation();
+            const productId = addToCartBtn.getAttribute('data-product-id');
+            if (productId && typeof window.addToCart === 'function') {
+                window.addToCart(productId);
+            }
+        }
+        
+        const viewProductBtn = e.target.closest('.view-product-btn');
+        if (viewProductBtn) {
+            e.stopPropagation();
+            const productId = viewProductBtn.getAttribute('data-product-id');
+            if (productId && typeof window.viewProduct === 'function') {
+                window.viewProduct(productId);
+            }
+        }
+    });
+    
     // Ensure main.js functions are available - use multiple approaches
     function ensureMainJSLoaded() {
         if (typeof updateNavigation === 'function' && typeof updateCartCount === 'function') {
@@ -333,10 +354,10 @@ function displayProducts(products) {
                     </span>
                 </div>
                 <div class="flex gap-2 relative z-10">
-                    <button class="luxury-btn-outline px-3 py-2 text-sm" onclick="event.stopPropagation(); viewProduct('${product._id}')" title="View Details">
+                    <button class="luxury-btn-outline px-3 py-2 text-sm view-product-btn" data-product-id="${product._id}" title="View Details">
                         <i class="fas fa-eye"></i>
                     </button>
-                    <button class="luxury-btn-primary flex-grow py-2 text-sm" onclick="event.stopPropagation(); addToCart('${product._id}')" ${product.countInStock === 0 ? 'disabled' : ''}>
+                    <button class="luxury-btn-primary flex-grow py-2 text-sm add-to-cart-btn" data-product-id="${product._id}" ${product.countInStock === 0 ? 'disabled' : ''}>
                         <i class="fas fa-cart-plus mr-2"></i>${product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
                     </button>
                 </div>

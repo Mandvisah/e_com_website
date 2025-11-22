@@ -50,11 +50,24 @@
         transform: translateY(-20px);
     }
 }
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 .animate-fadeInUp {
     animation: fadeInUp 0.8s ease-out;
 }
 .animate-float {
     animation: float 3s ease-in-out infinite;
+}
+.animate-slideIn {
+    animation: slideIn 0.5s ease-out forwards;
 }
 </style>
 
@@ -341,22 +354,6 @@ function displayCart(cartItems) {
     // Show/hide empty cart message
     document.getElementById('empty-cart').style.display = 'none';
 }
-
-<style>
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-.animate-slideIn {
-    animation: slideIn 0.5s ease-out forwards;
-}
-</style>
 
 function updateOrderSummary(subtotal, shipping, tax, total) {
     document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
