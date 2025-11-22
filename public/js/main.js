@@ -170,31 +170,42 @@ function initializeToasts() {
 }
 
 function showToast(message, type = 'info') {
-    const toastContainer = document.getElementById('toast-container');
-    if (!toastContainer) return;
+    // Create or get toast container
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        toastContainer.className = 'fixed top-4 right-4 z-50 space-y-3';
+        document.body.appendChild(toastContainer);
+    }
     
     const toastId = 'toast-' + Date.now();
+    const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+    const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+    
     const toastHTML = `
-        <div id="${toastId}" class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'primary'} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    ${message}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div id="${toastId}" class="${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center justify-between min-w-80 animate-slide-in-right" role="alert">
+            <div class="flex items-center">
+                <i class="fas fa-${icon} mr-3 text-xl"></i>
+                <span class="font-medium">${message}</span>
             </div>
+            <button type="button" class="ml-4 text-white hover:text-gray-200 transition-colors" onclick="document.getElementById('${toastId}').remove()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     `;
     
     toastContainer.insertAdjacentHTML('beforeend', toastHTML);
     
-    const toastElement = document.getElementById(toastId);
-    const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
-    toast.show();
-    
-    // Remove toast element after it's hidden
-    toastElement.addEventListener('hidden.bs.toast', function() {
-        toastElement.remove();
-    });
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        const toastElement = document.getElementById(toastId);
+        if (toastElement) {
+            toastElement.style.opacity = '0';
+            toastElement.style.transform = 'translateX(100%)';
+            setTimeout(() => toastElement.remove(), 300);
+        }
+    }, 3000);
 }
 
 // API Helper Functions

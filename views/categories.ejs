@@ -1,19 +1,38 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="mb-4">Product Categories</h1>
-            
-            <div id="categories-container" class="row">
-                <!-- Categories will be loaded here -->
-            </div>
-            
-            <!-- Loading Spinner -->
-            <div id="loading-spinner" class="text-center my-5">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+<!-- Luxury Hero Section -->
+<div class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20">
+    <div class="absolute inset-0 pattern-grid opacity-10"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center">
+            <h1 class="luxury-heading text-5xl md:text-6xl text-white mb-4 animate-fade-in-up">
+                <i class="fas fa-th-large mr-4 gold-text"></i>Product Categories
+            </h1>
+            <p class="text-xl text-slate-300 mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                Browse our curated collection of premium categories
+            </p>
+            <div class="flex flex-wrap justify-center gap-3 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <span class="luxury-badge">
+                    <i class="fas fa-gem mr-2"></i>Premium Selection
+                </span>
+                <span class="luxury-badge">
+                    <i class="fas fa-certificate mr-2"></i>Quality Assured
+                </span>
+                <span class="luxury-badge">
+                    <i class="fas fa-star mr-2"></i>Top Rated
+                </span>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    <div id="categories-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Categories will be loaded here -->
+    </div>
+    
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-amber-500 mb-4"></div>
+        <p class="text-slate-600 text-lg">Loading categories...</p>
     </div>
 </div>
 
@@ -46,8 +65,15 @@ async function loadCategories() {
     } catch (error) {
         console.error('Error loading categories:', error);
         document.getElementById('categories-container').innerHTML = `
-            <div class="col-12 text-center">
-                <div class="alert alert-danger">Error loading categories. Please try again later.</div>
+            <div class="col-span-full">
+                <div class="luxury-card border-l-4 border-red-500 p-8 text-center">
+                    <i class="fas fa-exclamation-triangle text-red-500 mb-4" style="font-size: 4rem;"></i>
+                    <h4 class="text-2xl font-bold text-slate-800 mb-2">Error Loading Categories</h4>
+                    <p class="text-slate-600 mb-6">Please try again later.</p>
+                    <button class="luxury-btn-primary" onclick="loadCategories()">
+                        <i class="fas fa-sync-alt mr-2"></i>Try Again
+                    </button>
+                </div>
             </div>
         `;
     }
@@ -59,26 +85,34 @@ function displayCategories(categories) {
     
     if (categories.length === 0) {
         container.innerHTML = `
-            <div class="col-12 text-center">
-                <div class="alert alert-info">No categories found.</div>
+            <div class="col-span-full">
+                <div class="luxury-card bg-blue-50 border-l-4 border-blue-500 p-8 text-center">
+                    <i class="fas fa-info-circle text-blue-500 mb-4" style="font-size: 4rem;"></i>
+                    <h4 class="text-2xl font-bold text-slate-800 mb-2">No Categories Found</h4>
+                    <p class="text-slate-600">Check back soon for new categories.</p>
+                </div>
             </div>
         `;
         return;
     }
     
-    container.innerHTML = categories.map(category => `
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card category-card h-100" onclick="window.location.href='/category/${category._id}'">
-                <div class="card-body text-center">
-                    <div class="mb-3">
-                        <i class="fas fa-tag fa-4x" style="color: ${category.color || '#667eea'}"></i>
-                    </div>
-                    <h5 class="card-title">${category.name}</h5>
-                    <p class="card-text text-muted">${category.icon || 'Click to view products in this category'}</p>
-                    <div class="mt-auto">
-                        <button class="btn btn-outline-primary">View Products</button>
-                    </div>
+    container.innerHTML = categories.map((category, index) => `
+        <div class="luxury-card group cursor-pointer transform transition-all duration-300 hover:shadow-2xl overflow-hidden animate-fade-in-up" 
+             style="animation-delay: ${index * 0.1}s;"
+             onclick="window.location.href='/category/${category._id}'">
+            <div class="relative bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-center overflow-hidden">
+                <div class="absolute inset-0 pattern-grid opacity-5"></div>
+                <div class="relative z-10 mb-4 transform transition-transform duration-300 group-hover:scale-110">
+                    <i class="fas fa-tag text-6xl" style="color: ${category.color || '#d4af37'}"></i>
                 </div>
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500 rounded-full -mr-16 -mt-16 opacity-10 group-hover:opacity-20 transition-opacity"></div>
+            </div>
+            <div class="p-6 text-center bg-white">
+                <h5 class="luxury-heading text-2xl text-slate-900 mb-3 group-hover:text-amber-600 transition-colors">${category.name}</h5>
+                <p class="text-slate-600 text-sm mb-4 h-12">${category.icon || 'Explore our premium collection'}</p>
+                <button class="luxury-btn-primary w-full py-3">
+                    <i class="fas fa-arrow-right mr-2"></i>View Products
+                </button>
             </div>
         </div>
     `).join('');

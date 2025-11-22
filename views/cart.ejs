@@ -147,10 +147,19 @@
 </div>
 
 <script>
+// Debug: Check localStorage directly
+console.log('=== CART PAGE DEBUG ===');
+console.log('localStorage.getItem("cart"):', localStorage.getItem('cart'));
+
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+console.log('Parsed cart:', cart);
+console.log('Cart is array:', Array.isArray(cart));
+console.log('Cart length:', cart.length);
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Cart page DOMContentLoaded');
+    console.log('Cart at DOMContentLoaded:', cart);
     
     // Load cart first
     loadCart();
@@ -201,39 +210,85 @@ window.addEventListener('load', function() {
 });
 
 async function loadCart() {
+    console.log('loadCart called, cart contents:', cart);
+    console.log('Cart length:', cart.length);
+    
     if (cart.length === 0) {
+        console.log('Cart is empty, showing empty cart message');
         showEmptyCart();
         return;
     }
     
+    // Hide empty cart message
+    const emptyCartElement = document.getElementById('empty-cart');
+    if (emptyCartElement) {
+        emptyCartElement.style.display = 'none';
+    }
+    
     try {
+        console.log('Loading cart products...');
         const cartItems = [];
         for (const item of cart) {
+            console.log('Fetching product:', item.productId);
             const response = await axios.get(`/api/v1/products/${item.productId}`);
+            console.log('Product fetched:', response.data);
             cartItems.push({
                 ...response.data,
                 quantity: item.quantity
             });
         }
         
+        console.log('All cart items loaded:', cartItems);
         displayCart(cartItems);
     } catch (error) {
         console.error('Error loading cart:', error);
+        console.error('Error details:', error.response?.data);
+        // Show error message to user
+        const container = document.getElementById('cart-container');
+        if (container) {
+            container.innerHTML = `
+                <div class="luxury-card border-l-4 border-red-500 p-8 text-center">
+                    <i class="fas fa-exclamation-triangle text-red-500 mb-4" style="font-size: 4rem;"></i>
+                    <h4 class="text-2xl font-bold text-slate-800 mb-2">Error Loading Cart</h4>
+                    <p class="text-slate-600 mb-6">Unable to load your cart items. Please try refreshing the page.</p>
+                    <button class="luxury-btn-primary" onclick="location.reload()">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh Page
+                    </button>
+                </div>
+            `;
+        }
     }
 }
 
 function displayCart(cartItems) {
+    console.log('displayCart called with items:', cartItems);
     const container = document.getElementById('cart-container');
+    
+    if (!container) {
+        console.error('Cart container not found!');
+        return;
+    }
+    
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const shipping = subtotal > 50 ? 0 : 10;
     const tax = subtotal * 0.08; // 8% tax
     const total = subtotal + shipping + tax;
     
+    console.log('Cart totals - Subtotal:', subtotal, 'Shipping:', shipping, 'Tax:', tax, 'Total:', total);
+    
     // Update cart count badge
-    document.getElementById('cart-items-count').innerHTML = `<i class="fas fa-box mr-2 text-amber-400"></i>${cartItems.length} Item${cartItems.length !== 1 ? 's' : ''}`;
-    document.getElementById('cart-total-badge').innerHTML = `<i class="fas fa-dollar-sign mr-2 text-amber-400"></i>$${total.toFixed(2)} Total`;
+    const itemsCount = document.getElementById('cart-items-count');
+    const totalBadge = document.getElementById('cart-total-badge');
+    
+    if (itemsCount) {
+        itemsCount.innerHTML = `<i class="fas fa-box mr-2 text-amber-400"></i>${cartItems.length} Item${cartItems.length !== 1 ? 's' : ''}`;
+    }
+    if (totalBadge) {
+        totalBadge.innerHTML = `<i class="fas fa-dollar-sign mr-2 text-amber-400"></i>$${total.toFixed(2)} Total`;
+    }
     
     // Display cart items
+    console.log('Rendering cart HTML...');
     container.innerHTML = cartItems.map((item, index) => `
         <div class="cart-item border-b border-slate-200 p-6 hover:bg-slate-50 transition-all duration-300 animate-slideIn" data-product-id="${item._id}" style="animation-delay: ${index * 0.1}s">
             <div class="grid grid-cols-1 md:grid-cols-6 gap-6 items-center">
@@ -322,12 +377,28 @@ function updateOrderSummary(subtotal, shipping, tax, total) {
 
 
 function showEmptyCart() {
-    document.getElementById('cart-container').innerHTML = '';
-    document.getElementById('empty-cart').style.display = 'block';
+    console.log('Showing empty cart');
+    const cartContainer = document.getElementById('cart-container');
+    const emptyCart = document.getElementById('empty-cart');
+    
+    if (cartContainer) {
+        cartContainer.innerHTML = '';
+    }
+    
+    if (emptyCart) {
+        emptyCart.style.display = 'block';
+    }
     
     // Update badges for empty cart
-    document.getElementById('cart-items-count').textContent = '0 Items';
-    document.getElementById('cart-total-badge').textContent = '$0.00 Total';
+    const itemsCount = document.getElementById('cart-items-count');
+    const totalBadge = document.getElementById('cart-total-badge');
+    
+    if (itemsCount) {
+        itemsCount.innerHTML = '<i class="fas fa-box mr-2 text-amber-400"></i>0 Items';
+    }
+    if (totalBadge) {
+        totalBadge.innerHTML = '<i class="fas fa-dollar-sign mr-2 text-amber-400"></i>$0.00 Total';
+    }
     
     // Reset order summary
     updateOrderSummary(0, 0, 0, 0);
