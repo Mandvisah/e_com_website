@@ -1,0 +1,830 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+        --luxury-navy: #0f172a;
+        --luxury-charcoal: #1e293b;
+        --luxury-gold: #d4af37;
+        --luxury-champagne: #f5e6d3;
+        --luxury-pearl: #f8fafc;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        min-height: 100vh;
+    }
+
+    .luxury-heading {
+        font-family: 'Playfair Display', serif;
+    }
+
+    .gold-text {
+        color: var(--luxury-gold);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    /* Main Card */
+    .luxury-form-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+        overflow: hidden;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        margin-bottom: 3rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .luxury-form-card:hover {
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+        border-color: var(--luxury-gold);
+    }
+
+    .card-header-luxury {
+        background: linear-gradient(135deg, var(--luxury-navy) 0%, var(--luxury-charcoal) 100%);
+        border-bottom: 3px solid var(--luxury-gold);
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-header-luxury::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+        animation: shimmer 3s infinite;
+    }
+
+    .card-header-luxury h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: #ffffff;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .header-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #d4af37, #ffd700);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0f172a;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    /* Form Styling */
+    .card-body-luxury {
+        padding: 3rem;
+        background: white;
+    }
+
+    .form-label-luxury {
+        font-weight: 600;
+        color: var(--luxury-navy);
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .required-star {
+        color: var(--luxury-gold);
+    }
+
+    .luxury-input,
+    .luxury-select,
+    .luxury-textarea {
+        background: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.875rem 1.25rem;
+        color: var(--luxury-navy);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .luxury-input:focus,
+    .luxury-select:focus,
+    .luxury-textarea:focus {
+        outline: none;
+        border-color: var(--luxury-gold);
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .luxury-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .luxury-textarea {
+        resize: vertical;
+    }
+
+    .input-group-luxury {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .input-group-text-luxury {
+        background: rgba(212, 175, 55, 0.1);
+        border: 2px solid #e2e8f0;
+        border-right: none;
+        border-radius: 12px 0 0 12px;
+        color: var(--luxury-gold);
+        font-weight: 600;
+        padding: 0 1.25rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-group-luxury .luxury-input {
+        border-radius: 0 12px 12px 0;
+    }
+
+    .luxury-file-input {
+        background: #f8fafc;
+        border: 2px dashed #cbd5e1;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .luxury-file-input:hover {
+        border-color: var(--luxury-gold);
+        background: rgba(212, 175, 55, 0.05);
+    }
+
+    .luxury-file-input input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+    .file-input-content {
+        color: #64748b;
+        pointer-events: none;
+    }
+
+    .file-input-content i {
+        font-size: 2.5rem;
+        color: var(--luxury-gold);
+        margin-bottom: 0.75rem;
+        display: block;
+    }
+
+    .file-input-label {
+        color: var(--luxury-navy);
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .file-input-hint {
+        color: #94a3b8;
+        font-size: 0.85rem;
+    }
+
+    .current-image-preview {
+        max-width: 200px;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        margin-bottom: 1rem;
+    }
+
+    /* Checkbox */
+    .luxury-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .luxury-checkbox:hover {
+        border-color: var(--luxury-gold);
+        background: rgba(212, 175, 55, 0.05);
+    }
+
+    .luxury-checkbox input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        accent-color: var(--luxury-gold);
+    }
+
+    .luxury-checkbox label {
+        color: var(--luxury-navy);
+        font-weight: 500;
+        cursor: pointer;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .featured-badge {
+        background: linear-gradient(135deg, #d4af37, #ffd700);
+        color: #0f172a;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    /* Buttons */
+    .btn-group-luxury {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .luxury-btn {
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .luxury-btn-primary {
+        background: linear-gradient(135deg, var(--luxury-gold), #ffd700);
+        color: var(--luxury-navy);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .luxury-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+
+    .luxury-btn-secondary {
+        background: white;
+        color: var(--luxury-navy);
+        border: 2px solid #e2e8f0;
+    }
+
+    .luxury-btn-secondary:hover {
+        background: #f8fafc;
+        border-color: var(--luxury-gold);
+    }
+
+    /* Form Grid */
+    .form-row {
+        display: grid;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-row-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-row-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Modal */
+    .modal-content {
+        background: white;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        border-radius: 16px;
+    }
+
+    .modal-header {
+        border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+        background: linear-gradient(135deg, var(--luxury-navy) 0%, var(--luxury-charcoal) 100%);
+    }
+
+    .modal-title {
+        font-family: 'Playfair Display', serif;
+        color: white;
+    }
+
+    .modal-header .btn-close {
+        filter: invert(1);
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(212, 175, 55, 0.2);
+        border-top-color: var(--luxury-gold);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .form-row-2,
+        .form-row-3 {
+            grid-template-columns: 1fr;
+        }
+
+        .card-body-luxury {
+            padding: 2rem 1.5rem;
+        }
+
+        .btn-group-luxury {
+            flex-direction: column;
+        }
+
+        .luxury-btn {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-sm mb-8 animate-fade-in-up">
+            <a href="/" class="text-slate-400 hover:text-yellow-500 transition-colors flex items-center gap-2">
+                <i class="fas fa-home"></i>Home
+            </a>
+            <span class="text-slate-500">/</span>
+            <a href="/admin" class="text-slate-400 hover:text-yellow-500 transition-colors flex items-center gap-2">
+                <i class="fas fa-shield-alt"></i>Admin
+            </a>
+            <span class="text-slate-500">/</span>
+            <a href="/admin/products" class="text-slate-400 hover:text-yellow-500 transition-colors flex items-center gap-2">
+                <i class="fas fa-box"></i>Products
+            </a>
+            <span class="text-slate-500">/</span>
+            <span class="text-yellow-500 font-medium">Edit Product</span>
+        </nav>
+        
+        <!-- Hero Content -->
+        <div class="max-w-3xl animate-fade-in-up">
+            <h1 class="luxury-heading text-5xl sm:text-6xl font-bold leading-tight mb-4">
+                Edit <span class="gold-text">Product</span>
+            </h1>
+            <p class="text-lg text-slate-300 leading-relaxed">
+                Update product details and manage your inventory
+            </p>
+        </div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse" style="animation-delay: 2s;"></div>
+</section>
+
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-5xl mx-auto">
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-slate-600 font-medium">Loading product details...</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="luxury-form-card animate-fade-in-up" id="formCard" style="display: none;">
+            <div class="card-header-luxury">
+                <h2>
+                    <div class="header-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    Update Product Details
+                </h2>
+            </div>
+            
+            <div class="card-body-luxury">
+                <form id="edit-product-form" enctype="multipart/form-data">
+                    <input type="hidden" id="productId">
+                    
+                    <!-- Current Image -->
+                    <div class="form-row" id="currentImageSection" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label-luxury">
+                                <i class="fas fa-image"></i>
+                                Current Product Image
+                            </label>
+                            <div class="flex items-center gap-4">
+                                <img id="currentImage" src="" alt="Current Product" class="current-image-preview">
+                                <div>
+                                    <p class="text-sm text-slate-600">This is the current product image.</p>
+                                    <p class="text-sm text-slate-500">Upload a new image below to replace it.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Name & Brand -->
+                    <div class="form-row form-row-2">
+                        <div class="form-group">
+                            <label for="name" class="form-label-luxury">
+                                <i class="fas fa-tag"></i>
+                                Product Name
+                                <span class="required-star">*</span>
+                            </label>
+                            <input type="text" class="luxury-input" id="name" name="name" placeholder="Enter product name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="brand" class="form-label-luxury">
+                                <i class="fas fa-copyright"></i>
+                                Brand
+                            </label>
+                            <input type="text" class="luxury-input" id="brand" name="brand" placeholder="Enter brand name">
+                        </div>
+                    </div>
+
+                    <!-- Price, Category, Stock -->
+                    <div class="form-row form-row-3">
+                        <div class="form-group">
+                            <label for="price" class="form-label-luxury">
+                                <i class="fas fa-dollar-sign"></i>
+                                Price
+                                <span class="required-star">*</span>
+                            </label>
+                            <div class="input-group-luxury">
+                                <span class="input-group-text-luxury">$</span>
+                                <input type="number" class="luxury-input" id="price" name="price" step="0.01" min="0" placeholder="0.00" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="category" class="form-label-luxury">
+                                <i class="fas fa-folder-open"></i>
+                                Category
+                                <span class="required-star">*</span>
+                            </label>
+                            <select class="luxury-select" id="category" name="category" required>
+                                <option value="">Select Category</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="countInStock" class="form-label-luxury">
+                                <i class="fas fa-box"></i>
+                                Stock Quantity
+                                <span class="required-star">*</span>
+                            </label>
+                            <input type="number" class="luxury-input" id="countInStock" name="countInStock" min="0" placeholder="0" required>
+                        </div>
+                    </div>
+
+                    <!-- Rating & Reviews -->
+                    <div class="form-row form-row-2">
+                        <div class="form-group">
+                            <label for="rating" class="form-label-luxury">
+                                <i class="fas fa-star"></i>
+                                Rating
+                            </label>
+                            <input type="number" class="luxury-input" id="rating" name="rating" step="0.1" min="0" max="5" value="0" placeholder="0.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="numReviews" class="form-label-luxury">
+                                <i class="fas fa-comments"></i>
+                                Number of Reviews
+                            </label>
+                            <input type="number" class="luxury-input" id="numReviews" name="numReviews" min="0" value="0" placeholder="0">
+                        </div>
+                    </div>
+
+                    <!-- Short Description -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="description" class="form-label-luxury">
+                                <i class="fas fa-align-left"></i>
+                                Short Description
+                                <span class="required-star">*</span>
+                            </label>
+                            <textarea class="luxury-textarea" id="description" name="description" rows="3" placeholder="Enter a brief description..." required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Description -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="richDescription" class="form-label-luxury">
+                                <i class="fas fa-file-alt"></i>
+                                Detailed Description
+                            </label>
+                            <textarea class="luxury-textarea" id="richDescription" name="richDescription" rows="5" placeholder="Enter detailed product information..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Product Image Upload -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label-luxury">
+                                <i class="fas fa-image"></i>
+                                Update Product Image
+                            </label>
+                            <div class="luxury-file-input">
+                                <input type="file" id="image" name="image" accept="image/*">
+                                <div class="file-input-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <div class="file-input-label">Click to Upload New Image</div>
+                                    <div class="file-input-hint">Leave empty to keep current image | Max: 5MB | JPG, PNG, GIF</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Product Checkbox -->
+                    <div class="form-row">
+                        <div class="luxury-checkbox">
+                            <input type="checkbox" id="isFeatured" name="isFeatured">
+                            <label for="isFeatured">
+                                <i class="fas fa-star"></i>
+                                Featured Product
+                                <span class="featured-badge">Premium</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="btn-group-luxury">
+                        <button type="button" class="luxury-btn luxury-btn-secondary" onclick="goBack()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                        <button type="submit" class="luxury-btn luxury-btn-primary">
+                            <i class="fas fa-save"></i>
+                            Update Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-image me-2"></i>Image Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="previewImage" src="" alt="Preview" class="img-fluid rounded" style="max-height: 400px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+let categories = [];
+let currentProduct = null;
+
+// Get product ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
+
+// Load data when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (!productId) {
+        showToast('No product ID provided', 'error');
+        setTimeout(() => window.location.href = '/admin/products', 2000);
+        return;
+    }
+    
+    loadCategories();
+    loadProduct();
+    setupImagePreview();
+});
+
+async function loadCategories() {
+    try {
+        const response = await axios.get('/api/v1/categories');
+        categories = response.data;
+        
+        const categorySelect = document.getElementById('category');
+        categorySelect.innerHTML = '<option value="">Select Category</option>';
+        
+        if (Array.isArray(categories)) {
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category._id || category.id;
+                option.textContent = category.name;
+                categorySelect.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Error loading categories:', error);
+        showToast('Failed to load categories', 'error');
+    }
+}
+
+async function loadProduct() {
+    try {
+        const response = await axios.get(`/api/v1/products/${productId}`);
+        currentProduct = response.data;
+        
+        // Hide loading, show form
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('formCard').style.display = 'block';
+        
+        // Populate form fields
+        document.getElementById('productId').value = currentProduct._id;
+        document.getElementById('name').value = currentProduct.name || '';
+        document.getElementById('brand').value = currentProduct.brand || '';
+        document.getElementById('price').value = currentProduct.price || 0;
+        document.getElementById('category').value = currentProduct.category || '';
+        document.getElementById('countInStock').value = currentProduct.countInStock || 0;
+        document.getElementById('rating').value = currentProduct.rating || 0;
+        document.getElementById('numReviews').value = currentProduct.numReviews || 0;
+        document.getElementById('description').value = currentProduct.description || '';
+        document.getElementById('richDescription').value = currentProduct.richDescription || '';
+        document.getElementById('isFeatured').checked = currentProduct.isFeatured || false;
+        
+        // Show current image
+        if (currentProduct.image) {
+            document.getElementById('currentImage').src = currentProduct.image;
+            document.getElementById('currentImageSection').style.display = 'block';
+        }
+        
+    } catch (error) {
+        console.error('Error loading product:', error);
+        document.getElementById('loadingState').innerHTML = `
+            <div class="text-center py-12">
+                <i class="fas fa-exclamation-circle text-6xl text-red-500 mb-4"></i>
+                <h5 class="text-xl font-bold text-slate-700 mb-2">Failed to Load Product</h5>
+                <p class="text-slate-500 mb-6">${error.response?.data?.message || 'Product not found'}</p>
+                <a href="/admin/products" class="luxury-btn-primary inline-flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Products
+                </a>
+            </div>
+        `;
+    }
+}
+
+function setupImagePreview() {
+    const imageInput = document.getElementById('image');
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size must be less than 5MB', 'error');
+                e.target.value = '';
+                return;
+            }
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImage').src = e.target.result;
+                const modal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+                modal.show();
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+document.getElementById('edit-product-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Check if user is logged in
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        showToast('Please login to update products', 'error');
+        window.location.href = '/login';
+        return;
+    }
+    
+    const imageInput = document.getElementById('image');
+    const hasNewImage = imageInput.files.length > 0;
+    
+    // Prepare data
+    let requestData;
+    let headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    
+    if (hasNewImage) {
+        // If new image is uploaded, use FormData
+        requestData = new FormData(this);
+        requestData.set('isFeatured', document.getElementById('isFeatured').checked);
+    } else {
+        // If no new image, use JSON
+        requestData = {
+            name: document.getElementById('name').value,
+            brand: document.getElementById('brand').value,
+            price: parseFloat(document.getElementById('price').value),
+            category: document.getElementById('category').value,
+            countInStock: parseInt(document.getElementById('countInStock').value),
+            rating: parseFloat(document.getElementById('rating').value),
+            numReviews: parseInt(document.getElementById('numReviews').value),
+            description: document.getElementById('description').value,
+            richDescription: document.getElementById('richDescription').value,
+            isFeatured: document.getElementById('isFeatured').checked
+        };
+        headers['Content-Type'] = 'application/json';
+    }
+    
+    try {
+        showToast('Updating product...', 'info');
+        
+        const response = await axios.put(`/api/v1/products/${productId}`, requestData, {
+            headers: headers
+        });
+        
+        console.log('Product updated:', response.data);
+        showToast('Product updated successfully!', 'success');
+        
+        // Redirect to products page after 1.5 seconds
+        setTimeout(() => {
+            window.location.href = '/admin/products';
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Error updating product:', error);
+        
+        if (error.response) {
+            console.log('Error response:', error.response.data);
+            console.log('Error status:', error.response.status);
+        }
+        
+        const message = error.response?.data?.message || 'Failed to update product. Please try again.';
+        showToast(message, 'error');
+        
+        // If unauthorized, redirect to login
+        if (error.response?.status === 401) {
+            showToast('Please login again', 'error');
+            localStorage.removeItem('userToken');
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
+        }
+    }
+});
+
+function goBack() {
+    window.location.href = '/admin/products';
+}
+</script>

@@ -100,6 +100,10 @@ router.get('/admin/products', (req, res) => {
     res.render('admin-products', { title: 'Manage Products - Admin - E-Commerce Store' });
 });
 
+router.get('/admin/edit-product', (req, res) => {
+    res.render('edit-product', { title: 'Edit Product - Admin - E-Commerce Store' });
+});
+
 router.get('/admin/categories', (req, res) => {
     res.render('admin-categories', { title: 'Manage Categories - Admin - E-Commerce Store' });
 });

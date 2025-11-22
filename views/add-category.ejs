@@ -1,68 +1,416 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Category</li>
-                </ol>
-            </nav>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+        --luxury-navy: #0f172a;
+        --luxury-charcoal: #1e293b;
+        --luxury-gold: #d4af37;
+        --luxury-champagne: #f5e6d3;
+        --luxury-pearl: #f8fafc;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        min-height: 100vh;
+    }
+
+    .luxury-heading {
+        font-family: 'Playfair Display', serif;
+    }
+
+    .gold-text {
+        color: var(--luxury-gold);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    /* Main Card */
+    .luxury-form-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+        overflow: hidden;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        margin-bottom: 3rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .luxury-form-card:hover {
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+        border-color: var(--luxury-gold);
+    }
+
+    .card-header-luxury {
+        background: linear-gradient(135deg, var(--luxury-navy) 0%, var(--luxury-charcoal) 100%);
+        border-bottom: 3px solid var(--luxury-gold);
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-header-luxury::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+        animation: shimmer 3s infinite;
+    }
+
+    .card-header-luxury h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: #ffffff;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .header-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #d4af37, #ffd700);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0f172a;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    /* Form Styling */
+    .card-body-luxury {
+        padding: 3rem;
+        background: white;
+    }
+
+    .form-label-luxury {
+        font-weight: 600;
+        color: var(--luxury-navy);
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .required-star {
+        color: var(--luxury-gold);
+    }
+
+    .luxury-input,
+    .luxury-select,
+    .luxury-textarea {
+        background: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.875rem 1.25rem;
+        color: var(--luxury-navy);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .luxury-input:focus,
+    .luxury-select:focus,
+    .luxury-textarea:focus {
+        outline: none;
+        border-color: var(--luxury-gold);
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .luxury-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .form-hint {
+        color: #64748b;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-hint a {
+        color: var(--luxury-gold);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .form-hint a:hover {
+        text-decoration: underline;
+    }
+
+    /* Color Picker */
+    .color-picker-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .color-picker-wrapper:hover {
+        border-color: var(--luxury-gold);
+    }
+
+    .luxury-color-input {
+        width: 80px;
+        height: 50px;
+        border: 3px solid #e2e8f0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .luxury-color-input:hover {
+        border-color: var(--luxury-gold);
+        transform: scale(1.05);
+    }
+
+    .color-preview {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .color-hex {
+        font-family: 'Courier New', monospace;
+        font-weight: 600;
+        color: var(--luxury-navy);
+        font-size: 1rem;
+    }
+
+    /* Buttons */
+    .btn-group-luxury {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .luxury-btn {
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .luxury-btn-primary {
+        background: linear-gradient(135deg, var(--luxury-gold), #ffd700);
+        color: var(--luxury-navy);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .luxury-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+
+    .luxury-btn-secondary {
+        background: white;
+        color: var(--luxury-navy);
+        border: 2px solid #e2e8f0;
+    }
+
+    .luxury-btn-secondary:hover {
+        background: #f8fafc;
+        border-color: var(--luxury-gold);
+    }
+
+    /* Form Grid */
+    .form-row {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .card-body-luxury {
+            padding: 2rem 1.5rem;
+        }
+
+        .btn-group-luxury {
+            flex-direction: column;
+        }
+
+        .luxury-btn {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-sm mb-8 animate-fade-in-up">
+            <a href="/" class="text-slate-400 hover:text-yellow-500 transition-colors flex items-center gap-2">
+                <i class="fas fa-home"></i>Home
+            </a>
+            <span class="text-slate-500">/</span>
+            <a href="/admin" class="text-slate-400 hover:text-yellow-500 transition-colors flex items-center gap-2">
+                <i class="fas fa-shield-alt"></i>Admin
+            </a>
+            <span class="text-slate-500">/</span>
+            <span class="text-yellow-500 font-medium">Add Category</span>
+        </nav>
+        
+        <!-- Hero Content -->
+        <div class="max-w-3xl animate-fade-in-up">
+            <h1 class="luxury-heading text-5xl sm:text-6xl font-bold leading-tight mb-4">
+                Add New <span class="gold-text">Category</span>
+            </h1>
+            <p class="text-lg text-slate-300 leading-relaxed">
+                Create and organize product categories for your store
+            </p>
         </div>
     </div>
     
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3><i class="fas fa-plus-circle me-2"></i>Add New Category</h3>
-                </div>
-                <div class="card-body">
-                    <form id="add-category-form">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Category Name *</label>
-                            <input type="text" class="form-control" id="name" name="name" required placeholder="e.g., Electronics, Clothing, Books">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="icon" class="form-label">Icon (Font Awesome class)</label>
-                            <input type="text" class="form-control" id="icon" name="icon" placeholder="e.g., fa-laptop, fa-tshirt, fa-book">
-                            <div class="form-text">
-                                Optional: Use Font Awesome icon classes. 
-                                <a href="https://fontawesome.com/icons" target="_blank">Browse icons</a>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="color" class="form-label">Category Color</label>
-                            <input type="color" class="form-control form-control-color" id="color" name="color" value="#667eea">
-                            <div class="form-text">Choose a color theme for this category</div>
-                        </div>
-                        
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="button" class="btn btn-secondary me-md-2" onclick="goBack()">
-                                <i class="fas fa-arrow-left"></i> Cancel
-                            </button>
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-save"></i> Add Category
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse" style="animation-delay: 2s;"></div>
+</section>
+
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-3xl mx-auto">
+        <!-- Form Card -->
+        <div class="luxury-form-card animate-fade-in-up">
+            <div class="card-header-luxury">
+                <h2>
+                    <div class="header-icon">
+                        <i class="fas fa-folder-plus"></i>
+                    </div>
+                    Category Details
+                </h2>
             </div>
             
-            <!-- Existing Categories -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h5><i class="fas fa-list me-2"></i>Existing Categories</h5>
-                </div>
-                <div class="card-body">
-                    <div id="categories-list">
-                        <div class="text-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
+            <div class="card-body-luxury">
+                <form id="add-category-form">
+                    <!-- Category Name -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name" class="form-label-luxury">
+                                <i class="fas fa-tag"></i>
+                                Category Name
+                                <span class="required-star">*</span>
+                            </label>
+                            <input type="text" class="luxury-input" id="name" name="name" placeholder="e.g., Electronics, Clothing, Books" required>
+                        </div>
+                    </div>
+
+                    <!-- Icon -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="icon" class="form-label-luxury">
+                                <i class="fas fa-icons"></i>
+                                Icon (Font Awesome Class)
+                            </label>
+                            <input type="text" class="luxury-input" id="icon" name="icon" placeholder="e.g., fa-laptop, fa-tshirt, fa-book">
+                            <div class="form-hint">
+                                <i class="fas fa-info-circle"></i>
+                                Optional: Use Font Awesome icon classes. 
+                                <a href="https://fontawesome.com/icons" target="_blank">Browse icons <i class="fas fa-external-link-alt"></i></a>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Color -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="color" class="form-label-luxury">
+                                <i class="fas fa-palette"></i>
+                                Category Color
+                            </label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" class="luxury-color-input" id="color" name="color" value="#667eea">
+                                <div class="color-preview">
+                                    <span class="color-hex" id="colorHex">#667eea</span>
+                                    <span class="text-slate-500 text-sm">Choose a color theme for this category</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="btn-group-luxury">
+                        <button type="button" class="luxury-btn luxury-btn-secondary" onclick="goBack()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                        <button type="submit" class="luxury-btn luxury-btn-primary">
+                            <i class="fas fa-save"></i>
+                            Add Category
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Existing Categories -->
+        <div class="luxury-form-card animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="card-header-luxury">
+                <h2>
+                    <div class="header-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    Existing Categories
+                </h2>
+            </div>
+            <div class="card-body-luxury">
+                <div id="categories-list">
+                    <div class="text-center py-8">
+                        <div class="loading-spinner mx-auto mb-4"></div>
+                        <p class="text-slate-600 font-medium">Loading categories...</p>
                     </div>
                 </div>
             </div>
@@ -70,10 +418,115 @@
     </div>
 </div>
 
+<style>
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(212, 175, 55, 0.2);
+    border-top-color: var(--luxury-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.category-item:hover {
+    border-color: var(--luxury-gold);
+    background: white;
+    transform: translateX(5px);
+}
+
+.category-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-icon-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-name {
+    font-weight: 600;
+    color: var(--luxury-navy);
+    font-size: 1rem;
+}
+
+.category-id {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.category-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+}
+
+.no-categories {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.no-categories i {
+    font-size: 4rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.no-categories p {
+    color: #64748b;
+    font-size: 1rem;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     loadExistingCategories();
+    setupColorPicker();
 });
+
+// Color picker real-time update
+function setupColorPicker() {
+    const colorInput = document.getElementById('color');
+    const colorHex = document.getElementById('colorHex');
+    
+    colorInput.addEventListener('input', function() {
+        colorHex.textContent = this.value.toUpperCase();
+    });
+}
 
 async function loadExistingCategories() {
     try {
@@ -83,20 +536,37 @@ async function loadExistingCategories() {
         
         if (categories && categories.length > 0) {
             container.innerHTML = categories.map(category => `
-                <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
-                    <div>
-                        <i class="fas ${category.icon || 'fa-tag'}" style="color: ${category.color || '#667eea'}"></i>
-                        <strong class="ms-2">${category.name}</strong>
+                <div class="category-item">
+                    <div class="category-info">
+                        <div class="category-icon-wrapper" style="background: ${category.color || '#667eea'};">
+                            <i class="fas ${category.icon || 'fa-tag'}"></i>
+                        </div>
+                        <div class="category-details">
+                            <span class="category-name">${category.name}</span>
+                            <span class="category-id">${category._id}</span>
+                        </div>
                     </div>
-                    <span class="badge" style="background-color: ${category.color || '#667eea'}">${category._id}</span>
+                    <div class="category-badge" style="background: ${category.color || '#667eea'};">
+                        <i class="fas fa-check-circle"></i> Active
+                    </div>
                 </div>
             `).join('');
         } else {
-            container.innerHTML = '<p class="text-muted text-center">No categories created yet. Add your first category above!</p>';
+            container.innerHTML = `
+                <div class="no-categories">
+                    <i class="fas fa-folder-open"></i>
+                    <p>No categories created yet. Add your first category above!</p>
+                </div>
+            `;
         }
     } catch (error) {
         console.error('Error loading categories:', error);
-        document.getElementById('categories-list').innerHTML = '<p class="text-danger text-center">Error loading categories</p>';
+        document.getElementById('categories-list').innerHTML = `
+            <div class="no-categories">
+                <i class="fas fa-exclamation-circle text-red-500"></i>
+                <p class="text-red-600">Error loading categories</p>
+            </div>
+        `;
     }
 }
 
@@ -110,12 +580,21 @@ document.getElementById('add-category-form').addEventListener('submit', async fu
         color: formData.get('color') || '#667eea'
     };
     
+    // Check if user is logged in
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        showToast('Please login to create categories', 'error');
+        window.location.href = '/login';
+        return;
+    }
+    
     try {
         showToast('Creating category...', 'info');
         
         const response = await axios.post('/api/v1/categories', categoryData, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
         });
         
@@ -124,18 +603,78 @@ document.getElementById('add-category-form').addEventListener('submit', async fu
         // Reset form
         this.reset();
         document.getElementById('color').value = '#667eea';
+        document.getElementById('colorHex').textContent = '#667EEA';
         
         // Reload categories list
-        loadExistingCategories();
+        setTimeout(() => {
+            loadExistingCategories();
+        }, 500);
         
     } catch (error) {
         console.error('Error creating category:', error);
         const message = error.response?.data?.message || 'Failed to create category. Please try again.';
         showToast(message, 'error');
+        
+        // If unauthorized, redirect to login
+        if (error.response?.status === 401) {
+            showToast('Please login again', 'error');
+            localStorage.removeItem('userToken');
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
+        }
     }
 });
 
 function goBack() {
-    window.history.back();
+    window.location.href = '/admin';
+}
+
+// Toast notification function
+function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toastContainer') || createToastContainer();
+    
+    const toastId = 'toast-' + Date.now();
+    const icons = {
+        error: 'exclamation-circle',
+        success: 'check-circle',
+        info: 'info-circle'
+    };
+    const colors = {
+        error: 'danger',
+        success: 'success',
+        info: 'primary'
+    };
+    
+    const toastHtml = `
+        <div id="${toastId}" class="toast align-items-center text-white bg-${colors[type]}" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas fa-${icons[type]} me-2"></i>
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+    
+    toastContainer.innerHTML = toastHtml + toastContainer.innerHTML;
+    
+    const toastElement = document.getElementById(toastId);
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+    
+    toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.remove();
+    });
+}
+
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toastContainer';
+    container.className = 'toast-container position-fixed top-0 end-0 p-3';
+    container.style.zIndex = '9999';
+    document.body.appendChild(container);
+    return container;
 }
 </script>
