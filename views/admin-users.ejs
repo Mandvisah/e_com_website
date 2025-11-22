@@ -1,219 +1,198 @@
-<!-- Custom Styles for Admin Users -->
 <style>
-    .admin-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 15px;
-        padding: 2rem;
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+        --luxury-navy: #0f172a;
+        --luxury-charcoal: #1e293b;
+        --luxury-gold: #d4af37;
+    }
+    
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    .luxury-heading { font-family: 'Playfair Display', serif; }
+    
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
         margin-bottom: 2rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
     
-    .admin-header h1 {
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    
-    .admin-header p {
-        opacity: 0.9;
-        font-size: 1.1rem;
-    }
-    
-    .stats-card {
+    .stat-card {
         background: white;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        border: none;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        overflow: hidden;
-        position: relative;
-    }
-    
-    .stats-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    }
-    
-    .stats-card .card-body {
+        border-radius: 16px;
         padding: 1.5rem;
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
     
-    .stats-icon {
-        font-size: 2.5rem;
-        opacity: 0.7;
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent);
+        border-radius: 0 16px 0 100%;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+        border-color: var(--luxury-gold);
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
         margin-bottom: 1rem;
     }
     
-    .stats-number {
-        font-size: 2.2rem;
+    .stat-value {
+        font-size: 2rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        color: var(--luxury-navy);
+        font-family: 'Playfair Display', serif;
     }
     
-    .stats-label {
+    .stat-label {
+        color: #64748b;
         font-size: 0.9rem;
-        text-transform: uppercase;
-        font-weight: 600;
-        letter-spacing: 0.5px;
+        font-weight: 500;
     }
     
-    .filters-card {
+    .luxury-card {
         background: white;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        border: none;
-        margin-bottom: 2rem;
-    }
-    
-    .filters-card .card-header {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        color: white;
-        border: none;
-        border-radius: 15px 15px 0 0;
-        padding: 1rem 1.5rem;
-    }
-    
-    .users-table-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+        border: 1px solid rgba(15, 23, 42, 0.08);
         overflow: hidden;
     }
     
-    .users-table-card .card-header {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    .card-header-luxury {
+        background: linear-gradient(135deg, var(--luxury-navy), var(--luxury-charcoal));
+        border-bottom: 3px solid var(--luxury-gold);
+        padding: 2rem;
+    }
+    
+    .card-header-luxury h2 {
         color: white;
-        border: none;
-        padding: 1rem 1.5rem;
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .luxury-input {
+        padding: 0.8rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        width: 100%;
     }
     
-            
-
-        /* Filters Card Styling */
-        .filters-card {
-            border: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-        }
-
-        .filters-card .card-header {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            color: white;
-            border-radius: 12px 12px 0 0;
-            border: none;
-            padding: 1rem 1.25rem;
-        }
-
-        .search-box {
-            border: 2px solid #e3e6f0;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .search-box:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-            background: white;
-        }
-
-        .form-label {
-            color: #5a5c69;
-            margin-bottom: 0.4rem;
-        }
-
-        .btn-modern {
-            border-radius: 8px;
-            padding: 0.6rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .btn-modern.btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-modern.btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
-        }
-
-        .btn-modern.btn-outline-secondary {
-            border: 2px solid #e3e6f0;
-            color: #5a5c69;
-            background: white;
-        }
-
-        .btn-modern.btn-outline-secondary:hover {
-            background: #f8f9fc;
-            border-color: #d1d3e2;
-            transform: translateY(-1px);
-        }
-
-        /* Table Styling */
-        .users-table-card {
-            border: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .users-table-card .card-header {
-            background: linear-gradient(90deg, #36b9cc, #1cc88a);
-            color: white;
-            border: none;
-            padding: 1rem 1.25rem;
-        }
-
-        .loading-container {
-            padding: 2rem;
-        }
-
-        .loading-container .spinner-border {
-            width: 3rem;
-            height: 3rem;
-        }
-    
-    .modern-table {
-        margin-bottom: 0;
+    .luxury-input:focus {
+        outline: none;
+        border-color: var(--luxury-gold);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
     }
     
-    .modern-table thead th {
-        background: #f8f9fa;
-        border: none;
+    .luxury-btn {
+        padding: 0.6rem 1.5rem;
+        border-radius: 10px;
         font-weight: 600;
-        color: #495057;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .luxury-btn-primary {
+        background: linear-gradient(135deg, var(--luxury-navy), var(--luxury-charcoal));
+        color: white;
+        border-color: var(--luxury-gold);
+    }
+    
+    .luxury-btn-primary:hover {
+        background: linear-gradient(135deg, var(--luxury-charcoal), var(--luxury-navy));
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .luxury-btn-outline {
+        background: white;
+        color: var(--luxury-navy);
+        border-color: var(--luxury-navy);
+    }
+    
+    .luxury-btn-outline:hover {
+        background: var(--luxury-navy);
+        color: white;
+    }
+    
+    .luxury-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .luxury-table thead {
+        background: linear-gradient(135deg, var(--luxury-navy), var(--luxury-charcoal));
+    }
+    
+    .luxury-table thead th {
         padding: 1rem;
-        text-transform: uppercase;
+        text-align: left;
+        color: white;
+        font-weight: 600;
         font-size: 0.85rem;
+        text-transform: uppercase;
         letter-spacing: 0.5px;
+        border-bottom: 2px solid var(--luxury-gold);
     }
     
-    .modern-table tbody tr {
-        border: none;
-        transition: background-color 0.3s ease;
+    .luxury-table tbody tr {
+        border-bottom: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
     }
     
-    .modern-table tbody tr:hover {
-        background-color: #f8f9fa;
+    .luxury-table tbody tr:hover {
+        background-color: #f8fafc;
+        transform: scale(1.01);
     }
     
-    .modern-table tbody td {
+    .luxury-table tbody td {
         padding: 1rem;
-        border-top: 1px solid #e9ecef;
-        vertical-align: middle;
+        color: #334155;
+    }
+    
+    .filter-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(15, 23, 42, 0.05);
+        border: 1px solid #e2e8f0;
     }
     
     .user-avatar {
         width: 45px;
         height: 45px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--luxury-navy), var(--luxury-charcoal));
+        border: 2px solid var(--luxury-gold);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -223,65 +202,30 @@
         margin-right: 0.75rem;
     }
     
-    .user-info {
-        display: flex;
-        align-items: center;
-    }
-    
-    .user-details h6 {
-        margin-bottom: 0.25rem;
-        font-weight: 600;
-        color: #495057;
-    }
-    
-    .user-details small {
-        color: #6c757d;
-        font-size: 0.85rem;
-    }
-    
-    .badge-modern {
+    .badge-luxury {
+        padding: 0.4rem 1rem;
         border-radius: 20px;
-        padding: 0.5rem 0.75rem;
-        font-weight: 500;
-        font-size: 0.8rem;
-    }
-    
-    .btn-action {
-        border-radius: 20px;
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-        margin: 0 0.2rem;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-action:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    
-    .search-box {
-        border-radius: 25px;
-        border: 2px solid #e9ecef;
-        padding: 0.75rem 1.25rem;
-        transition: all 0.3s ease;
-    }
-    
-    .search-box:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        outline: none;
-    }
-    
-    .btn-modern {
-        border-radius: 25px;
-        padding: 0.75rem 1.5rem;
+        font-size: 0.75rem;
         font-weight: 600;
-        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
-    .btn-modern:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    .badge-admin {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: white;
+    }
+    
+    .badge-customer {
+        background: linear-gradient(135deg, #34d399, #10b981);
+        color: white;
+    }
+    
+    .badge-orders {
+        background: linear-gradient(135deg, #93c5fd, #60a5fa);
+        color: #1e3a8a;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
     }
     
         /* Mobile Responsive Design */
@@ -519,215 +463,167 @@
     }
 </style>
 
-<div class="container-fluid my-4">
-    <div class="row">
-        <div class="col-12">
-            <!-- Modern Header -->
-            <div class="admin-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="mb-0">
-                            <i class="fas fa-users me-3"></i>My Customers
-                        </h1>
-                        <p class="mb-0">Manage users who have purchased your products</p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-light btn-modern" onclick="refreshUsers()">
-                            <i class="fas fa-sync-alt me-2"></i>Refresh
-                        </button>
-                        <button class="btn btn-warning btn-modern" onclick="exportUsers()">
-                            <i class="fas fa-download me-2"></i>Export
-                        </button>
-                    </div>
-                </div>
+<div class="container-fluid px-4 py-6">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center mb-8 animate-fade-in-up">
+        <div>
+            <h1 class="luxury-heading text-4xl font-bold text-slate-900 mb-2">
+                <i class="fas fa-users text-yellow-600 mr-3"></i>Manage Customers
+            </h1>
+            <p class="text-slate-600">View and manage customers who have purchased your products</p>
+        </div>
+        <div class="flex gap-3">
+            <button class="luxury-btn luxury-btn-outline" onclick="refreshUsers()">
+                <i class="fas fa-sync-alt mr-2"></i>Refresh
+            </button>
+            <button class="luxury-btn luxury-btn-primary" onclick="exportUsers()">
+                <i class="fas fa-download mr-2"></i>Export
+            </button>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid animate-fade-in-up">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
+                <i class="fas fa-users" style="color: #1e40af;"></i>
+            </div>
+            <div class="stat-value" id="total-users">0</div>
+            <div class="stat-label">Total Customers</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
+                <i class="fas fa-shopping-cart" style="color: #047857;"></i>
+            </div>
+            <div class="stat-value" id="users-with-orders">0</div>
+            <div class="stat-label">Active Buyers</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+                <i class="fas fa-crown" style="color: #b45309;"></i>
+            </div>
+            <div class="stat-value" id="admin-users">0</div>
+            <div class="stat-label">VIP Customers</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #e9d5ff, #d8b4fe);">
+                <i class="fas fa-user-plus" style="color: #6b21a8;"></i>
+            </div>
+            <div class="stat-value" id="new-users">0</div>
+            <div class="stat-label">New This Month</div>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="filter-card animate-fade-in-up">
+        <h3 class="luxury-heading text-xl font-bold text-slate-900 mb-4">
+            <i class="fas fa-filter text-yellow-600 mr-2"></i>Filters & Search
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Search Customers</label>
+                <input type="text" class="luxury-input" id="search-input" placeholder="Name, email, phone...">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">User Type</label>
+                <select class="luxury-input" id="type-filter">
+                    <option value="">All Customers</option>
+                    <option value="admin">Admin Users</option>
+                    <option value="customer">Regular Customers</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Order Status</label>
+                <select class="luxury-input" id="order-filter">
+                    <option value="">All Users</option>
+                    <option value="hasOrders">Active Buyers</option>
+                    <option value="noOrders">No Purchases</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">From Date</label>
+                <input type="date" class="luxury-input" id="date-from">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">To Date</label>
+                <input type="date" class="luxury-input" id="date-to">
+            </div>
+        </div>
+        <div class="flex justify-end gap-3 mt-4">
+            <button class="luxury-btn luxury-btn-outline" onclick="clearFilters()">
+                <i class="fas fa-times mr-2"></i>Clear
+            </button>
+            <button class="luxury-btn luxury-btn-primary" onclick="applyFilters()">
+                <i class="fas fa-search mr-2"></i>Apply Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="luxury-card animate-fade-in-up">
+        <div class="card-header-luxury">
+            <h2 class="luxury-heading">
+                <i class="fas fa-users mr-3"></i>Customer Database
+            </h2>
+        </div>
+        <div class="p-6">
+            <div class="overflow-x-auto">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th class="d-none d-lg-table-cell">Contact</th>
+                            <th class="d-none d-xl-table-cell">Location</th>
+                            <th class="d-none d-md-table-cell">Joined</th>
+                            <th>Orders</th>
+                            <th>Spent</th>
+                            <th class="d-none d-lg-table-cell">Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr>
+                            <td colspan="8" class="text-center py-8">
+                                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-yellow-600"></div>
+                                <p class="mt-3 text-slate-600">Loading customers...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <!-- Modern Info Alert -->
-            <div class="alert alert-modern mb-4">
-                <i class="fas fa-info-circle"></i>
-                <strong>Customer Overview:</strong> This dashboard displays customers who have purchased products that you manage as an admin.
-            </div>
-
-            <!-- Modern Statistics Cards -->
-            <div class="row mb-4">
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card stats-card">
-                        <div class="card-body text-center">
-                            <div class="stats-icon text-primary">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stats-number text-primary" id="total-users">0</div>
-                            <div class="stats-label text-primary">Total Customers</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card stats-card">
-                        <div class="card-body text-center">
-                            <div class="stats-icon text-success">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div>
-                            <div class="stats-number text-success" id="users-with-orders">0</div>
-                            <div class="stats-label text-success">Active Buyers</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card stats-card">
-                        <div class="card-body text-center">
-                            <div class="stats-icon text-info">
-                                <i class="fas fa-crown"></i>
-                            </div>
-                            <div class="stats-number text-info" id="admin-users">0</div>
-                            <div class="stats-label text-info">VIP Customers</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card stats-card">
-                        <div class="card-body text-center">
-                            <div class="stats-icon text-warning">
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <div class="stats-number text-warning" id="new-users">0</div>
-                            <div class="stats-label text-warning">New This Month</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modern Filters and Search -->
-            <div class="card filters-card">
-                <div class="card-header">
-                    <h6 class="m-0 fw-bold">
-                        <i class="fas fa-filter me-2"></i>Filters & Search
-                    </h6>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold">
-                                <i class="fas fa-search me-1"></i>Search Customers
-                            </label>
-                            <input type="text" class="form-control search-box" id="search-input" 
-                                   placeholder="Name, email, phone number...">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label fw-semibold">
-                                <i class="fas fa-user-tag me-1"></i>User Type
-                            </label>
-                            <select class="form-select search-box" id="type-filter">
-                                <option value="">All Customers</option>
-                                <option value="admin">Admin Users</option>
-                                <option value="customer">Regular Customers</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label fw-semibold">
-                                <i class="fas fa-shopping-bag me-1"></i>Order Status
-                            </label>
-                            <select class="form-select search-box" id="order-filter">
-                                <option value="">All Users</option>
-                                <option value="hasOrders">Active Buyers</option>
-                                <option value="noOrders">No Purchases</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label fw-semibold">
-                                <i class="fas fa-calendar me-1"></i>From Date
-                            </label>
-                            <input type="date" class="form-control search-box" id="date-from">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label fw-semibold">
-                                <i class="fas fa-calendar-alt me-1"></i>To Date
-                            </label>
-                            <input type="date" class="form-control search-box" id="date-to">
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12 text-end">
-                            <button class="btn btn-outline-secondary btn-modern me-2" onclick="clearFilters()">
-                                <i class="fas fa-times me-2"></i>Clear
-                            </button>
-                            <button class="btn btn-primary btn-modern" onclick="applyFilters()">
-                                <i class="fas fa-search me-2"></i>Apply Filters
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modern Users Table -->
-            <div class="card users-table-card">
-                <div class="card-header">
-                    <h6 class="m-0 fw-bold">
-                        <i class="fas fa-users me-2"></i>Customer Database
-                    </h6>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table modern-table" id="users-table">
-                            <thead>
-                                <tr>
-                                    <th><i class="fas fa-user me-2 d-none d-md-inline"></i>Customer</th>
-                                    <th class="d-none d-lg-table-cell"><i class="fas fa-envelope me-2"></i>Contact</th>
-                                    <th class="d-none d-xl-table-cell"><i class="fas fa-map-marker-alt me-2"></i>Location</th>
-                                    <th class="d-none d-md-table-cell"><i class="fas fa-calendar me-2"></i>Joined</th>
-                                    <th><i class="fas fa-shopping-cart me-2 d-none d-md-inline"></i>Orders</th>
-                                    <th><i class="fas fa-dollar-sign me-2 d-none d-md-inline"></i>Spent</th>
-                                    <th class="d-none d-lg-table-cell"><i class="fas fa-user-tag me-2"></i>Type</th>
-                                    <th><i class="fas fa-cog me-2 d-none d-md-inline"></i>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="users-tbody">
-                                <tr>
-                                    <td colspan="8" class="text-center py-5">
-                                        <div class="loading-container">
-                                            <div class="spinner-border text-primary mb-3" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            <h5 class="text-muted mb-2">Loading Customer Data</h5>
-                                            <p class="text-muted small">Please wait while we fetch your customers...</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Modern Pagination -->
-                    <div class="pagination-container mt-4 text-center">
-                        <nav aria-label="Users pagination">
-                            <ul class="pagination modern-pagination justify-content-center" id="pagination">
-                                <!-- Pagination will be generated by JavaScript -->
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+            <!-- Pagination -->
+            <nav class="mt-6 flex justify-center">
+                <ul class="flex gap-2" id="pagination">
+                    <!-- Pagination will be generated by JavaScript -->
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
 
 <!-- User Details Modal -->
 <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">User Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: 2px solid var(--luxury-gold); overflow: hidden;">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--luxury-navy), var(--luxury-charcoal)); border-bottom: 3px solid var(--luxury-gold); padding: 1.5rem;">
+                <h5 class="luxury-heading text-white text-2xl font-bold mb-0">
+                    <i class="fas fa-user-circle mr-2"></i>Customer Details
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" id="user-details-content">
+            <div class="modal-body" id="user-details-content" style="padding: 2rem;">
                 <!-- User details will be loaded here -->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-warning" onclick="editCurrentUser()">
-                    <i class="fas fa-edit"></i> Edit User
+            <div class="modal-footer" style="padding: 1.5rem; background: #f8fafc; border-top: 1px solid #e2e8f0;">
+                <button type="button" class="luxury-btn luxury-btn-outline" data-bs-dismiss="modal">
+                    <i class="fas fa-times mr-2"></i>Close
+                </button>
+                <button type="button" class="luxury-btn luxury-btn-primary" onclick="editCurrentUser()">
+                    <i class="fas fa-edit mr-2"></i>Edit User
                 </button>
             </div>
         </div>
@@ -736,78 +632,80 @@
 
 <!-- Add/Edit User Modal -->
 <div class="modal fade" id="addEditUserModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addEditModalTitle">Add New User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: 2px solid var(--luxury-gold); overflow: hidden;">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--luxury-navy), var(--luxury-charcoal)); border-bottom: 3px solid var(--luxury-gold); padding: 1.5rem;">
+                <h5 class="luxury-heading text-white text-xl font-bold mb-0" id="addEditModalTitle">
+                    <i class="fas fa-user-plus mr-2"></i>Add New User
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 2rem;">
                 <form id="user-form">
                     <input type="hidden" id="user-id">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">First Name *</label>
-                            <input type="text" class="form-control" id="user-firstName" required>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">First Name *</label>
+                            <input type="text" class="luxury-input" id="user-firstName" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Last Name *</label>
-                            <input type="text" class="form-control" id="user-lastName" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Name *</label>
-                            <input type="text" class="form-control" id="user-name" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Email *</label>
-                            <input type="email" class="form-control" id="user-email" required>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Last Name *</label>
+                            <input type="text" class="luxury-input" id="user-lastName" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Phone *</label>
-                            <input type="tel" class="form-control" id="user-phone" required>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Name *</label>
+                            <input type="text" class="luxury-input" id="user-name" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control" id="user-dateOfBirth">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email *</label>
+                            <input type="email" class="luxury-input" id="user-email" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Street Address</label>
-                            <input type="text" class="form-control" id="user-street">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Phone *</label>
+                            <input type="tel" class="luxury-input" id="user-phone" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Apartment</label>
-                            <input type="text" class="form-control" id="user-apartment">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Date of Birth</label>
+                            <input type="date" class="luxury-input" id="user-dateOfBirth">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Street Address</label>
+                            <input type="text" class="luxury-input" id="user-street">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Apartment</label>
+                            <input type="text" class="luxury-input" id="user-apartment">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">City</label>
-                            <input type="text" class="form-control" id="user-city">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">City</label>
+                            <input type="text" class="luxury-input" id="user-city">
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">ZIP Code</label>
-                            <input type="text" class="form-control" id="user-zip">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">ZIP Code</label>
+                            <input type="text" class="luxury-input" id="user-zip">
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">Country</label>
-                            <input type="text" class="form-control" id="user-country">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Country</label>
+                            <input type="text" class="luxury-input" id="user-country">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3" id="password-field">
-                            <label class="form-label">Password *</label>
-                            <input type="password" class="form-control" id="user-password" required>
-                            <small class="form-text text-muted">Minimum 6 characters</small>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Password *</label>
+                            <input type="password" class="luxury-input" id="user-password" required>
+                            <small class="text-slate-600" style="font-size: 0.85rem;">Minimum 6 characters</small>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">User Type</label>
-                            <select class="form-select" id="user-isAdmin">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">User Type</label>
+                            <select class="luxury-input" id="user-isAdmin">
                                 <option value="false">Customer</option>
                                 <option value="true">Admin</option>
                             </select>
@@ -815,10 +713,12 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="saveUser()">
-                    <i class="fas fa-save"></i> Save User
+            <div class="modal-footer" style="padding: 1.5rem; background: #f8fafc; border-top: 1px solid #e2e8f0;">
+                <button type="button" class="luxury-btn luxury-btn-outline" data-bs-dismiss="modal">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </button>
+                <button type="button" class="luxury-btn luxury-btn-primary" onclick="saveUser()">
+                    <i class="fas fa-save mr-2"></i>Save User
                 </button>
             </div>
         </div>
@@ -929,13 +829,12 @@ function renderUsersTable() {
     if (currentUsers.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="8" class="text-center py-5">
-                    <div class="empty-state">
-                        <i class="fas fa-users fa-4x text-muted mb-3 d-block"></i>
-                        <h5 class="text-muted mb-2">No Customers Found</h5>
-                        <p class="text-muted">Try adjusting your filters or check back later.</p>
-                        <button class="btn btn-modern btn-primary mt-2" onclick="clearFilters()">
-                            <i class="fas fa-refresh me-2"></i>Clear Filters
+                <td colspan="8" class="text-center py-8">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-users" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+                        <p style="color: #64748b; font-size: 1rem;">No customers found</p>
+                        <button class="luxury-btn luxury-btn-primary mt-3" onclick="clearFilters()" style="padding: 0.5rem 1rem;">
+                            <i class="fas fa-refresh mr-2"></i>Clear Filters
                         </button>
                     </div>
                 </td>
@@ -947,81 +846,52 @@ function renderUsersTable() {
     tbody.innerHTML = currentUsers.map(user => `
         <tr>
             <td>
-                <div class="d-flex align-items-center">
-                    <div class="avatar me-3">
-                        <div class="avatar-initial rounded-circle bg-primary text-white">
-                            ${(user.name || user.firstName || 'U').charAt(0).toUpperCase()}
-                        </div>
+                <div style="display: flex; align-items: center;">
+                    <div class="user-avatar">
+                        ${(user.name || user.firstName || 'U').charAt(0).toUpperCase()}
                     </div>
                     <div>
-                        <div class="fw-bold">${user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown'}</div>
-                        <small class="text-muted d-block">${user.email}</small>
-                        <div class="d-md-none mt-1">
-                            <span class="badge bg-info me-1">${user.orderCount || 0} orders</span>
-                            <span class="text-success small fw-bold">$${(user.totalSpent || 0).toFixed(2)}</span>
-                        </div>
+                        <div style="font-weight: 600; color: #1e293b;">${user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown'}</div>
+                        <div style="font-size: 0.85rem; color: #64748b;">${user.email}</div>
                     </div>
                 </div>
             </td>
             <td class="d-none d-lg-table-cell">
-                <div><i class="fas fa-envelope me-1"></i> ${user.email}</div>
-                <div><i class="fas fa-phone me-1"></i> ${user.phone || 'N/A'}</div>
+                <div style="font-size: 0.9rem;"><i class="fas fa-envelope mr-1" style="color: var(--luxury-gold);"></i> ${user.email}</div>
+                <div style="font-size: 0.9rem;"><i class="fas fa-phone mr-1" style="color: var(--luxury-gold);"></i> ${user.phone || 'N/A'}</div>
             </td>
             <td class="d-none d-xl-table-cell">
-                <div>${user.city || 'N/A'}</div>
-                <small class="text-muted">${user.country || ''}</small>
+                <div style="font-weight: 500;">${user.city || 'N/A'}</div>
+                <div style="font-size: 0.85rem; color: #64748b;">${user.country || ''}</div>
             </td>
             <td class="d-none d-md-table-cell">
-                <div>${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</div>
-                <small class="text-muted">${user.createdAt ? new Date(user.createdAt).toLocaleTimeString() : ''}</small>
+                <div style="font-weight: 500;">${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</div>
+                <div style="font-size: 0.85rem; color: #64748b;">${user.createdAt ? new Date(user.createdAt).toLocaleTimeString() : ''}</div>
             </td>
-            <td class="d-none d-md-table-cell">
-                <span class="badge bg-info">${user.orderCount || 0} orders</span>
+            <td>
+                <span class="badge-luxury badge-orders">${user.orderCount || 0} orders</span>
             </td>
-            <td class="d-none d-md-table-cell">
-                <span class="text-success fw-bold">$${(user.totalSpent || 0).toFixed(2)}</span>
+            <td>
+                <span style="font-weight: 700; color: #059669; font-size: 1.1rem; font-family: 'Playfair Display', serif;">
+                    $${(user.totalSpent || 0).toFixed(2)}
+                </span>
             </td>
             <td class="d-none d-lg-table-cell">
-                <span class="badge ${user.isAdmin ? 'bg-danger' : 'bg-success'}">
+                <span class="badge-luxury ${user.isAdmin ? 'badge-admin' : 'badge-customer'}">
                     ${user.isAdmin ? 'Admin' : 'Customer'}
                 </span>
             </td>
             <td>
-                <div class="btn-group d-none d-md-flex" role="group">
-                    <button class="btn btn-sm btn-outline-primary" onclick="viewUserDetails('${user.id || user._id}')" title="View Profile">
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="luxury-btn" style="padding: 0.5rem 0.8rem; font-size: 0.85rem; background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; border: 1px solid #3b82f6;" onclick="viewUserDetails('${user.id || user._id}')" title="View Profile">
                         <i class="fas fa-user"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-info" onclick="viewUserOrders('${user.id || user._id}')" title="View Orders">
+                    <button class="luxury-btn" style="padding: 0.5rem 0.8rem; font-size: 0.85rem; background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46; border: 1px solid #10b981;" onclick="viewUserOrders('${user.id || user._id}')" title="View Orders">
                         <i class="fas fa-shopping-bag"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-warning" onclick="editUser('${user.id || user._id}')" title="Edit User">
+                    <button class="luxury-btn" style="padding: 0.5rem 0.8rem; font-size: 0.85rem; background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; border: 1px solid #f59e0b;" onclick="editUser('${user.id || user._id}')" title="Edit User">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary" onclick="resetUserPassword('${user.id || user._id}')" title="Reset Password">
-                        <i class="fas fa-key"></i>
-                    </button>
-                </div>
-                <div class="d-md-none">
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" onclick="viewUserDetails('${user.id || user._id}')">
-                                <i class="fas fa-user me-2"></i>View Profile
-                            </a></li>
-                            <li><a class="dropdown-item" href="#" onclick="viewUserOrders('${user.id || user._id}')">
-                                <i class="fas fa-shopping-bag me-2"></i>View Orders
-                            </a></li>
-                            <li><a class="dropdown-item" href="#" onclick="editUser('${user.id || user._id}')">
-                                <i class="fas fa-edit me-2"></i>Edit User
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" onclick="resetUserPassword('${user.id || user._id}')">
-                                <i class="fas fa-key me-2"></i>Reset Password
-                            </a></li>
-                        </ul>
-                    </div>
                 </div>
             </td>
         </tr>
@@ -1040,24 +910,41 @@ function renderPagination() {
     
     // Previous button
     paginationHtml += `
-        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-            <a class="page-link" href="#" onclick="loadUsers(${currentPage - 1})">Previous</a>
+        <li>
+            <button 
+                class="luxury-btn ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" 
+                style="padding: 0.5rem 1rem; font-size: 0.9rem; ${currentPage === 1 ? 'pointer-events: none;' : ''}"
+                onclick="loadUsers(${currentPage - 1})" 
+                ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left mr-2"></i>Previous
+            </button>
         </li>
     `;
     
     // Page numbers
     for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
         paginationHtml += `
-            <li class="page-item ${i === currentPage ? 'active' : ''}">
-                <a class="page-link" href="#" onclick="loadUsers(${i})">${i}</a>
+            <li>
+                <button 
+                    class="luxury-btn ${i === currentPage ? 'luxury-btn-primary' : 'luxury-btn-outline'}" 
+                    style="padding: 0.5rem 1rem; font-size: 0.9rem; min-width: 45px;"
+                    onclick="loadUsers(${i})">
+                    ${i}
+                </button>
             </li>
         `;
     }
     
     // Next button
     paginationHtml += `
-        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-            <a class="page-link" href="#" onclick="loadUsers(${currentPage + 1})">Next</a>
+        <li>
+            <button 
+                class="luxury-btn ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" 
+                style="padding: 0.5rem 1rem; font-size: 0.9rem; ${currentPage === totalPages ? 'pointer-events: none;' : ''}"
+                onclick="loadUsers(${currentPage + 1})" 
+                ${currentPage === totalPages ? 'disabled' : ''}>
+                Next<i class="fas fa-chevron-right ml-2"></i>
+            </button>
         </li>
     `;
     
@@ -1076,25 +963,33 @@ async function viewUserDetails(userId) {
         const modal = new bootstrap.Modal(document.getElementById('userDetailsModal'));
         
         document.getElementById('user-details-content').innerHTML = `
-            <div class="row">
-                <div class="col-md-6">
-                    <h6>Personal Information</h6>
-                    <p><strong>Name:</strong> ${user.name || 'N/A'}</p>
-                    <p><strong>First Name:</strong> ${user.firstName || 'N/A'}</p>
-                    <p><strong>Last Name:</strong> ${user.lastName || 'N/A'}</p>
-                    <p><strong>Email:</strong> ${user.email}</p>
-                    <p><strong>Phone:</strong> ${user.phone || 'N/A'}</p>
-                    <p><strong>Date of Birth:</strong> ${user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : 'N/A'}</p>
-                    <p><strong>User Type:</strong> <span class="badge ${user.isAdmin ? 'bg-danger' : 'bg-success'}">${user.isAdmin ? 'Admin' : 'Customer'}</span></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h6 class="luxury-heading text-lg font-bold text-slate-900 mb-4">
+                        <i class="fas fa-user text-yellow-600 mr-2"></i>Personal Information
+                    </h6>
+                    <div class="space-y-2">
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Name:</span> ${user.name || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">First Name:</span> ${user.firstName || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Last Name:</span> ${user.lastName || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Email:</span> ${user.email}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Phone:</span> ${user.phone || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Date of Birth:</span> ${user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">User Type:</span> <span class="badge-luxury ${user.isAdmin ? 'badge-admin' : 'badge-customer'}">${user.isAdmin ? 'Admin' : 'Customer'}</span></p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h6>Address Information</h6>
-                    <p><strong>Street:</strong> ${user.street || 'N/A'}</p>
-                    <p><strong>Apartment:</strong> ${user.apartment || 'N/A'}</p>
-                    <p><strong>City:</strong> ${user.city || 'N/A'}</p>
-                    <p><strong>ZIP Code:</strong> ${user.zip || 'N/A'}</p>
-                    <p><strong>Country:</strong> ${user.country || 'N/A'}</p>
-                    <p><strong>Joined:</strong> ${user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}</p>
+                <div>
+                    <h6 class="luxury-heading text-lg font-bold text-slate-900 mb-4">
+                        <i class="fas fa-map-marker-alt text-yellow-600 mr-2"></i>Address Information
+                    </h6>
+                    <div class="space-y-2">
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Street:</span> ${user.street || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Apartment:</span> ${user.apartment || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">City:</span> ${user.city || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">ZIP Code:</span> ${user.zip || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Country:</span> ${user.country || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Joined:</span> ${user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}</p>
+                    </div>
                 </div>
             </div>
         `;
@@ -1104,7 +999,7 @@ async function viewUserDetails(userId) {
         
     } catch (error) {
         console.error('Error loading user details:', error);
-        alert('Error loading user details');
+        showToast('Error loading user details', 'error');
     }
 }
 
@@ -1340,6 +1235,8 @@ async function resetUserPassword(userId) {
     }
     
     try {
+        showToast('Resetting password...', 'info');
+        
         // Generate a temporary password
         const tempPassword = Math.random().toString(36).slice(-8);
         
@@ -1352,14 +1249,57 @@ async function resetUserPassword(userId) {
             }
         });
         
+        showToast('Password reset successfully!', 'success');
         alert(`Password reset successfully! Temporary password: ${tempPassword}\nPlease share this with the user securely.`);
         
     } catch (error) {
         console.error('Error resetting password:', error);
-        alert('Error resetting user password');
+        showToast('Error resetting user password', 'error');
     }
 }
+
+function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toastContainer') || createToastContainer();
+    
+    const toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center border-0 mb-2';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    
+    const bgColor = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
+    toastEl.classList.add(bgColor, 'text-white');
+    
+    toastEl.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    
+    toastContainer.appendChild(toastEl);
+    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+    toast.show();
+    
+    toastEl.addEventListener('hidden.bs.toast', () => {
+        toastEl.remove();
+    });
+}
+
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toastContainer';
+    container.className = 'toast-container position-fixed top-0 end-0 p-3';
+    container.style.zIndex = '9999';
+    document.body.appendChild(container);
+    return container;
+}
 </script>
+
+<script src="https://cdn.tailwindcss.com"></script>
 
 <style>
 .border-left-primary {
