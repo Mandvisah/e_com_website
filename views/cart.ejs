@@ -1,47 +1,76 @@
-<!-- Hero Section for Cart Page -->
-<div class="hero-section bg-gradient text-white py-5 mb-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <nav aria-label="breadcrumb" class="mb-3">
-                    <ol class="breadcrumb text-white-50 hero-breadcrumb">
-                        <li class="breadcrumb-item"><a href="/" class="text-white">Home</a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">Shopping Cart</li>
+<!-- Luxury Hero Section for Cart Page -->
+<div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-16 mb-12 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center justify-between">
+            <div class="lg:w-2/3 mb-8 lg:mb-0">
+                <nav class="mb-4">
+                    <ol class="flex items-center space-x-2 text-sm text-slate-300">
+                        <li><a href="/" class="hover:text-amber-400 transition-colors">Home</a></li>
+                        <li><i class="fas fa-chevron-right text-xs"></i></li>
+                        <li class="text-amber-400">Shopping Cart</li>
                     </ol>
                 </nav>
-                <div class="hero-text-container">
-                    <h1 class="display-4 fw-bold mb-3 floating-animation">
-                        <i class="fas fa-shopping-cart me-3"></i>Shopping Cart
-                    </h1>
-                    <p class="lead mb-4">Review your selected items and proceed to checkout</p>
-                    <div class="d-flex align-items-center gap-3">
-                        <span id="cart-items-count" class="badge bg-light text-dark fs-6 px-3 py-2">0 Items</span>
-                        <span id="cart-total-badge" class="badge bg-light text-dark fs-6 px-3 py-2">$0.00 Total</span>
-                    </div>
+                <h1 class="text-5xl lg:text-6xl font-bold mb-4 animate-fadeInUp" style="font-family: 'Playfair Display', serif;">
+                    <i class="fas fa-shopping-cart mr-4 text-amber-400"></i>Shopping <span class="text-amber-400">Cart</span>
+                </h1>
+                <p class="text-xl text-slate-300 mb-6">Review your selected items and proceed to checkout</p>
+                <div class="flex items-center gap-4 flex-wrap">
+                    <span id="cart-items-count" class="bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-lg border border-white/20">
+                        <i class="fas fa-box mr-2 text-amber-400"></i>0 Items
+                    </span>
+                    <span id="cart-total-badge" class="bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-lg border border-white/20">
+                        <i class="fas fa-dollar-sign mr-2 text-amber-400"></i>$0.00 Total
+                    </span>
                 </div>
             </div>
-            <div class="col-lg-4 text-center">
-                <div class="hero-image-container">
-                    <i class="fas fa-shopping-bag fa-6x floating-slow text-white-50" style="opacity: 0.3;"></i>
-                </div>
+            <div class="lg:w-1/3 text-center animate-float">
+                <i class="fas fa-shopping-bag text-9xl text-amber-400 opacity-30"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container my-5">
+<style>
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+.animate-fadeInUp {
+    animation: fadeInUp 0.8s ease-out;
+}
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+</style>
+
+<div class="container mx-auto px-4 py-12 max-w-7xl">
     <!-- Cart Content -->
-    <div class="row">
-        <div class="col-lg-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
             <!-- Cart Items Section -->
-            <div class="card shadow-sm border-0 rounded-lg mb-4">
-                <div class="card-header bg-transparent border-0 p-4">
-                    <h4 class="mb-0">
-                        <i class="fas fa-list text-primary me-2"></i>
-                        Cart Items
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6">
+                    <h4 class="text-2xl font-bold flex items-center" style="font-family: 'Playfair Display', serif;">
+                        <i class="fas fa-list mr-3 text-amber-400"></i>
+                        Your <span class="text-amber-400 ml-2">Items</span>
                     </h4>
                 </div>
-                <div class="card-body p-0">
+                <div class="p-0">
                     <div id="cart-container">
                         <!-- Cart items will be loaded here -->
                     </div>
@@ -49,40 +78,40 @@
             </div>
         </div>
         
-        <div class="col-lg-4">
+        <div class="lg:col-span-1">
             <!-- Order Summary -->
-            <div class="card shadow-sm border-0 rounded-lg sticky-top" style="top: 20px;">
-                <div class="card-header bg-primary text-white p-4">
-                    <h5 class="mb-0">
-                        <i class="fas fa-calculator me-2"></i>
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 sticky top-24 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6">
+                    <h5 class="text-xl font-bold flex items-center" style="font-family: 'Playfair Display', serif;">
+                        <i class="fas fa-calculator mr-3 text-amber-400"></i>
                         Order Summary
                     </h5>
                 </div>
-                <div class="card-body p-4">
-                    <div id="order-summary">
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Subtotal:</span>
-                            <span id="subtotal">$0.00</span>
+                <div class="p-6">
+                    <div id="order-summary" class="space-y-4">
+                        <div class="flex justify-between items-center text-slate-700">
+                            <span class="font-medium">Subtotal:</span>
+                            <span id="subtotal" class="font-semibold">$0.00</span>
                         </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Shipping:</span>
-                            <span id="shipping">Free</span>
+                        <div class="flex justify-between items-center text-slate-700">
+                            <span class="font-medium">Shipping:</span>
+                            <span id="shipping" class="font-semibold text-green-600">Free</span>
                         </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Tax:</span>
-                            <span id="tax">$0.00</span>
+                        <div class="flex justify-between items-center text-slate-700">
+                            <span class="font-medium">Tax:</span>
+                            <span id="tax" class="font-semibold">$0.00</span>
                         </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-4">
-                            <strong>Total:</strong>
-                            <strong id="total" class="text-primary fs-5">$0.00</strong>
+                        <div class="border-t border-slate-200 pt-4"></div>
+                        <div class="flex justify-between items-center">
+                            <strong class="text-lg text-slate-900">Total:</strong>
+                            <strong id="total" class="text-2xl font-bold text-amber-600">$0.00</strong>
                         </div>
-                        <button class="btn btn-primary btn-lg w-100 mb-3" id="checkout-btn" onclick="proceedToCheckout()">
-                            <i class="fas fa-credit-card me-2"></i>
+                        <button class="w-full py-4 bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 mb-3 flex items-center justify-center" id="checkout-btn" onclick="proceedToCheckout()">
+                            <i class="fas fa-credit-card mr-2"></i>
                             Proceed to Checkout
                         </button>
-                        <a href="/products" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-arrow-left me-2"></i>
+                        <a href="/products" class="w-full py-3 border-2 border-slate-800 text-slate-900 rounded-xl font-semibold hover:bg-slate-900 hover:text-white transition-all duration-300 flex items-center justify-center">
+                            <i class="fas fa-arrow-left mr-2"></i>
                             Continue Shopping
                         </a>
                     </div>
@@ -92,25 +121,25 @@
     </div>
     
     <!-- Empty Cart Message -->
-    <div id="empty-cart" class="text-center py-5" style="display: none;">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-sm border-0 rounded-lg p-5">
-                    <div class="mb-4">
-                        <i class="fas fa-shopping-cart fa-6x text-muted mb-3"></i>
-                    </div>
-                    <h3 class="mb-3">Your Cart is Empty</h3>
-                    <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet. Start shopping to fill it up!</p>
-                    <div class="d-flex gap-3 justify-content-center">
-                        <a href="/products" class="btn btn-primary btn-lg">
-                            <i class="fas fa-shopping-bag me-2"></i>
-                            Shop Products
-                        </a>
-                        <a href="/categories" class="btn btn-outline-primary btn-lg">
-                            <i class="fas fa-th-large me-2"></i>
-                            Browse Categories
-                        </a>
-                    </div>
+    <div id="empty-cart" class="text-center py-12" style="display: none;">
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-12">
+                <div class="mb-6 animate-bounce">
+                    <i class="fas fa-shopping-cart text-8xl text-slate-300"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-slate-900 mb-4" style="font-family: 'Playfair Display', serif;">
+                    Your Cart is <span class="text-amber-600">Empty</span>
+                </h3>
+                <p class="text-slate-600 text-lg mb-8">Looks like you haven't added any items to your cart yet. Start shopping to fill it up!</p>
+                <div class="flex gap-4 justify-center flex-wrap">
+                    <a href="/products" class="px-8 py-4 bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl font-semibold text-lg hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center">
+                        <i class="fas fa-shopping-bag mr-2"></i>
+                        Shop Products
+                    </a>
+                    <a href="/categories" class="px-8 py-4 border-2 border-slate-800 text-slate-900 rounded-xl font-semibold text-lg hover:bg-slate-900 hover:text-white transition-all duration-300 inline-flex items-center">
+                        <i class="fas fa-th-large mr-2"></i>
+                        Browse Categories
+                    </a>
                 </div>
             </div>
         </div>
@@ -201,57 +230,49 @@ function displayCart(cartItems) {
     const total = subtotal + shipping + tax;
     
     // Update cart count badge
-    document.getElementById('cart-items-count').textContent = `${cartItems.length} Item${cartItems.length !== 1 ? 's' : ''}`;
-    document.getElementById('cart-total-badge').textContent = `$${total.toFixed(2)} Total`;
+    document.getElementById('cart-items-count').innerHTML = `<i class="fas fa-box mr-2 text-amber-400"></i>${cartItems.length} Item${cartItems.length !== 1 ? 's' : ''}`;
+    document.getElementById('cart-total-badge').innerHTML = `<i class="fas fa-dollar-sign mr-2 text-amber-400"></i>$${total.toFixed(2)} Total`;
     
     // Display cart items
-    container.innerHTML = cartItems.map(item => `
-        <div class="cart-item border-bottom p-4 hover-lift" data-product-id="${item._id}">
-            <div class="row align-items-center">
-                <div class="col-md-2">
-                    <div class="product-image-container">
+    container.innerHTML = cartItems.map((item, index) => `
+        <div class="cart-item border-b border-slate-200 p-6 hover:bg-slate-50 transition-all duration-300 animate-slideIn" data-product-id="${item._id}" style="animation-delay: ${index * 0.1}s">
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-6 items-center">
+                <div class="md:col-span-1 flex justify-center md:justify-start">
+                    <div class="relative group">
                         <img src="${item.image || 'https://via.placeholder.com/120x120?text=Product'}" 
-                             class="img-fluid rounded shadow-sm" 
-                             alt="${item.name}"
-                             style="width: 100px; height: 100px; object-fit: cover;">
+                             class="w-24 h-24 object-cover rounded-xl shadow-md group-hover:shadow-xl transition-all duration-300 group-hover:scale-105" 
+                             alt="${item.name}">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-xl transition-all duration-300"></div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="product-details">
-                        <h5 class="mb-1 fw-semibold">${item.name}</h5>
-                        <p class="text-muted small mb-2">${item.description ? item.description.substring(0, 80) + '...' : 'No description available'}</p>
-                        <span class="badge bg-light text-dark">
-                            <i class="fas fa-tag me-1"></i>${item.brand || 'No brand'}
-                        </span>
-                    </div>
+                <div class="md:col-span-2">
+                    <h5 class="text-lg font-bold text-slate-900 mb-2" style="font-family: 'Playfair Display', serif;">${item.name}</h5>
+                    <p class="text-slate-600 text-sm mb-2 line-clamp-2">${item.description ? item.description.substring(0, 80) + '...' : 'No description available'}</p>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                        <i class="fas fa-tag mr-1"></i>${item.brand || 'No brand'}
+                    </span>
                 </div>
-                <div class="col-md-2 text-center">
-                    <div class="price-section">
-                        <span class="h5 text-primary mb-0">$${item.price}</span>
-                        <br>
-                        <small class="text-muted">per item</small>
-                    </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-amber-600">$${item.price}</div>
+                    <div class="text-xs text-slate-500">per item</div>
                 </div>
-                <div class="col-md-2">
-                    <div class="quantity-controls d-flex align-items-center justify-content-center">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="updateQuantity('${item._id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>
-                            <i class="fas fa-minus"></i>
+                <div class="flex items-center justify-center">
+                    <div class="flex items-center bg-slate-100 rounded-lg p-1">
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white hover:bg-slate-900 hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" onclick="updateQuantity('${item._id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>
+                            <i class="fas fa-minus text-sm"></i>
                         </button>
-                        <span class="mx-3 fw-bold fs-5">${item.quantity}</span>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="updateQuantity('${item._id}', ${item.quantity + 1})">
-                            <i class="fas fa-plus"></i>
+                        <span class="mx-4 font-bold text-lg text-slate-900">${item.quantity}</span>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white hover:bg-slate-900 hover:text-white transition-all duration-300" onclick="updateQuantity('${item._id}', ${item.quantity + 1})">
+                            <i class="fas fa-plus text-sm"></i>
                         </button>
                     </div>
                 </div>
-                <div class="col-md-1 text-center">
-                    <div class="item-total">
-                        <span class="fw-bold text-success">$${(item.price * item.quantity).toFixed(2)}</span>
-                        <br>
-                        <small class="text-muted">total</small>
+                <div class="flex items-center justify-between md:justify-around">
+                    <div class="text-center">
+                        <div class="text-xl font-bold text-green-600">$${(item.price * item.quantity).toFixed(2)}</div>
+                        <div class="text-xs text-slate-500">total</div>
                     </div>
-                </div>
-                <div class="col-md-1 text-center">
-                    <button class="btn btn-outline-danger btn-sm" onclick="removeFromCart('${item._id}')" title="Remove item">
+                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-red-200 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 ml-4" onclick="removeFromCart('${item._id}')" title="Remove item">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -266,6 +287,22 @@ function displayCart(cartItems) {
     document.getElementById('empty-cart').style.display = 'none';
 }
 
+<style>
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.animate-slideIn {
+    animation: slideIn 0.5s ease-out forwards;
+}
+</style>
+
 function updateOrderSummary(subtotal, shipping, tax, total) {
     document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
     document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
@@ -276,10 +313,10 @@ function updateOrderSummary(subtotal, shipping, tax, total) {
     const checkoutBtn = document.getElementById('checkout-btn');
     if (total > 0) {
         checkoutBtn.disabled = false;
-        checkoutBtn.innerHTML = `<i class="fas fa-credit-card me-2"></i>Proceed to Checkout ($${total.toFixed(2)})`;
+        checkoutBtn.innerHTML = `<i class="fas fa-credit-card mr-2"></i>Proceed to Checkout ($${total.toFixed(2)})`;
     } else {
         checkoutBtn.disabled = true;
-        checkoutBtn.innerHTML = `<i class="fas fa-credit-card me-2"></i>Proceed to Checkout`;
+        checkoutBtn.innerHTML = `<i class="fas fa-credit-card mr-2"></i>Proceed to Checkout`;
     }
 }
 

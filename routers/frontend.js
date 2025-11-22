@@ -39,12 +39,12 @@ router.get('/category/:id', (req, res) => {
 
 // Login page
 router.get('/login', (req, res) => {
-    res.render('login', { title: 'Login - E-Commerce Store' });
+    res.render('login', { title: 'Login - E-Commerce Store', layout: false });
 });
 
 // Register page
 router.get('/register', (req, res) => {
-    res.render('register', { title: 'Register - E-Commerce Store' });
+    res.render('register', { title: 'Register - E-Commerce Store', layout: false });
 });
 
 // Checkout page

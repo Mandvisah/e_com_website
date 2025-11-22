@@ -1,40 +1,330 @@
-<div class="hero-section bg-primary text-white py-5 mb-5">
+<!-- Custom Luxury Styles -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+        --luxury-navy: #0f172a;
+        --luxury-charcoal: #1e293b;
+        --luxury-gold: #d4af37;
+        --luxury-champagne: #f5e6d3;
+        --luxury-pearl: #f8fafc;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .luxury-heading {
+        font-family: 'Playfair Display', serif;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 1s ease-out forwards;
+    }
+    
+    .shimmer {
+        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+        background-size: 1000px 100%;
+        animation: shimmer 2s infinite;
+    }
+    
+    .luxury-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .luxury-card:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+    
+    .gold-text {
+        color: var(--luxury-gold);
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+    
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
 
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-3">Welcome to Our Store</h1>
-                <p class="lead mb-4">Discover amazing products at unbeatable prices. Shop now and get the best deals!</p>
-                <a href="/products" class="btn btn-light btn-lg shadow">Shop Now</a>
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Hero Content -->
+            <div class="animate-fade-in-up space-y-8">
+                <div class="inline-block">
+                    <span class="px-4 py-2 bg-gradient-to-r from-yellow-600/20 to-yellow-500/20 border border-yellow-600/30 rounded-full text-yellow-500 text-sm font-semibold tracking-wide">
+                        ✨ Premium Collection 2025
+                    </span>
+                </div>
+                
+                <h1 class="luxury-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+                    Elevate Your
+                    <span class="gold-text block mt-2">Lifestyle</span>
+                </h1>
+                
+                <p class="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-xl">
+                    Discover curated luxury products that define sophistication. Experience excellence in every detail.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a href="/products" class="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-2xl shadow-2xl shadow-yellow-600/30 hover:shadow-yellow-600/50 transition-all duration-300 hover:scale-105">
+                        <span>Explore Collection</span>
+                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="/categories" class="inline-flex items-center justify-center px-8 py-4 glass-effect text-white font-semibold rounded-2xl hover:bg-white/10 transition-all duration-300">
+                        <span>View Categories</span>
+                    </a>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-6 pt-8 border-t border-slate-700">
+                    <div>
+                        <div class="text-3xl font-bold gold-text">10K+</div>
+                        <div class="text-sm text-slate-400 mt-1">Happy Clients</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold gold-text">500+</div>
+                        <div class="text-sm text-slate-400 mt-1">Premium Items</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold gold-text">4.9★</div>
+                        <div class="text-sm text-slate-400 mt-1">Rating</div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-4 shadow-lg" alt="Hero Image" style="max-height: 320px; object-fit: cover;">
+            
+            <!-- Hero Image -->
+            <div class="relative animate-fade-in">
+                <div class="absolute inset-0 bg-gradient-to-br from-yellow-600/20 to-yellow-500/20 rounded-3xl blur-3xl"></div>
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80" 
+                     alt="Luxury Products" 
+                     class="relative rounded-3xl shadow-2xl w-full h-auto object-cover border border-slate-700/50">
+                <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-3xl blur-2xl opacity-50"></div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="container">
-    <!-- Featured Categories -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <h2 class="text-center mb-4">Shop by Category</h2>
-            <div id="categories-container" class="row">
-                <!-- Categories will be loaded here -->
+<!-- Features Section -->
+<section class="bg-slate-50 py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-2xl mb-4">
+                    <i class="fas fa-shipping-fast text-2xl text-slate-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Free Shipping</h3>
+                <p class="text-slate-600">On orders over $100</p>
+            </div>
+            
+            <div class="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-2xl mb-4">
+                    <i class="fas fa-shield-alt text-2xl text-slate-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Secure Payment</h3>
+                <p class="text-slate-600">100% protected</p>
+            </div>
+            
+            <div class="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-2xl mb-4">
+                    <i class="fas fa-undo text-2xl text-slate-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Easy Returns</h3>
+                <p class="text-slate-600">30-day guarantee</p>
+            </div>
+            
+            <div class="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-2xl mb-4">
+                    <i class="fas fa-headset text-2xl text-slate-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">24/7 Support</h3>
+                <p class="text-slate-600">Always here to help</p>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Featured Products -->
-    <div class="row">
-        <div class="col-12">
-            <h2 class="text-center mb-4">Featured Products</h2>
-            <div id="featured-products" class="row">
-                <!-- Featured products will be loaded here -->
+<!-- Categories Section -->
+<section class="bg-white py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="luxury-heading text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                Shop by <span class="gold-text">Category</span>
+            </h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                Browse our carefully curated collections designed for the discerning customer
+            </p>
+        </div>
+        
+        <div id="categories-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Categories will be loaded here dynamically -->
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="bg-slate-50 py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="luxury-heading text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                Featured <span class="gold-text">Products</span>
+            </h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                Handpicked selections of our finest offerings
+            </p>
+        </div>
+        
+        <div id="featured-products" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Products will be loaded here dynamically -->
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/products" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                View All Products
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="bg-gradient-to-br from-slate-900 to-slate-800 py-20 text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="luxury-heading text-4xl lg:text-5xl font-bold mb-4">
+                What Our <span class="gold-text">Clients Say</span>
+            </h2>
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+                Don't just take our word for it
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass-effect p-8 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="text-slate-200 mb-6 italic">"Exceptional quality and service. Every purchase feels like a luxury experience."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-full"></div>
+                    <div>
+                        <div class="font-semibold">Sarah Johnson</div>
+                        <div class="text-sm text-slate-400">Fashion Enthusiast</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-effect p-8 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="text-slate-200 mb-6 italic">"The attention to detail is remarkable. Highly recommend for anyone seeking premium products."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-full"></div>
+                    <div>
+                        <div class="font-semibold">Michael Chen</div>
+                        <div class="text-sm text-slate-400">Business Executive</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-effect p-8 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="text-slate-200 mb-6 italic">"Outstanding customer service and beautiful products. My go-to store for quality items."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-full"></div>
+                    <div>
+                        <div class="font-semibold">Emma Williams</div>
+                        <div class="text-sm text-slate-400">Interior Designer</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="bg-white py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-12 text-center text-white relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute inset-0 shimmer"></div>
+            </div>
+            
+            <div class="relative z-10">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-2xl mb-6">
+                    <i class="fas fa-envelope text-2xl text-slate-900"></i>
+                </div>
+                
+                <h2 class="luxury-heading text-3xl lg:text-4xl font-bold mb-4">
+                    Join Our <span class="gold-text">Exclusive</span> Community
+                </h2>
+                <p class="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
+                    Subscribe to receive special offers, luxury lifestyle tips, and early access to new collections
+                </p>
+                
+                <form class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+                    <input type="email" placeholder="Enter your email" 
+                           class="flex-1 px-6 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all">
+                    <button type="submit" 
+                            class="px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 whitespace-nowrap">
+                        Subscribe Now
+                    </button>
+                </form>
+                
+                <p class="text-xs text-slate-400 mt-4">
+                    <i class="fas fa-lock mr-1"></i> We respect your privacy. Unsubscribe anytime.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -48,19 +338,34 @@ async function loadCategories() {
         const categories = response.data;
         const container = document.getElementById('categories-container');
         
-        container.innerHTML = categories.map(category => `
-            <div class="col-md-4 mb-4">
-                <div class="card category-card h-100" onclick="window.location.href='/category/${category._id}'">
-                    <div class="card-body text-center">
-                        <i class="fas fa-tag fa-3x text-primary mb-3"></i>
-                        <h5 class="card-title">${category.name}</h5>
-                        <p class="card-text text-muted">${category.color || 'Explore this category'}</p>
+        container.innerHTML = categories.map((category, index) => `
+            <div class="luxury-card group cursor-pointer" onclick="window.location.href='/category/${category._id}'" style="animation-delay: ${index * 100}ms;">
+                <div class="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden h-full">
+                    <div class="absolute inset-0 bg-gradient-to-br from-yellow-600/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <div class="relative p-8 flex flex-col items-center text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-tag text-3xl text-slate-900"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2 luxury-heading">${category.name}</h3>
+                        <p class="text-slate-600">${category.color || 'Explore this collection'}</p>
+                        
+                        <div class="mt-4 text-yellow-600 font-semibold flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span>Shop Now</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         `).join('');
     } catch (error) {
         console.error('Error loading categories:', error);
+        document.getElementById('categories-container').innerHTML = `
+            <div class="col-span-full text-center py-12">
+                <p class="text-slate-600">Unable to load categories. Please try again later.</p>
+            </div>
+        `;
     }
 }
 
@@ -71,7 +376,6 @@ async function loadFeaturedProducts() {
         const container = document.getElementById('featured-products');
         
         if (products.length === 0) {
-            // If no featured products, load first 6 products
             const allProductsResponse = await axios.get('/api/v1/products');
             const allProducts = allProductsResponse.data.slice(0, 6);
             displayProducts(allProducts, container);
@@ -80,29 +384,59 @@ async function loadFeaturedProducts() {
         }
     } catch (error) {
         console.error('Error loading featured products:', error);
+        document.getElementById('featured-products').innerHTML = `
+            <div class="col-span-full text-center py-12">
+                <p class="text-slate-600">Unable to load products. Please try again later.</p>
+            </div>
+        `;
     }
 }
 
 function displayProducts(products, container) {
-    container.innerHTML = products.map(product => `
-        <div class="col-md-4 mb-4">
-            <div class="card product-card h-100">
-                <img src="${product.image || 'https://via.placeholder.com/300x200?text=Product'}" class="card-img-top product-image" alt="${product.name}">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">${product.name}</h5>
-                    <p class="card-text text-muted">${product.description}</p>
-                    <div class="mt-auto">
-                        <div class="d-flex justify-content-between align-items-center" style="z-index:10; position:relative;">
-                            <span class="h5 text-primary mb-0">$${product.price}</span>
-                            <button class="btn btn-primary" style="z-index:11; position:relative;" onclick="addToCart('${product._id}')">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
+    container.innerHTML = products.map((product, index) => `
+        <div class="luxury-card" style="animation-delay: ${index * 100}ms;">
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden h-full flex flex-col group">
+                <!-- Product Image -->
+                <div class="relative overflow-hidden aspect-square">
+                    <img src="${product.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                         alt="${product.name}">
+                    
+                    <div class="absolute top-4 right-4">
+                        <button onclick="event.stopPropagation(); addToWishlist('${product._id}')" 
+                                class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-300 shadow-lg">
+                            <i class="far fa-heart text-slate-700"></i>
+                        </button>
+                    </div>
+                    
+                    ${product.featured ? '<div class="absolute top-4 left-4 px-3 py-1 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 text-xs font-bold rounded-full">FEATURED</div>' : ''}
+                </div>
+                
+                <!-- Product Info -->
+                <div class="p-6 flex-1 flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2 luxury-heading line-clamp-1">${product.name}</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-2 flex-1">${product.description || 'Premium quality product'}</p>
+                    
+                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                        <div>
+                            <span class="text-2xl font-bold text-slate-900">$${product.price}</span>
                         </div>
+                        <button onclick="addToCart('${product._id}')" 
+                                class="px-6 py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="hidden sm:inline">Add to Cart</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     `).join('');
+}
+
+// Wishlist functionality (optional - can be implemented later)
+function addToWishlist(productId) {
+    console.log('Add to wishlist:', productId);
+    // Implement wishlist functionality
 }
 </script>
 

@@ -1,25 +1,22 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/products">Products</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" id="product-breadcrumb">Product</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+<div class="container mx-auto px-4 py-8">
+    <nav aria-label="breadcrumb" class="mb-8 animate-fade-in-up">
+        <ol class="flex flex-wrap items-center gap-2 text-sm">
+            <li><a href="/" class="text-amber-600 hover:text-amber-700 transition-colors"><i class="fas fa-home mr-1"></i>Home</a></li>
+            <li class="text-slate-400">/</li>
+            <li><a href="/products" class="text-amber-600 hover:text-amber-700 transition-colors">Products</a></li>
+            <li class="text-slate-400">/</li>
+            <li class="text-slate-600 font-semibold" id="product-breadcrumb">Product</li>
+        </ol>
+    </nav>
     
     <div id="product-container">
         <!-- Product details will be loaded here -->
     </div>
     
     <!-- Loading Spinner -->
-    <div id="loading-spinner" class="text-center my-5">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+    <div id="loading-spinner" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-amber-500 mb-4"></div>
+        <p class="text-slate-600 text-lg">Loading product details...</p>
     </div>
 </div>
 
@@ -37,10 +34,11 @@ async function loadProduct(productId) {
     } catch (error) {
         console.error('Error loading product:', error);
         document.getElementById('product-container').innerHTML = `
-            <div class="alert alert-danger">
-                <h4>Product Not Found</h4>
-                <p>The product you're looking for doesn't exist or has been removed.</p>
-                <a href="/products" class="btn btn-primary">Back to Products</a>
+            <div class="luxury-card border-l-4 border-red-500 p-8 text-center animate-fade-in-up">
+                <i class="fas fa-exclamation-triangle text-red-500 mb-4" style="font-size: 4rem;"></i>
+                <h4 class="text-2xl font-bold text-slate-800 mb-2">Product Not Found</h4>
+                <p class="text-slate-600 mb-6">The product you're looking for doesn't exist or has been removed.</p>
+                <a href="/products" class="luxury-btn-primary inline-block"><i class="fas fa-arrow-left mr-2"></i>Back to Products</a>
             </div>
         `;
     }
@@ -53,113 +51,131 @@ function displayProduct(product) {
     
     const container = document.getElementById('product-container');
     container.innerHTML = `
-        <div class="row">
-            <div class="col-md-6">
-                <img src="${product.image || 'https://via.placeholder.com/500x400?text=Product'}" 
-                     class="img-fluid rounded product-detail-image" alt="${product.name}">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <div class="animate-fade-in-up">
+                <div class="luxury-card overflow-hidden group">
+                    <img src="${product.image || 'https://via.placeholder.com/500x400?text=Product'}" 
+                         class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110" 
+                         alt="${product.name}">
+                </div>
             </div>
-            <div class="col-md-6">
-                <h1 class="mb-3">${product.name}</h1>
-                <div class="mb-3">
-                    <span class="badge bg-secondary">${product.category ? product.category.name : 'Uncategorized'}</span>
-                    ${product.isFeatured ? '<span class="badge bg-warning ms-2">Featured</span>' : ''}
+            <div class="animate-fade-in-up" style="animation-delay: 0.1s;">
+                <h1 class="luxury-heading text-4xl md:text-5xl text-slate-900 mb-4">${product.name}</h1>
+                <div class="flex gap-2 mb-4">
+                    <span class="luxury-badge">${product.category ? product.category.name : 'Uncategorized'}</span>
+                    ${product.isFeatured ? '<span class="bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold"><i class="fas fa-star mr-1"></i>Featured</span>' : ''}
                 </div>
-                <p class="lead text-primary h3">$${product.price}</p>
-                <p class="text-muted">${product.description}</p>
+                <p class="text-5xl font-bold text-amber-600 mb-4">$${product.price}</p>
+                <p class="text-slate-600 text-lg mb-6">${product.description}</p>
                 
-                <div class="row mb-3">
-                    <div class="col-sm-4">
-                        <strong>Brand:</strong> ${product.brand || 'N/A'}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <p class="text-sm text-slate-500 mb-1">Brand</p>
+                        <p class="font-semibold text-slate-800">${product.brand || 'N/A'}</p>
                     </div>
-                    <div class="col-sm-4">
-                        <strong>Stock:</strong> 
-                        <span class="${product.countInStock > 0 ? 'text-success' : 'text-danger'}">
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <p class="text-sm text-slate-500 mb-1">Stock</p>
+                        <p class="font-semibold ${product.countInStock > 0 ? 'text-green-600' : 'text-red-600'}">
                             ${product.countInStock > 0 ? `${product.countInStock} available` : 'Out of stock'}
-                        </span>
+                        </p>
                     </div>
-                    <div class="col-sm-4">
-                        <strong>Rating:</strong> 
-                        <span class="text-warning">
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <p class="text-sm text-slate-500 mb-1">Rating</p>
+                        <p class="font-semibold text-amber-500">
                             ${generateStars(product.rating || 0)}
-                        </span>
+                        </p>
                     </div>
                 </div>
                 
-                <div class="row mb-4">
-                    <div class="col-sm-6">
-                        <label for="quantity" class="form-label">Quantity:</label>
-                        <div class="input-group">
-                            <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
-                            <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="${product.countInStock}">
-                            <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
-                        </div>
+                <div class="mb-6">
+                    <label for="quantity" class="luxury-label">Quantity:</label>
+                    <div class="flex items-center gap-3 max-w-xs">
+                        <button class="luxury-btn-outline px-4 py-2" type="button" onclick="changeQuantity(-1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" class="luxury-input text-center" id="quantity" value="1" min="1" max="${product.countInStock}">
+                        <button class="luxury-btn-outline px-4 py-2" type="button" onclick="changeQuantity(1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                 </div>
                 
-                <div class="d-grid gap-2 d-md-flex">
-                    <button class="btn btn-primary btn-lg me-md-2" onclick="addToCart('${product._id}')" ${product.countInStock === 0 ? 'disabled' : ''}>
-                        <i class="fas fa-cart-plus"></i> Add to Cart
+                <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                    <button class="luxury-btn-primary flex-1 py-3 text-lg" onclick="addToCart('${product._id}')" ${product.countInStock === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-cart-plus mr-2"></i> Add to Cart
                     </button>
-                    <button class="btn btn-success btn-lg" onclick="buyNow('${product._id}')" ${product.countInStock === 0 ? 'disabled' : ''}>
-                        <i class="fas fa-bolt"></i> Buy Now
+                    <button class="luxury-btn-outline flex-1 py-3 text-lg border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white" onclick="buyNow('${product._id}')" ${product.countInStock === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-bolt mr-2"></i> Buy Now
                     </button>
                 </div>
                 
-                ${product.countInStock === 0 ? '<div class="alert alert-warning mt-3">This product is currently out of stock.</div>' : ''}
+                ${product.countInStock === 0 ? '<div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded"><p class="text-amber-800 mb-0"><i class="fas fa-exclamation-circle mr-2"></i>This product is currently out of stock.</p></div>' : ''}
             </div>
         </div>
         
         <!-- Product Details Tabs -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <ul class="nav nav-tabs" id="productTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
-                            Description
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab">
-                            Specifications
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
-                            Reviews
-                        </button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="productTabsContent">
-                    <div class="tab-pane fade show active" id="description" role="tabpanel">
-                        <div class="p-4">
-                            <h4>Product Description</h4>
-                            <p>${product.richDescription || product.description}</p>
-                        </div>
+        <div class="luxury-card animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="border-b border-slate-200">
+                <div class="flex flex-wrap gap-2 p-2" role="tablist">
+                    <button class="tab-button active px-6 py-3 font-semibold text-amber-600 border-b-2 border-amber-600 transition-all" 
+                            onclick="showTab('description')" id="description-tab">
+                        <i class="fas fa-file-alt mr-2"></i>Description
+                    </button>
+                    <button class="tab-button px-6 py-3 font-semibold text-slate-600 hover:text-amber-600 transition-all" 
+                            onclick="showTab('specifications')" id="specifications-tab">
+                        <i class="fas fa-list mr-2"></i>Specifications
+                    </button>
+                    <button class="tab-button px-6 py-3 font-semibold text-slate-600 hover:text-amber-600 transition-all" 
+                            onclick="showTab('reviews')" id="reviews-tab">
+                        <i class="fas fa-star mr-2"></i>Reviews
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="tab-pane active" id="description">
+                    <h4 class="luxury-heading text-2xl text-slate-900 mb-4">Product Description</h4>
+                    <p class="text-slate-600 leading-relaxed">${product.richDescription || product.description}</p>
+                </div>
+                <div class="tab-pane hidden" id="specifications">
+                    <h4 class="luxury-heading text-2xl text-slate-900 mb-4">Specifications</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <tbody class="divide-y divide-slate-200">
+                                <tr class="hover:bg-slate-50"><td class="py-3 px-4 font-semibold text-slate-700">Brand:</td><td class="py-3 px-4 text-slate-600">${product.brand || 'N/A'}</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="py-3 px-4 font-semibold text-slate-700">Category:</td><td class="py-3 px-4 text-slate-600">${product.category ? product.category.name : 'N/A'}</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="py-3 px-4 font-semibold text-slate-700">Stock Count:</td><td class="py-3 px-4 text-slate-600">${product.countInStock}</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="py-3 px-4 font-semibold text-slate-700">Featured:</td><td class="py-3 px-4 text-slate-600">${product.isFeatured ? 'Yes' : 'No'}</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="py-3 px-4 font-semibold text-slate-700">Date Added:</td><td class="py-3 px-4 text-slate-600">${new Date(product.dateCreated).toLocaleDateString()}</td></tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="tab-pane fade" id="specifications" role="tabpanel">
-                        <div class="p-4">
-                            <h4>Specifications</h4>
-                            <table class="table">
-                                <tr><td><strong>Brand:</strong></td><td>${product.brand || 'N/A'}</td></tr>
-                                <tr><td><strong>Category:</strong></td><td>${product.category ? product.category.name : 'N/A'}</td></tr>
-                                <tr><td><strong>Stock Count:</strong></td><td>${product.countInStock}</td></tr>
-                                <tr><td><strong>Featured:</strong></td><td>${product.isFeatured ? 'Yes' : 'No'}</td></tr>
-                                <tr><td><strong>Date Added:</strong></td><td>${new Date(product.dateCreated).toLocaleDateString()}</td></tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="reviews" role="tabpanel">
-                        <div class="p-4">
-                            <h4>Customer Reviews</h4>
-                            <div class="alert alert-info">
-                                Reviews feature coming soon! Current rating: ${generateStars(product.rating || 0)} (${product.numReviews || 0} reviews)
-                            </div>
-                        </div>
+                </div>
+                <div class="tab-pane hidden" id="reviews">
+                    <h4 class="luxury-heading text-2xl text-slate-900 mb-4">Customer Reviews</h4>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded">
+                        <p class="text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Reviews feature coming soon!</p>
+                        <p class="text-blue-700 mb-0">Current rating: <span class="text-amber-500">${generateStars(product.rating || 0)}</span> (${product.numReviews || 0} reviews)</p>
                     </div>
                 </div>
             </div>
         </div>
     `;
+}
+
+function showTab(tabName) {
+    // Hide all tab panes
+    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
+    // Remove active from all buttons
+    document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active', 'text-amber-600', 'border-b-2', 'border-amber-600');
+        btn.classList.add('text-slate-600');
+    });
+    // Show selected tab
+    document.getElementById(tabName).classList.remove('hidden');
+    // Activate button
+    const activeBtn = document.getElementById(tabName + '-tab');
+    activeBtn.classList.remove('text-slate-600');
+    activeBtn.classList.add('active', 'text-amber-600', 'border-b-2', 'border-amber-600');
 }
 
 function generateStars(rating) {

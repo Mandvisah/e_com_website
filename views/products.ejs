@@ -1,163 +1,156 @@
-<!-- Modern Hero Section for Products Page -->
-<div class="hero-section text-white py-5 mb-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-3">
-                    ✨ Discover Amazing Products
+<!-- Luxury Hero Section -->
+<div class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20">
+    <div class="absolute inset-0 pattern-grid opacity-10"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="animate-fade-in-up">
+                <h1 class="luxury-heading text-5xl md:text-6xl text-white mb-4">
+                    Discover Amazing Products
                 </h1>
-                <p class="lead mb-4">
+                <p class="text-xl text-slate-300 mb-6">
                     Explore our curated collection of premium products. Find exactly what you're looking for with our advanced filters and intelligent search.
                 </p>
-                <div class="d-flex gap-3">
-                    <span class="badge bg-light text-dark px-3 py-2">
-                        <i class="fas fa-star text-warning me-1"></i>
+                <div class="flex flex-wrap gap-3">
+                    <span class="luxury-badge">
+                        <i class="fas fa-star mr-2"></i>
                         Premium Quality
                     </span>
-                    <span class="badge bg-light text-dark px-3 py-2">
-                        <i class="fas fa-shipping-fast text-primary me-1"></i>
+                    <span class="luxury-badge">
+                        <i class="fas fa-shipping-fast mr-2"></i>
                         Fast Delivery
                     </span>
-                    <span class="badge bg-light text-dark px-3 py-2">
-                        <i class="fas fa-shield-alt text-success me-1"></i>
+                    <span class="luxury-badge">
+                        <i class="fas fa-shield-alt mr-2"></i>
                         Secure Shopping
                     </span>
                 </div>
             </div>
-            <div class="col-lg-4 text-center">
-                <div class="hero-image-container">
+            <div class="text-center animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="relative inline-block">
                     <img src="https://via.placeholder.com/400x300?text=🛍️+Shop+Now" 
-                         class="img-fluid rounded-4 shadow-lg" 
+                         class="rounded-2xl shadow-2xl" 
                          alt="Products Collection"
                          style="max-width: 100%; height: auto;">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent rounded-2xl"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container my-5">
-    <!-- Modern Filter & Search Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="card filter-section shadow-lg border-0">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="bg-primary rounded-circle p-3 me-3">
-                            <i class="fas fa-filter text-white"></i>
-                        </div>
-                        <div>
-                            <h5 class="card-title mb-1 fw-bold">
-                                Smart Product Filtering
-                            </h5>
-                            <p class="text-muted mb-0 small">
-                                Find your perfect product with our advanced search and filter options
-                            </p>
-                        </div>
+<div class="container mx-auto px-4 py-12">
+    <!-- Luxury Filter & Search Section -->
+    <div class="luxury-card mb-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+        <div class="luxury-card-header">
+            <div class="flex items-center gap-4">
+                <div class="bg-amber-500 rounded-full p-3">
+                    <i class="fas fa-filter text-white"></i>
+                </div>
+                <div>
+                    <h5 class="text-white text-xl font-bold mb-1">
+                        Smart Product Filtering
+                    </h5>
+                    <p class="text-slate-300 text-sm mb-0">
+                        Find your perfect product with our advanced search and filter options
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="category-filter" class="luxury-label">
+                        <i class="fas fa-tags text-amber-500 mr-2"></i>Category
+                    </label>
+                    <select id="category-filter" class="luxury-input" onchange="filterProducts()">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="search-input" class="luxury-label">
+                        <i class="fas fa-search text-amber-500 mr-2"></i>Search Products
+                    </label>
+                    <div class="relative">
+                        <input type="text" 
+                               id="search-input" 
+                               class="luxury-input pr-10" 
+                               placeholder="Search by name, description..." 
+                               onkeyup="searchProducts()">
+                        <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
                     </div>
-                    
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <label for="category-filter" class="form-label fw-semibold">
-                                <i class="fas fa-tags text-primary me-2"></i>Category
-                            </label>
-                            <select id="category-filter" class="form-select" onchange="filterProducts()">
-                                <option value="">🏷️ All Categories</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="search-input" class="form-label fw-semibold">
-                                <i class="fas fa-search text-primary me-2"></i>Search Products
-                            </label>
-                            <div class="position-relative">
-                                <input type="text" 
-                                       id="search-input" 
-                                       class="form-control pe-5" 
-                                       placeholder="🔍 Search by name, description..." 
-                                       onkeyup="searchProducts()">
-                                <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="sort-select" class="form-label fw-semibold">
-                                <i class="fas fa-sort text-primary me-2"></i>Sort By
-                            </label>
-                            <select id="sort-select" class="form-select" onchange="sortProducts()">
-                                <option value="">📊 Sort Options</option>
-                                <option value="name">📝 Name A-Z</option>
-                                <option value="-name">📝 Name Z-A</option>
-                                <option value="price">💰 Price: Low to High</option>
-                                <option value="-price">💰 Price: High to Low</option>
-                            </select>
-                        </div>
+                </div>
+                <div>
+                    <label for="sort-select" class="luxury-label">
+                        <i class="fas fa-sort text-amber-500 mr-2"></i>Sort By
+                    </label>
+                    <select id="sort-select" class="luxury-input" onchange="sortProducts()">
+                        <option value="">Sort Options</option>
+                        <option value="name">Name A-Z</option>
+                        <option value="-name">Name Z-A</option>
+                        <option value="price">Price: Low to High</option>
+                        <option value="-price">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Filter Results Summary -->
+            <div class="mt-6 p-4 bg-slate-50 rounded-lg">
+                <div class="flex justify-between items-center flex-wrap gap-3">
+                    <div>
+                        <span class="text-slate-600">Showing</span>
+                        <span id="products-count" class="luxury-badge mx-2">Loading...</span>
+                        <span class="text-slate-600">products</span>
                     </div>
-                    
-                    <!-- Filter Results Summary -->
-                    <div class="mt-4 p-3 bg-light rounded-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="text-muted small">Showing</span>
-                                <span id="products-count" class="badge bg-primary ms-2">Loading...</span>
-                                <span class="text-muted small ms-2">products</span>
-                            </div>
-                            <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
-                                <i class="fas fa-refresh me-1"></i>Reset Filters
-                            </button>
-                        </div>
-                    </div>
+                    <button class="luxury-btn-outline" onclick="resetFilters()">
+                        <i class="fas fa-refresh mr-2"></i>Reset Filters
+                    </button>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Modern Products Display Section -->
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2 class="fw-bold mb-1">
-                        <i class="fas fa-shopping-bag text-primary me-2"></i>
-                        Featured Products
-                    </h2>
-                    <p class="text-muted mb-0">Handpicked items just for you</p>
+    <!-- Luxury Products Display Section -->
+    <div class="mb-8">
+        <div class="flex justify-between items-center mb-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+            <div>
+                <h2 class="luxury-heading text-3xl text-slate-900 mb-1">
+                    <i class="fas fa-shopping-bag gold-text mr-2"></i>
+                    Featured Products
+                </h2>
+                <p class="text-slate-600 mb-0">Handpicked items just for you</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center">
+                    <span class="text-slate-600 text-sm mr-2">Total:</span>
+                    <span id="products-count-display" class="luxury-badge text-lg">
+                        <i class="fas fa-boxes mr-1"></i>Loading...
+                    </span>
                 </div>
-                <div class="d-flex align-items-center gap-3">
-                    <div class="d-flex align-items-center">
-                        <span class="text-muted small me-2">Total:</span>
-                        <span id="products-count-display" class="badge bg-gradient bg-primary px-3 py-2 fs-6">
-                            <i class="fas fa-boxes me-1"></i>Loading...
-                        </span>
-                    </div>
                 </div>
             </div>
             
             <!-- Loading State -->
-            <div id="loading-container" class="text-center py-5" style="display: none;">
-                <div class="loading-spinner mb-3"></div>
-                <p class="text-muted">Loading amazing products...</p>
+            <div id="loading-container" class="text-center py-12" style="display: none;">
+                <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-amber-500 mb-4"></div>
+                <p class="text-slate-600 text-lg">Loading amazing products...</p>
             </div>
             
             <!-- Products Grid -->
-            <!-- Products Grid -->
-            <div id="products-container" class="row">
+            <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <!-- Products will be loaded here -->
             </div>
             
             <!-- Loading Spinner -->
-            <div id="loading-spinner" class="text-center my-5" style="display: none;">
-                <div class="loading-spinner">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-2 text-muted">Loading amazing products...</p>
-                </div>
+            <div id="loading-spinner" class="text-center py-12" style="display: none;">
+                <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-amber-500 mb-4"></div>
+                <p class="text-slate-600 text-lg">Loading amazing products...</p>
             </div>
             
             <!-- No Products Message -->
-            <div id="no-products" class="text-center my-5" style="display: none;">
-                <i class="fas fa-search fa-4x text-muted mb-3"></i>
-                <h4 class="text-muted">No products found</h4>
-                <p class="text-muted">Try adjusting your filters or search terms.</p>
+            <div id="no-products" class="text-center py-12" style="display: none;">
+                <i class="fas fa-search text-slate-300 mb-4" style="font-size: 5rem;"></i>
+                <h4 class="text-slate-600 text-2xl mb-2">No products found</h4>
+                <p class="text-slate-500">Try adjusting your filters or search terms.</p>
             </div>
         </div>
     </div>
@@ -267,17 +260,17 @@ async function loadProducts() {
         
         if (productsCount) {
             productsCount.textContent = 'Error loading';
-            productsCount.className = 'badge bg-danger fs-6';
+            productsCount.className = 'bg-red-500 text-white px-4 py-2 rounded-full font-semibold';
         }
         
         container.innerHTML = `
-            <div class="col-12 text-center">
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                    <h4>Error loading products</h4>
-                    <p>Unable to load products. Please try refreshing the page.</p>
-                    <button class="btn btn-primary z-9999" onclick="loadProducts()">
-                        <i class="fas fa-sync-alt me-2"></i>Try Again
+            <div class="col-span-full text-center">
+                <div class="luxury-card border-l-4 border-red-500 p-8">
+                    <i class="fas fa-exclamation-triangle text-red-500 mb-4" style="font-size: 4rem;"></i>
+                    <h4 class="text-2xl font-bold text-slate-800 mb-2">Error loading products</h4>
+                    <p class="text-slate-600 mb-6">Unable to load products. Please try refreshing the page.</p>
+                    <button class="luxury-btn-primary" onclick="loadProducts()">
+                        <i class="fas fa-sync-alt mr-2"></i>Try Again
                     </button>
                 </div>
             </div>
@@ -302,16 +295,14 @@ function displayProducts(products) {
     
     if (products.length === 0) {
         container.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <div class="card border-0 bg-light">
-                    <div class="card-body py-5">
-                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                        <h4 class="text-muted">No Products Found</h4>
-                        <p class="text-muted">Try adjusting your search or filter criteria.</p>
-                        <button class="btn btn-primary" onclick="resetFilters()">
-                            <i class="fas fa-refresh me-2"></i>Reset Filters
-                        </button>
-                    </div>
+            <div class="col-span-full text-center py-12">
+                <div class="luxury-card bg-slate-50 p-12">
+                    <i class="fas fa-search text-slate-300 mb-4" style="font-size: 5rem;"></i>
+                    <h4 class="text-2xl font-bold text-slate-600 mb-2">No Products Found</h4>
+                    <p class="text-slate-500 mb-6">Try adjusting your search or filter criteria.</p>
+                    <button class="luxury-btn-primary" onclick="resetFilters()">
+                        <i class="fas fa-refresh mr-2"></i>Reset Filters
+                    </button>
                 </div>
             </div>
         `;
@@ -321,36 +312,33 @@ function displayProducts(products) {
     
     if (noProductsDiv) noProductsDiv.style.display = 'none';
     
-    container.innerHTML = products.map(product => `
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card product-card h-100 shadow-sm">
-                <div class="position-relative">
-                    <img src="${product.image || 'https://via.placeholder.com/300x200?text=Product'}" 
-                         class="card-img-top product-image" 
-                         alt="${product.name}"
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';">
-                    ${product.countInStock === 0 ? '<div class="position-absolute top-0 end-0 m-2"><span class="badge bg-danger">Out of Stock</span></div>' : ''}
-                    ${product.countInStock > 0 && product.countInStock <= 5 ? '<div class="position-absolute top-0 end-0 m-2"><span class="badge bg-warning">Low Stock</span></div>' : ''}
+    container.innerHTML = products.map((product, index) => `
+        <div class="luxury-card flex flex-col overflow-hidden group cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl animate-fade-in-up" style="animation-delay: ${index * 0.05}s;">
+            <div class="relative overflow-hidden">
+                <img src="${product.image || 'https://via.placeholder.com/300x200?text=Product'}" 
+                     class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" 
+                     alt="${product.name}"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                ${product.countInStock === 0 ? '<div class="absolute top-3 right-3"><span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Out of Stock</span></div>' : ''}
+                ${product.countInStock > 0 && product.countInStock <= 5 ? '<div class="absolute top-3 right-3"><span class="bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Low Stock</span></div>' : ''}
+            </div>
+            <div class="p-6 flex flex-col flex-grow">
+                <h5 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">${product.name}</h5>
+                <p class="text-slate-600 text-sm mb-4 flex-grow line-clamp-3">${(product.description || '').substring(0, 100)}${(product.description || '').length > 100 ? '...' : ''}</p>
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-2xl font-bold text-amber-600">$${product.price}</span>
+                    <span class="text-sm text-slate-500">
+                        <i class="fas fa-box mr-1"></i>${product.countInStock} left
+                    </span>
                 </div>
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">${product.name}</h5>
-                    <p class="card-text text-muted small">${(product.description || '').substring(0, 80)}${(product.description || '').length > 80 ? '...' : ''}</p>
-                    <div class="mt-auto">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="h5 text-primary mb-0">$${product.price}</span>
-                            <small class="text-muted">
-                                <i class="fas fa-box me-1"></i>${product.countInStock} left
-                            </small>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-outline-primary btn-sm" onclick="viewProduct('${product._id}')" title="View Details">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn btn-primary btn-sm flex-grow-1" onclick="addToCart('${product._id}')" ${product.countInStock === 0 ? 'disabled' : ''}>
-                                <i class="fas fa-cart-plus me-1"></i>${product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
-                            </button>
-                        </div>
-                    </div>
+                <div class="flex gap-2">
+                    <button class="luxury-btn-outline px-3 py-2 text-sm" onclick="viewProduct('${product._id}')" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="luxury-btn-primary flex-grow py-2 text-sm" onclick="addToCart('${product._id}')" ${product.countInStock === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-cart-plus mr-2"></i>${product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                    </button>
                 </div>
             </div>
         </div>
@@ -482,35 +470,37 @@ function showToast(message, type = 'info') {
     const toastContainer = document.getElementById('toastContainer') || createToastContainer();
     
     const toastId = 'toast-' + Date.now();
+    const bgColor = type === 'error' ? 'bg-red-500' : type === 'success' ? 'bg-green-500' : 'bg-blue-500';
+    const icon = type === 'error' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle';
+    
     const toastHtml = `
-        <div id="${toastId}" class="toast align-items-center text-white bg-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'primary'}" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
-                    ${message}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        <div id="${toastId}" class="${bgColor} text-white px-6 py-4 rounded-lg shadow-lg mb-4 flex items-center justify-between animate-slide-in-right" role="alert">
+            <div class="flex items-center">
+                <i class="fas fa-${icon} mr-3"></i>
+                <span>${message}</span>
             </div>
+            <button type="button" class="ml-4 text-white hover:text-gray-200" onclick="document.getElementById('${toastId}').remove()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     `;
     
     toastContainer.innerHTML = toastHtml + toastContainer.innerHTML;
     
-    const toastElement = document.getElementById(toastId);
-    const toast = new bootstrap.Toast(toastElement);
-    toast.show();
-    
-    // Remove toast element after it's hidden
-    toastElement.addEventListener('hidden.bs.toast', () => {
-        toastElement.remove();
-    });
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        const toastElement = document.getElementById(toastId);
+        if (toastElement) {
+            toastElement.classList.add('animate-fade-out');
+            setTimeout(() => toastElement.remove(), 300);
+        }
+    }, 3000);
 }
 
 function createToastContainer() {
     const container = document.createElement('div');
     container.id = 'toastContainer';
-    container.className = 'toast-container position-fixed top-0 end-0 p-3';
-    container.style.zIndex = '9999';
+    container.className = 'fixed top-4 right-4 z-50';
     document.body.appendChild(container);
     return container;
 // Initialize cart badge and navigation on page load - removed duplicate DOMContentLoaded

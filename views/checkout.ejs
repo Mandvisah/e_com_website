@@ -1,146 +1,164 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb" class="mb-4">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-                </ol>
-            </nav>
+<!-- Luxury Hero Section -->
+<div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-12 mb-12 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pattern-grid"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <nav class="mb-4">
+            <ol class="flex items-center space-x-2 text-sm text-slate-300">
+                <li><a href="/" class="hover:text-amber-400 transition-colors">Home</a></li>
+                <li><i class="fas fa-chevron-right text-xs"></i></li>
+                <li class="text-amber-400">Checkout</li>
+            </ol>
+        </nav>
+        <h1 class="luxury-heading text-5xl font-bold animate-fadeInUp">
+            Secure <span class="gold-text">Checkout</span>
+        </h1>
+        <p class="text-slate-300 text-lg mt-3">Complete your order with confidence</p>
+    </div>
+</div>
 
-            <h1 class="mb-4">Checkout</h1>
-
-            <div class="row">
-                <!-- Order Summary -->
-                <div class="col-lg-8">
-                    <div class="card mb-4">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="fas fa-shipping-fast"></i> Shipping Information</h5>
-                            <div>
-                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="loadUserProfile()">
-                                    <i class="fas fa-user"></i> Load My Details
-                                </button>
-                                <button type="button" class="btn btn-sm btn-outline-success" onclick="updateProfileFromCheckout()" style="display: none;" id="updateProfileBtn">
-                                    <i class="fas fa-save"></i> Update My Profile
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="alert alert-info" id="profile-status" style="display: none;">
-                                <i class="fas fa-info-circle"></i>
-                                <span id="profile-message">Your saved profile details have been loaded.</span>
-                            </div>
-                            
-                            <form id="checkout-form">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">First Name *</label>
-                                        <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Last Name *</label>
-                                        <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Email Address *</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Phone Number *</label>
-                                    <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Address *</label>
-                                    <input type="text" class="form-control" id="address" placeholder="Enter your street address" required>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">City *</label>
-                                        <input type="text" class="form-control" id="city" placeholder="Enter your city" required>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">State *</label>
-                                        <input type="text" class="form-control" id="state" placeholder="Enter your state" required>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">ZIP Code *</label>
-                                        <input type="text" class="form-control" id="zipCode" placeholder="Enter your ZIP code" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="country" placeholder="Enter your country" value="United States">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-credit-card"></i> Payment Information</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle"></i>
-                                This is a demo checkout. No real payment will be processed.
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="cod" checked>
-                                <label class="form-check-label" for="cashOnDelivery">
-                                    <i class="fas fa-money-bill-wave"></i> Cash on Delivery
-                                </label>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="card">
-                                <label class="form-check-label" for="creditCard">
-                                    <i class="fas fa-credit-card"></i> Credit/Debit Card (Demo)
-                                </label>
-                            </div>
-                        </div>
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Shipping & Payment Forms -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Shipping Information Card -->
+            <div class="luxury-card overflow-hidden animate-fadeIn">
+                <div class="luxury-card-header flex justify-between items-center flex-wrap gap-3">
+                    <h5 class="text-xl font-bold luxury-heading flex items-center">
+                        <i class="fas fa-shipping-fast mr-3 text-amber-400"></i> Shipping Information
+                    </h5>
+                    <div class="flex gap-2 flex-wrap">
+                        <button type="button" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm font-semibold transition-all duration-300 border border-white/30" onclick="loadUserProfile()">
+                            <i class="fas fa-user mr-2"></i>Load My Details
+                        </button>
+                        <button type="button" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm font-semibold transition-all duration-300" style="display: none;" id="updateProfileBtn" onclick="updateProfileFromCheckout()">
+                            <i class="fas fa-save mr-2"></i>Update Profile
+                        </button>
                     </div>
                 </div>
-
-                <!-- Order Summary -->
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-shopping-cart"></i> Order Summary</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="order-items">
-                                <!-- Cart items will be loaded here -->
-                            </div>
-                            
-                            <hr>
-                            
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Subtotal:</span>
-                                <span id="subtotal">$0.00</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Shipping:</span>
-                                <span id="shipping">$0.00</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Tax:</span>
-                                <span id="tax">$0.00</span>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between mb-3">
-                                <strong>Total:</strong>
-                                <strong id="total">$0.00</strong>
-                            </div>
-                            
-                            <button class="btn btn-primary w-100" onclick="placeOrder()">
-                                <i class="fas fa-check"></i> Place Order
-                            </button>
-                            
-                            <a href="/cart" class="btn btn-outline-secondary w-100 mt-2">
-                                <i class="fas fa-arrow-left"></i> Back to Cart
-                            </a>
+                <div class="p-6">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg" id="profile-status" style="display: none;">
+                        <div class="flex items-center">
+                            <i class="fas fa-info-circle text-blue-500 mr-3"></i>
+                            <span id="profile-message" class="text-slate-700">Your saved profile details have been loaded.</span>
                         </div>
                     </div>
+                    
+                    <form id="checkout-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="luxury-label">First Name *</label>
+                                <input type="text" class="luxury-input" id="firstName" placeholder="Enter your first name" required>
+                            </div>
+                            <div>
+                                <label class="luxury-label">Last Name *</label>
+                                <input type="text" class="luxury-input" id="lastName" placeholder="Enter your last name" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="luxury-label">Email Address *</label>
+                            <input type="email" class="luxury-input" id="email" placeholder="Enter your email address" required>
+                        </div>
+                        <div>
+                            <label class="luxury-label">Phone Number *</label>
+                            <input type="tel" class="luxury-input" id="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div>
+                            <label class="luxury-label">Street Address *</label>
+                            <input type="text" class="luxury-input" id="address" placeholder="Enter your street address" required>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="luxury-label">City *</label>
+                                <input type="text" class="luxury-input" id="city" placeholder="Enter your city" required>
+                            </div>
+                            <div>
+                                <label class="luxury-label">State *</label>
+                                <input type="text" class="luxury-input" id="state" placeholder="Enter your state" required>
+                            </div>
+                            <div>
+                                <label class="luxury-label">ZIP Code *</label>
+                                <input type="text" class="luxury-input" id="zipCode" placeholder="Enter ZIP" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="luxury-label">Country</label>
+                            <input type="text" class="luxury-input" id="country" placeholder="Enter your country" value="United States">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Payment Information Card -->
+            <div class="luxury-card overflow-hidden animate-fadeIn" style="animation-delay: 0.1s">
+                <div class="luxury-card-header">
+                    <h5 class="text-xl font-bold luxury-heading flex items-center">
+                        <i class="fas fa-credit-card mr-3 text-amber-400"></i> Payment Method
+                    </h5>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                        <div class="flex items-center text-slate-700">
+                            <i class="fas fa-info-circle text-amber-500 mr-3"></i>
+                            <span class="text-sm">This is a demo checkout. No real payment will be processed.</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-200 rounded-xl hover:border-amber-400 hover:bg-slate-50 cursor-pointer transition-all duration-300">
+                            <input class="w-5 h-5 text-amber-600 focus:ring-amber-500 focus:ring-2 cursor-pointer" type="radio" name="paymentMethod" id="cashOnDelivery" value="cod" checked>
+                            <span class="ml-3 flex items-center text-slate-800 font-medium">
+                                <i class="fas fa-money-bill-wave text-green-600 mr-2"></i> Cash on Delivery
+                            </span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-200 rounded-xl hover:border-amber-400 hover:bg-slate-50 cursor-pointer transition-all duration-300">
+                            <input class="w-5 h-5 text-amber-600 focus:ring-amber-500 focus:ring-2 cursor-pointer" type="radio" name="paymentMethod" id="creditCard" value="card">
+                            <span class="ml-3 flex items-center text-slate-800 font-medium">
+                                <i class="fas fa-credit-card text-blue-600 mr-2"></i> Credit/Debit Card (Demo)
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div class="lg:col-span-1">
+            <div class="luxury-card sticky top-24 overflow-hidden animate-fadeIn" style="animation-delay: 0.2s">
+                <div class="luxury-card-header">
+                    <h5 class="text-xl font-bold luxury-heading flex items-center">
+                        <i class="fas fa-shopping-cart mr-3 text-amber-400"></i> Order Summary
+                    </h5>
+                </div>
+                <div class="p-6">
+                    <div id="order-items" class="space-y-3 mb-6">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    
+                    <div class="border-t border-slate-200 pt-4 space-y-3">
+                        <div class="flex justify-between text-slate-600">
+                            <span>Subtotal:</span>
+                            <span id="subtotal" class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Shipping:</span>
+                            <span id="shipping" class="font-semibold text-green-600">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Tax:</span>
+                            <span id="tax" class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="border-t border-slate-200 pt-3 flex justify-between items-center">
+                            <strong class="text-lg text-slate-900">Total:</strong>
+                            <strong id="total" class="text-2xl font-bold text-amber-600">$0.00</strong>
+                        </div>
+                    </div>
+                    
+                    <button class="luxury-btn-primary w-full mb-3 flex items-center justify-center" onclick="placeOrder()">
+                        <i class="fas fa-check mr-2"></i> Place Order
+                    </button>
+                    
+                    <a href="/cart" class="luxury-btn-outline w-full flex items-center justify-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Cart
+                    </a>
                 </div>
             </div>
         </div>
@@ -226,8 +244,30 @@ function showProfileStatus(message, type) {
     const statusDiv = document.getElementById('profile-status');
     const messageSpan = document.getElementById('profile-message');
     
-    statusDiv.className = `alert alert-${type}`;
+    // Map Bootstrap alert types to Tailwind colors
+    const colorMap = {
+        'success': 'bg-green-50 border-green-500',
+        'danger': 'bg-red-50 border-red-500',
+        'warning': 'bg-yellow-50 border-yellow-500',
+        'info': 'bg-blue-50 border-blue-500'
+    };
+    
+    const iconColorMap = {
+        'success': 'text-green-500',
+        'danger': 'text-red-500',
+        'warning': 'text-yellow-500',
+        'info': 'text-blue-500'
+    };
+    
+    statusDiv.className = `${colorMap[type] || 'bg-blue-50 border-blue-500'} border-l-4 p-4 mb-6 rounded-r-lg`;
     messageSpan.textContent = message;
+    messageSpan.className = 'text-slate-700';
+    
+    const icon = statusDiv.querySelector('i');
+    if (icon) {
+        icon.className = `fas fa-info-circle ${iconColorMap[type] || 'text-blue-500'} mr-3`;
+    }
+    
     statusDiv.style.display = 'block';
     
     // Hide after 5 seconds
@@ -241,10 +281,10 @@ function loadCartItems() {
     
     if (cart.length === 0) {
         document.getElementById('order-items').innerHTML = `
-            <div class="text-center py-4">
-                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
-                <p>Your cart is empty</p>
-                <a href="/products" class="btn btn-primary">Continue Shopping</a>
+            <div class="text-center py-8">
+                <i class="fas fa-shopping-cart text-6xl text-slate-300 mb-4"></i>
+                <p class="text-slate-600 mb-4">Your cart is empty</p>
+                <a href="/products" class="luxury-btn-primary inline-block">Continue Shopping</a>
             </div>
         `;
         return;
@@ -266,13 +306,13 @@ async function loadCartProducts(cart) {
                 subtotal += itemTotal;
                 
                 itemsHtml.push(`
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0">${product.name}</h6>
-                            <small class="text-muted">Qty: ${item.quantity}</small>
+                    <div class="flex justify-between items-start p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors duration-200">
+                        <div class="flex-1">
+                            <h6 class="font-semibold text-slate-900 mb-1">${product.name}</h6>
+                            <small class="text-slate-500">Qty: ${item.quantity}</small>
                         </div>
-                        <div class="text-end">
-                            <span class="fw-bold">$${itemTotal.toFixed(2)}</span>
+                        <div class="text-right ml-4">
+                            <span class="font-bold text-amber-600">$${itemTotal.toFixed(2)}</span>
                         </div>
                     </div>
                 `);
@@ -360,7 +400,7 @@ async function placeOrder() {
         // Show loading
         const placeOrderBtn = event.target;
         const originalText = placeOrderBtn.innerHTML;
-        placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Placing Order...';
+        placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Placing Order...';
         placeOrderBtn.disabled = true;
         
         console.log('Sending request to /api/v1/orders...');
@@ -398,7 +438,7 @@ async function placeOrder() {
         
         // Reset button
         const placeOrderBtn = event.target;
-        placeOrderBtn.innerHTML = '<i class="fas fa-check"></i> Place Order';
+        placeOrderBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Place Order';
         placeOrderBtn.disabled = false;
     }
 }

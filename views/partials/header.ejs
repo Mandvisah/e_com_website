@@ -1,71 +1,115 @@
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-lg"
-     style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); z-index: 1030;">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="/" style="color: white;">
-            <i class="fas fa-shopping-bag me-2" style="color: #ffd700;"></i>
-          M-Vi Shopio
-        </a>
-        
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/products">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/categories">Categories</a>
-                </li>
-            </ul>
+<nav class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-lg border-b border-slate-800 shadow-xl">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-shopping-bag text-slate-900 text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold text-white luxury-heading hidden sm:block">
+                    M-Vi <span class="text-yellow-500">Shopio</span>
+                </span>
+            </a>
             
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/cart">
-                        <i class="fas fa-shopping-cart"></i>
-                        Cart <span id="cart-count" class="badge rounded-pill" style="background-color: #ffd700; color: #333; font-weight: bold;">0</span>
-                    </a>
-                </li>
-                <li class="nav-item" id="admin-link" style="display: none;">
-                    <a class="nav-link" href="/admin">
-                        <i class="fas fa-cogs"></i> Admin
-                    </a>
-                </li>
-                <li class="nav-item" id="login-link">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item" id="register-link">
-                    <a class="nav-link" href="/register">Register</a>
-                </li>
-                <!-- User Dropdown (when logged in) -->
-                <li class="nav-item dropdown" id="user-dropdown" style="display: none;">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i> <span id="user-name">User</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/profile">
-                            <i class="fas fa-user"></i> My Profile
-                        </a></li>
-                        <li><a class="dropdown-item" href="/orders">
-                            <i class="fas fa-shopping-bag"></i> My Orders
-                        </a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" onclick="logout()">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a></li>
-                    </ul>
-                </li>
-                <!-- Simple logout link (fallback) -->
-                <li class="nav-item" id="logout-link" style="display: none;">
-                    <a class="nav-link" href="#" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </li>
-            </ul>
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="/" class="text-white hover:text-yellow-500 transition-colors duration-300 font-medium">Home</a>
+                <a href="/products" class="text-white hover:text-yellow-500 transition-colors duration-300 font-medium">Products</a>
+                <a href="/categories" class="text-white hover:text-yellow-500 transition-colors duration-300 font-medium">Categories</a>
+            </div>
+            
+            <!-- Right Side Actions -->
+            <div class="flex items-center gap-4">
+                <!-- Cart -->
+                <a href="/cart" class="relative group">
+                    <div class="w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center hover:bg-slate-700 transition-colors duration-300">
+                        <i class="fas fa-shopping-cart text-white"></i>
+                    </div>
+                    <span id="cart-count" class="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 text-xs font-bold rounded-full flex items-center justify-center">0</span>
+                </a>
+                
+                <!-- Admin Link (hidden by default) -->
+                <a href="/admin" id="admin-link" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors duration-300" style="display: none;">
+                    <i class="fas fa-cogs"></i>
+                    <span>Admin</span>
+                </a>
+                
+                <!-- Login/Register (shown when not logged in) -->
+                <a href="/login" id="login-link" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 text-white hover:text-yellow-500 transition-colors duration-300">
+                    Login
+                </a>
+                <a href="/register" id="register-link" class="hidden lg:inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+                    Register
+                </a>
+                
+                <!-- User Dropdown (shown when logged in) -->
+                <div class="relative" id="user-dropdown" style="display: none;">
+                    <button onclick="toggleUserDropdown()" class="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors duration-300">
+                        <i class="fas fa-user-circle text-xl"></i>
+                        <span id="user-name" class="hidden lg:inline">User</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-slate-800 rounded-xl shadow-2xl overflow-hidden border border-slate-700">
+                        <a href="/profile" class="flex items-center gap-3 px-4 py-3 text-white hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-user w-5"></i>
+                            <span>My Profile</span>
+                        </a>
+                        <a href="/orders" class="flex items-center gap-3 px-4 py-3 text-white hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-shopping-bag w-5"></i>
+                            <span>My Orders</span>
+                        </a>
+                        <div class="border-t border-slate-700"></div>
+                        <a href="#" onclick="logout(); return false;" class="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-sign-out-alt w-5"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Logout Link (fallback) -->
+                <a href="#" onclick="logout(); return false;" id="logout-link" class="hidden items-center gap-2 px-4 py-2 text-red-400 hover:text-red-300 transition-colors duration-300" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="hidden lg:inline">Logout</span>
+                </a>
+                
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center hover:bg-slate-700 transition-colors duration-300">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden pb-4">
+            <div class="flex flex-col gap-2">
+                <a href="/" class="px-4 py-3 text-white hover:bg-slate-800 rounded-xl transition-colors">Home</a>
+                <a href="/products" class="px-4 py-3 text-white hover:bg-slate-800 rounded-xl transition-colors">Products</a>
+                <a href="/categories" class="px-4 py-3 text-white hover:bg-slate-800 rounded-xl transition-colors">Categories</a>
+                <div class="border-t border-slate-800 my-2"></div>
+                <a href="/login" id="mobile-login-link" class="px-4 py-3 text-white hover:bg-slate-800 rounded-xl transition-colors">Login</a>
+                <a href="/register" id="mobile-register-link" class="px-4 py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-900 font-semibold rounded-xl text-center">Register</a>
+            </div>
         </div>
     </div>
 </nav>
+
+<script>
+function toggleUserDropdown() {
+    const menu = document.getElementById('user-dropdown-menu');
+    menu.classList.toggle('hidden');
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('user-dropdown');
+    const menu = document.getElementById('user-dropdown-menu');
+    if (dropdown && menu && !dropdown.contains(event.target)) {
+        menu.classList.add('hidden');
+    }
+});
+</script>

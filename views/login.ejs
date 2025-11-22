@@ -1,38 +1,117 @@
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h3><i class="fas fa-sign-in-alt me-2"></i>Login</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - M-Vi Shopio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="m-0 p-0 overflow-x-hidden">
+
+<style>
+    :root {
+        --luxury-navy: #0f172a;
+        --luxury-charcoal: #1e293b;
+        --luxury-gold: #d4af37;
+    }
+    .luxury-heading {
+        font-family: 'Playfair Display', serif;
+    }
+    .gold-text {
+        color: var(--luxury-gold);
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+    .pattern-dots::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+        background-size: 50px 50px;
+        opacity: 0.3;
+    }
+</style>
+
+<div class="min-h-screen flex bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <div class="absolute -top-1/2 -right-1/2 w-full h-full opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="flex flex-col lg:flex-row w-full max-w-6xl mx-auto shadow-2xl rounded-3xl overflow-hidden bg-white relative z-10 my-auto">
+        <!-- Left Panel - Form -->
+        <div class="flex-1 p-8 sm:p-12 lg:p-16 bg-white flex items-center justify-center">
+            <div class="w-full max-w-md">
+                <div class="text-center mb-10">
+                    <h2 class="luxury-heading text-4xl lg:text-5xl font-bold mb-3" style="color: var(--luxury-navy);">Welcome Back</h2>
+                    <p class="text-gray-600 text-base lg:text-lg">Sign in to your <span class="gold-text font-semibold">elite account</span></p>
                 </div>
-                <div class="card-body">
-                    <form id="login-form">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="remember-me">
-                            <label class="form-check-label" for="remember-me">
-                                Remember me
-                            </label>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sign-in-alt me-2"></i>Login
-                            </button>
-                        </div>
-                    </form>
+                
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-semibold mb-2" style="color: var(--luxury-navy);">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required
+                            class="w-full px-5 py-3.5 border-2 rounded-xl text-base transition-all duration-300 bg-gray-50 focus:outline-none focus:bg-white focus:ring-4 border-slate-700 focus:border-amber-600 focus:ring-amber-100">
+                    </div>
                     
-                    <hr>
+                    <div>
+                        <label for="password" class="block text-sm font-semibold mb-2" style="color: var(--luxury-navy);">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required
+                            class="w-full px-5 py-3.5 border-2 rounded-xl text-base transition-all duration-300 bg-gray-50 focus:outline-none focus:bg-white focus:ring-4 border-slate-700 focus:border-amber-600 focus:ring-amber-100">
+                    </div>
                     
-                    <div class="text-center">
-                        <p class="mb-0">Don't have an account? <a href="/register">Register here</a></p>
-                        <p class="mt-2"><a href="/forgot-password">Forgot your password?</a></p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember-me" class="w-4 h-4 mr-2 cursor-pointer accent-amber-600">
+                            <label for="remember-me" class="text-sm text-gray-600 cursor-pointer">Remember me</label>
+                        </div>
+                        <a href="/forgot-password" class="text-sm gold-text font-semibold hover:underline">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-4 text-white rounded-xl text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg hover:-translate-y-0.5 hover:shadow-xl mb-6" style="background: linear-gradient(135deg, var(--luxury-navy) 0%, var(--luxury-charcoal) 100%);">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                    </button>
+                </form>
+                
+                <div class="flex items-center my-6">
+                    <div class="flex-1 border-t border-gray-200"></div>
+                    <span class="px-4 text-sm text-gray-500">or</span>
+                    <div class="flex-1 border-t border-gray-200"></div>
+                </div>
+                
+                <div class="text-center text-base text-gray-600">
+                    <p>Don't have an account? <a href="/register" class="gold-text font-semibold hover:underline">Create one now</a></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel -->
+        <div class="hidden lg:flex lg:flex-1 bg-gradient-to-br from-slate-900 to-slate-800 p-12 xl:p-16 flex-col justify-center items-center text-white relative overflow-hidden pattern-dots">
+            <div class="relative z-10 text-center">
+                <h1 class="luxury-heading text-5xl xl:text-6xl font-bold mb-5 drop-shadow-lg">Hello, <span class="gold-text">Friend!</span></h1>
+                <p class="text-lg xl:text-xl opacity-95 leading-relaxed mb-12">Enter your credentials and continue your luxury shopping journey</p>
+                
+                <div class="grid grid-cols-2 gap-6 mt-12">
+                    <div class="bg-white/15 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                        <h3 class="text-4xl font-bold mb-1 gold-text">10K+</h3>
+                        <p class="text-sm opacity-90">Happy Customers</p>
+                    </div>
+                    <div class="bg-white/15 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                        <h3 class="text-4xl font-bold mb-1 gold-text">500+</h3>
+                        <p class="text-sm opacity-90">Products</p>
+                    </div>
+                    <div class="bg-white/15 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                        <h3 class="text-4xl font-bold mb-1 gold-text">4.9★</h3>
+                        <p class="text-sm opacity-90">Average Rating</p>
+                    </div>
+                    <div class="bg-white/15 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                        <h3 class="text-4xl font-bold mb-1 gold-text">24/7</h3>
+                        <p class="text-sm opacity-90">Support</p>
                     </div>
                 </div>
             </div>
@@ -99,3 +178,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
     }
 });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>
