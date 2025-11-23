@@ -549,12 +549,12 @@ function renderOrdersTable() {
             <td>
                 <div>
                     <div style="font-weight: 600; color: #1e293b;">${order.user?.name || 'Unknown User'}</div>
-                    <div style="font-size: 0.85rem; color: #64748b;">${order.shippingAddress?.email || order.user?.email || ''}</div>
+                    <div style="font-size: 0.85rem; color: #64748b;">${order.user?.email || ''}</div>
                 </div>
             </td>
             <td>
-                <div style="font-weight: 500; color: #334155;">${new Date(order.createdAt).toLocaleDateString()}</div>
-                <div style="font-size: 0.85rem; color: #64748b;">${new Date(order.createdAt).toLocaleTimeString()}</div>
+                <div style="font-weight: 500; color: #334155;">${new Date(order.dateOrdered || order.createdAt).toLocaleDateString()}</div>
+                <div style="font-size: 0.85rem; color: #64748b;">${new Date(order.dateOrdered || order.createdAt).toLocaleTimeString()}</div>
             </td>
             <td>
                 <span style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe); color: #3730a3; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.75rem; font-weight: 600;">
@@ -567,7 +567,7 @@ function renderOrdersTable() {
                 </span>
             </td>
             <td>
-                <span class="status-badge status-${order.status || 'pending'}">${order.status || 'pending'}</span>
+                <span class="status-badge status-${(order.status || 'pending').toLowerCase()}">${order.status || 'Pending'}</span>
             </td>
             <td>
                 <span class="payment-badge payment-${order.paymentMethod === 'cod' ? 'cod' : 'card'}">
@@ -663,8 +663,10 @@ async function viewOrderDetails(orderId) {
                     </h6>
                     <div class="space-y-2">
                         <p class="text-sm"><span style="font-weight: 600; color: #475569;">Order ID:</span> <span style="font-family: 'Playfair Display', serif; color: var(--luxury-navy); font-weight: 700;">#${order._id.slice(-8).toUpperCase()}</span></p>
-                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Date:</span> ${new Date(order.createdAt).toLocaleString()}</p>
-                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Status:</span> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Customer:</span> ${order.user?.name || 'Unknown User'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Email:</span> ${order.user?.email || ''}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Date:</span> ${new Date(order.dateOrdered || order.createdAt).toLocaleString()}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Status:</span> <span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span></p>
                         <p class="text-sm"><span style="font-weight: 600; color: #475569;">Payment Method:</span> ${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Credit Card'}</p>
                         <p class="text-sm"><span style="font-weight: 600; color: #475569;">Total:</span> <span style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #059669; font-weight: 700;">$${order.totalPrice.toFixed(2)}</span></p>
                     </div>
@@ -674,11 +676,12 @@ async function viewOrderDetails(orderId) {
                         <i class="fas fa-shipping-fast text-yellow-600 mr-2"></i>Shipping Address
                     </h6>
                     <div class="space-y-2">
-                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Name:</span> ${order.shippingAddress?.firstName} ${order.shippingAddress?.lastName}</p>
-                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Email:</span> ${order.shippingAddress?.email}</p>
-                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Phone:</span> ${order.shippingAddress?.phone}</p>
-                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Address:</span> ${order.shippingAddress?.address}</p>
-                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">City:</span> ${order.shippingAddress?.city}, ${order.shippingAddress?.state} ${order.shippingAddress?.zipCode}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Phone:</span> ${order.phone || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Address:</span> ${order.shippingAddress1 || 'N/A'}</p>
+                        ${order.shippingAddress2 ? `<p class="text-sm"><span style="font-weight: 600; color: #475569;">Address 2:</span> ${order.shippingAddress2}</p>` : ''}
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">City:</span> ${order.city || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Zip Code:</span> ${order.zip || 'N/A'}</p>
+                        <p class="text-sm"><span style="font-weight: 600; color: #475569;">Country:</span> ${order.country || 'N/A'}</p>
                     </div>
                 </div>
             </div>
@@ -697,14 +700,30 @@ async function viewOrderDetails(orderId) {
                         </tr>
                     </thead>
                     <tbody>
-                        ${order.orderItems?.map(item => `
+                        ${order.orderItems?.map(item => {
+                            const product = item.product;
+                            const productName = product?.name || 'Unknown Product';
+                            const productPrice = product?.price || 0;
+                            const quantity = item.quantity || 1;
+                            const itemTotal = productPrice * quantity;
+                            
+                            return `
                             <tr>
-                                <td style="font-weight: 600;">${item.name || item.product?.name || 'Unknown Product'}</td>
-                                <td><span style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe); color: #3730a3; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">${item.quantity}</span></td>
-                                <td style="color: #059669; font-weight: 600;">$${(item.price || 0).toFixed(2)}</td>
-                                <td style="color: #059669; font-weight: 700; font-size: 1.1rem;">$${((item.price || 0) * item.quantity).toFixed(2)}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        ${product?.image ? `<img src="${product.image}" alt="${productName}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 2px solid #e2e8f0;">` : ''}
+                                        <div>
+                                            <div style="font-weight: 600; color: #1e293b;">${productName}</div>
+                                            ${product?.category?.name ? `<div style="font-size: 0.75rem; color: #64748b;">${product.category.name}</div>` : ''}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe); color: #3730a3; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">${quantity}</span></td>
+                                <td style="color: #059669; font-weight: 600;">$${productPrice.toFixed(2)}</td>
+                                <td style="color: #059669; font-weight: 700; font-size: 1.1rem;">$${itemTotal.toFixed(2)}</td>
                             </tr>
-                        `).join('') || '<tr><td colspan="4" style="text-align: center; color: #64748b;">No items found</td></tr>'}
+                            `;
+                        }).join('') || '<tr><td colspan="4" style="text-align: center; color: #64748b;">No items found</td></tr>'}
                     </tbody>
                 </table>
             </div>

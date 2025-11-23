@@ -68,7 +68,13 @@ router.get('/', async (req, res) => {
         const totalOrders = await Order.countDocuments(filter);
         const orders = await Order.find(filter)
             .populate('user', 'name email')
-            .populate('orderItems')
+            .populate({
+                path: 'orderItems',
+                populate: {
+                    path: 'product',
+                    populate: 'category'
+                }
+            })
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit);
@@ -257,8 +263,8 @@ router.get('/get/userorders/:userid', async (req, res) => {
 router.get('/stats', authJwt, async (req, res) => {
     try {
         const totalOrders = await Order.countDocuments();
-        const pendingOrders = await Order.countDocuments({ status: 'pending' });
-        const processingOrders = await Order.countDocuments({ status: 'processing' });
+        const pendingOrders = await Order.countDocuments({ status: { $regex: /^pending$/i } });
+        const processingOrders = await Order.countDocuments({ status: { $regex: /^processing$/i } });
         
         const revenueResult = await Order.aggregate([
             { $group: { _id: null, total: { $sum: '$totalPrice' } } }
