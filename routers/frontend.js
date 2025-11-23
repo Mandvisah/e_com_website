@@ -116,20 +116,4 @@ router.get('/admin/users', (req, res) => {
     res.render('admin-users', { title: 'Manage Users - Admin - E-Commerce Store' });
 });
 
-// Test cart functionality page
-router.get('/test-cart', (req, res) => {
-    res.render('test-cart', { title: 'Cart Test - E-Commerce Store', layout: false });
-});
-
-// Minimal cart test page
-router.get('/minimal-test', (req, res) => {
-    res.render('minimal-test', { title: 'Minimal Cart Test - E-Commerce Store', layout: false });
-});
-
-// Logout test page
-router.get('/logout-test', (req, res) => {
-    res.render('logout-test', { title: 'Logout Test - E-Commerce Store', layout: false });
-});
-
-
 module.exports = router;
