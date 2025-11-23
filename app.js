@@ -39,10 +39,6 @@ app.use(session({
 app.use(express.static(__dirname + '/public'));
 app.use('/uploads', express.static(__dirname + '/public/uploads')); // Serve static files from the uploads directory
 
-// JWT middleware only for API routes
-app.use(api, authJwt());
-app.use(errorHandler); // Error handler middleware
-
 //router
 const categoriesRouter = require('./routers/categories');
 const usersRouter = require('./routers/users');
@@ -53,11 +49,14 @@ const frontendRouter = require('./routers/frontend');
 // Frontend Routes (serve EJS templates)
 app.use('/', frontendRouter);
 
-// API Routes
+// API Routes - JWT handled individually in each router
 app.use(api + 'categories', categoriesRouter);
 app.use(api + 'users', usersRouter);
 app.use(api + 'orders', ordersRouter);
 app.use(api + 'products', productsRouter);
+
+// Error handler middleware
+app.use(errorHandler);
 
 //database connection
 mongoose.connect(process.env.MONGO_URL, {

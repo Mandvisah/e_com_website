@@ -152,7 +152,7 @@
                         </div>
                     </div>
                     
-                    <button class="luxury-btn-primary w-full mb-3 flex items-center justify-center" onclick="placeOrder()">
+                    <button class="luxury-btn-primary w-full mb-3 flex items-center justify-center" onclick="placeOrder(event)">
                         <i class="fas fa-check mr-2"></i> Place Order
                     </button>
                     
@@ -337,8 +337,13 @@ async function loadCartProducts(cart) {
     }
 }
 
-async function placeOrder() {
+async function placeOrder(event) {
     console.log('=== Place Order Function Called ===');
+    
+    // Prevent default if event exists
+    if (event) {
+        event.preventDefault();
+    }
     
     const form = document.getElementById('checkout-form');
     
@@ -368,9 +373,9 @@ async function placeOrder() {
         return;
     }
     
-    if (!user._id) {
-        alert('User information not found. Please login again.');
-        window.location.href = '/login?redirect=checkout';
+    if (!token) {
+        alert('Please login to place an order');
+        window.location.href = '/login?redirect=/checkout';
         return;
     }
 
@@ -390,15 +395,15 @@ async function placeOrder() {
         zip: document.getElementById('zipCode').value,
         country: document.getElementById('country').value,
         phone: document.getElementById('phone').value,
-        status: 'pending',
-        user: user._id
+        status: 'Pending',
+        paymentMethod: paymentMethod
     };
     
     console.log('Final order data:', orderData);
     
     try {
-        // Show loading
-        const placeOrderBtn = event.target;
+        // Show loading - find button properly
+        const placeOrderBtn = event ? event.target : document.querySelector('button[onclick*="placeOrder"]');
         const originalText = placeOrderBtn.innerHTML;
         placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Placing Order...';
         placeOrderBtn.disabled = true;

@@ -35,7 +35,7 @@ const orderSchema = new mongoose.Schema({
         default: 'Pending',
         required: true
     },
-    totalprice: {
+    totalPrice: {
         type: Number,
         required: true
     },
@@ -43,6 +43,10 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    paymentMethod: {
+        type: String,
+        default: 'cod'
     },
     dateOrdered: {
         type: Date,

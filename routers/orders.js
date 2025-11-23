@@ -107,11 +107,12 @@ router.get('/:id', async (req, res) => {
     res.send(order);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authJwt, async (req, res) => {
     try {
         console.log('=== Order Creation Request Received ===');
         console.log('Request body:', JSON.stringify(req.body, null, 2));
         console.log('Request headers:', req.headers.authorization ? 'Token present' : 'No token');
+        console.log('Authenticated user:', req.user);
         
         // Validate request body
         if (!req.body.orderItems || !Array.isArray(req.body.orderItems) || req.body.orderItems.length === 0) {
@@ -123,7 +124,7 @@ router.post('/', async (req, res) => {
         }
 
         // Validate required fields
-        const requiredFields = ['shippingAddress1', 'city', 'zip', 'country', 'phone', 'user'];
+        const requiredFields = ['shippingAddress1', 'city', 'zip', 'country', 'phone'];
         for (const field of requiredFields) {
             if (!req.body[field]) {
                 console.log(`Validation failed: ${field} is missing`);
@@ -133,13 +134,28 @@ router.post('/', async (req, res) => {
                 });
             }
         }
+        
+        // Use authenticated user ID instead of body.user
+        const userId = req.user.userId;
 
         console.log('Validation passed, creating order items...');
+        
+        // Import Product model for stock validation
+        const { Product } = require('../models/product');
 
         const orderItemsIds = Promise.all(
             req.body.orderItems.map(async orderItem => {
                 if (!orderItem.quantity || !orderItem.product) {
                     throw new Error('Each order item must have quantity and product');
+                }
+                
+                // Verify product exists and has sufficient stock
+                const product = await Product.findById(orderItem.product);
+                if (!product) {
+                    throw new Error(`Product ${orderItem.product} not found`);
+                }
+                if (product.countInStock < orderItem.quantity) {
+                    throw new Error(`Insufficient stock for ${product.name}. Available: ${product.countInStock}, Requested: ${orderItem.quantity}`);
                 }
                 
                 let newOrderItem = new OrderItem({
@@ -168,14 +184,15 @@ router.post('/', async (req, res) => {
     let order = new Order({
       orderItems: orderItemsIdsResolved,
       shippingAddress1: req.body.shippingAddress1,
-      shippingAddress2: req.body.shippingAddress2,
+      shippingAddress2: req.body.shippingAddress2 || '',
       city: req.body.city,
       zip: req.body.zip,
       country: req.body.country,
       phone: req.body.phone,
-      status: req.body.status,
-      totalPrice: finalTotalPrice, // Use the calculated total price
-      user: req.body.user,
+      status: req.body.status || 'Pending',
+      totalPrice: finalTotalPrice,
+      user: userId,
+      paymentMethod: req.body.paymentMethod || 'cod',
     });
 
     console.log('Saving order:', order);
@@ -198,35 +215,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
-    const order = await Order.findByIdAndUpdate(
-        req.params.id,
-        {
-            status: req.body.status
-        },
-        { new: true, runValidators: true }
-    );
-    if (!order) {
-        return res.status(404).send({ message: 'The order cannot be updated', success: false });
-    }
-    res.send(order);
-});
-
-router.delete('/:id', (req, res) => {
-    Order.findByIdAndRemove(req.params.id).then(async order => {  
-        if (order) {
-          await order.orderItems.map(async orderItem => {
-            await OrderItem.findByIdAndRemove(orderItem);
-          })
-            return res.status(200).json({ message: 'Order deleted successfully', success: true });
-        } else {
-            return res.status(404).json({ message: 'Order not found', success: false });
-        }
-    })
-    .catch(err => {
-        return res.status(400).json({ error: err.message, success: false });
-    });
-});
+// Removed duplicate routes - using authJwt protected versions below
 
 router.get('/get/totalsales', async (req, res) => {
     const totalSales = await Order.aggregate([
