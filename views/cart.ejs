@@ -756,25 +756,76 @@ document.addEventListener('DOMContentLoaded', function() {
         checkoutForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            console.log('=== ORDER SUBMISSION DEBUG ===');
+            
+            // Get user from localStorage
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const userId = user._id || user.id;
+            
+            console.log('User:', user);
+            console.log('User ID:', userId);
+            console.log('Cart:', cart);
+            
+            if (!userId) {
+                alert('Please login to place an order.');
+                window.location.href = '/login?redirect=/cart';
+                return;
+            }
+            
+            if (!cart || cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Check payment method
+            const paymentMethodElement = document.querySelector('input[name="payment-method"]:checked');
+            if (!paymentMethodElement) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            // Prepare order items in backend format
+            const orderItems = cart.map(item => ({
+                product: item.productId,
+                quantity: item.quantity
+            }));
+            
+            console.log('Order items:', orderItems);
+            
+            // Validate all required fields
+            const address = document.getElementById('checkout-address').value.trim();
+            const city = document.getElementById('checkout-city').value.trim();
+            const zip = document.getElementById('checkout-zip').value.trim();
+            const country = document.getElementById('checkout-country').value.trim();
+            const phone = document.getElementById('checkout-phone').value.trim();
+            
+            if (!address || !city || !zip || !country || !phone) {
+                alert('Please fill in all required fields:\n- Address\n- City\n- ZIP Code\n- Country\n- Phone');
+                return;
+            }
+            
+            // Prepare form data matching backend API requirements
             const formData = {
-                name: document.getElementById('checkout-name').value,
-                email: document.getElementById('checkout-email').value,
-                phone: document.getElementById('checkout-phone').value,
-                altPhone: document.getElementById('checkout-alt-phone').value,
-                address: document.getElementById('checkout-address').value,
-                city: document.getElementById('checkout-city').value,
-                state: document.getElementById('checkout-state').value,
-                zip: document.getElementById('checkout-zip').value,
-                country: document.getElementById('checkout-country').value,
-                paymentMethod: document.querySelector('input[name="payment-method"]:checked').value,
-                notes: document.getElementById('checkout-notes').value,
-                items: cart,
-                subtotal: document.getElementById('subtotal').textContent,
-                shipping: document.getElementById('shipping').textContent,
-                tax: document.getElementById('tax').textContent,
-                discount: promoApplied ? document.getElementById('discount').textContent : '$0.00',
-                total: document.getElementById('total').textContent
+                user: userId,
+                orderItems: orderItems,
+                shippingAddress1: address,
+                shippingAddress2: '',
+                city: city,
+                zip: zip,
+                country: country,
+                phone: phone,
+                status: 'Pending'
             };
+            
+            console.log('=== FINAL FORM DATA ===');
+            console.log('Form data being sent:', JSON.stringify(formData, null, 2));
+            console.log('User ID:', formData.user);
+            console.log('Order Items count:', formData.orderItems.length);
+            console.log('Address:', formData.shippingAddress1);
+            console.log('City:', formData.city);
+            console.log('ZIP:', formData.zip);
+            console.log('Country:', formData.country);
+            console.log('Phone:', formData.phone);
             
             try {
                 // Show loading state
@@ -783,26 +834,72 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.disabled = true;
                 
                 // Send order to backend
+                console.log('Sending POST request to /api/v1/orders...');
                 const response = await axios.post('/api/v1/orders', formData, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('userToken')}`
                     }
                 });
                 
-                if (response.data) {
+                console.log('=== ORDER SUCCESS ===');
+                console.log('Response status:', response.status);
+                console.log('Response data:', response.data);
+                
+                if (response.data && response.data._id) {
                     // Clear cart
                     localStorage.removeItem('cart');
                     cart = [];
                     
+                    // Update cart count
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+                    
+                    // Close modal
+                    closeCheckoutForm();
+                    
                     // Show success message
-                    alert('Order placed successfully! You will receive a confirmation email shortly.');
+                    if (typeof showToast === 'function') {
+                        showToast('Order placed successfully!', 'success');
+                    } else {
+                        alert('Order placed successfully! You will receive a confirmation email shortly.');
+                    }
                     
                     // Redirect to orders page
-                    window.location.href = '/orders';
+                    setTimeout(() => {
+                        window.location.href = '/orders';
+                    }, 1500);
                 }
             } catch (error) {
-                console.error('Error placing order:', error);
-                alert('Failed to place order. Please try again.');
+                console.error('=== ORDER ERROR DETAILS ===');
+                console.error('Full error:', error);
+                console.error('Error message:', error.message);
+                console.error('Error response:', error.response);
+                console.error('Error response data:', error.response?.data);
+                console.error('Error response status:', error.response?.status);
+                console.error('Error response headers:', error.response?.headers);
+                
+                let errorMsg = 'Failed to place order.\n\n';
+                
+                if (error.response?.data?.message) {
+                    errorMsg += 'Error: ' + error.response.data.message;
+                } else if (error.response?.status === 401) {
+                    errorMsg += 'Error: Authentication failed. Please login again.';
+                } else if (error.response?.status === 400) {
+                    errorMsg += 'Error: Invalid request. Please check:\n';
+                    errorMsg += '- All required fields are filled\n';
+                    errorMsg += '- Cart has items\n';
+                    errorMsg += '- Payment method is selected';
+                } else if (error.response?.status === 500) {
+                    errorMsg += 'Error: Server error. Please try again or contact support.';
+                } else if (error.message) {
+                    errorMsg += 'Error: ' + error.message;
+                } else {
+                    errorMsg += 'Unknown error. Please check the console for details.';
+                }
+                
+                // Show detailed alert
+                alert(errorMsg + '\n\nCheck browser console (F12) for more details.');
                 
                 // Reset button
                 const submitBtn = e.target.querySelector('button[type="submit"]');
