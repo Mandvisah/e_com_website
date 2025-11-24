@@ -210,19 +210,20 @@ document.getElementById('register-form').addEventListener('submit', async functi
         console.log('Register response:', response.data);
         
         if (response.data.requiresVerification) {
-            // Redirect to OTP verification page with email
+            // Redirect to OTP verification page
             const email = response.data.email || registerData.email;
-            window.location.href = `/verify-email?email=${encodeURIComponent(email)}`;
-        } else {
-            // Auto-verified due to email failure
-            const successMessage = response.data.message || 'Registration successful!';
             
-            if (typeof showToast === 'function') {
-                showToast(successMessage, 'success');
+            // Show OTP in alert if email failed
+            if (response.data.otpForTesting) {
+                alert(`📧 Email delivery failed!\n\n🔑 Your verification code is:\n\n${response.data.otpForTesting}\n\nPlease enter this code on the next page.`);
             } else {
-                alert(successMessage);
+                alert('📧 Verification code sent to your email! Please check your inbox.');
             }
             
+            window.location.href = `/verify-email?email=${encodeURIComponent(email)}`;
+        } else {
+            // Fallback
+            alert('Registration successful! Please login.');
             setTimeout(() => {
                 window.location.href = '/login';
             }, 2000);

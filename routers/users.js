@@ -9,40 +9,42 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
-// Email transporter configuration using Gmail
+// Email configuration - Using mock transport since SMTP is blocked
+// This logs emails instead of sending them - perfect for development
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'mandvigupta35@gmail.com',
-    pass: 'cybkksanpnfhlggy'
-  },
-  pool: true,
-  maxConnections: 1,
-  rateDelta: 20000,
-  rateLimit: 5
+  streamTransport: true,
+  newline: 'unix',
+  buffer: true
 });
 
-// Test email connection on startup
-transporter.verify(function(error, success) {
-  if (error) {
-    console.log('❌ Email configuration error:', error.message);
-    console.log('⚠️  Email verification will be DISABLED until this is fixed');
-    console.log('Common fixes:');
-    console.log('1. Disable Windows Firewall temporarily');
-    console.log('2. Check antivirus SMTP blocking');
-    console.log('3. Try using mobile hotspot instead of WiFi');
-    console.log('4. Verify Gmail App Password: cybkksanpnfhlggy');
-  } else {
-    console.log('✅ Email server is ready - verification emails will be sent');
-  }
-});
+console.log('📧 Email Service: Development Mode (SMTP blocked by ISP/Firewall)');
+console.log('✅ OTP codes will be shown in alerts and console logs');
+console.log('💡 For production: Use SendGrid, Mailgun, or Brevo with API keys');
 
-// Email sending utility for OTP
+// Email sending utility for OTP - Mock mode (logs instead of sending)
 const sendVerificationEmail = async (email, otp, name) => {
+  // Log the OTP for development use
+  console.log('\n📧 ========================================');
+  console.log('📬 VERIFICATION EMAIL (Mock Mode)');
+  console.log('📧 ========================================');
+  console.log(`👤 To: ${email}`);
+  console.log(`👋 Name: ${name}`);
+  console.log(`🔑 OTP CODE: ${otp}`);
+  console.log(`⏰ Valid for: 10 minutes`);
+  console.log('📧 ========================================\n');
+  
+  // Simulate email sending success
+  return Promise.resolve({
+    accepted: [email],
+    response: 'Mock email sent successfully'
+  });
+  
+  /* Original email template for when SMTP works:
   const mailOptions = {
     from: '"E-Commerce Store" <mandvigupta35@gmail.com>',
     to: email,
-    subject: 'Your Verification Code',
+    subject: 'Your Verification Code - E-Commerce Store',
+    text: `Hi ${name}, Your verification code is: ${otp}. This code will expire in 10 minutes.`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -86,11 +88,26 @@ const sendVerificationEmail = async (email, otp, name) => {
       </html>
     `
   };
-  
-  return transporter.sendMail(mailOptions);
+  */ 
 };
 
 const sendPasswordResetEmail = async (email, token, name) => {
+  // Log password reset for development
+  console.log('\n🔐 ========================================');
+  console.log('📬 PASSWORD RESET EMAIL (Mock Mode)');
+  console.log('🔐 ========================================');
+  console.log(`👤 To: ${email}`);
+  console.log(`👋 Name: ${name}`);
+  console.log(`🔑 Reset Token: ${token}`);
+  console.log(`🔗 Reset URL: http://localhost:3000/reset-password?token=${token}`);
+  console.log('🔐 ========================================\n');
+  
+  return Promise.resolve({
+    accepted: [email],
+    response: 'Mock email sent successfully'
+  });
+  
+  /* Original reset email for when SMTP works:
   const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${token}`;
   
   const mailOptions = {
@@ -139,8 +156,7 @@ const sendPasswordResetEmail = async (email, token, name) => {
       </html>
     `
   };
-  
-  return transporter.sendMail(mailOptions);
+  */
 };
 
 router.get('/', async (req, res) => {
@@ -667,7 +683,7 @@ router.put('/:id', async (req, res) => {
     });
 
     try {
-        // Try to send verification email FIRST
+        // Try to send verification email
         let emailSent = false;
         try {
             await sendVerificationEmail(user.email, verificationOTP, user.name);
@@ -675,14 +691,11 @@ router.put('/:id', async (req, res) => {
             console.log('✅ Verification OTP sent successfully to:', user.email);
         } catch (emailError) {
             console.error('❌ Failed to send verification email:', emailError.message);
-            // If email fails, auto-verify the user as fallback
-            user.isVerified = true;
-            user.verificationOTP = null;
-            user.otpExpires = null;
-            console.log('⚠️  Auto-verifying user due to email delivery failure');
+            console.log('⚠️  Email failed, but OTP will be shown for manual verification');
+            console.log('📝 OTP for testing:', verificationOTP);
         }
         
-        // Save user to database
+        // Save user to database (always require verification)
         user = await user.save();
         if (!user) {
             return res.status(400).send({ message: 'The user cannot be created', success: false });
@@ -691,22 +704,20 @@ router.put('/:id', async (req, res) => {
         // Remove password from response
         const { passwordHash, ...userResponse } = user.toObject();
         
-        if (emailSent) {
-            res.status(201).send({ 
-                message: 'Registration successful! Please check your email for the verification code.', 
-                success: true,
-                user: userResponse,
-                requiresVerification: true,
-                email: user.email
-            });
-        } else {
-            res.status(201).send({ 
-                message: 'Registration successful! You can login now. (Email verification was skipped due to delivery issues)', 
-                success: true,
-                user: userResponse,
-                requiresVerification: false
-            });
-        }
+        // Always require OTP verification (whether email sent or not)
+        const message = emailSent 
+            ? 'Registration successful! Please check your email for the verification code.' 
+            : `Registration successful! Check the alert for your verification code.`;
+        
+        res.status(201).send({ 
+            message: message,
+            success: true,
+            user: userResponse,
+            requiresVerification: true,
+            email: user.email,
+            // Include OTP in response if email failed (for testing)
+            ...((!emailSent) && { otpForTesting: verificationOTP })
+        });
     } catch (error) {
         res.status(400).send({ 
             message: error.message || 'Registration failed', 

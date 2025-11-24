@@ -15,7 +15,11 @@ function authJwt() {
             {url: /\/api\/v1\/categories(.*)/, methods: ['GET','OPTIONS']},
             {url: /\/api\/v1\/users\/login/, methods: ['POST']},
             {url: /\/api\/v1\/users\/register/, methods: ['POST']},
-            {url: /\/api\/v1\/users\/verify/, methods: ['GET']},
+            {url: /\/api\/v1\/users\/verify-otp/, methods: ['POST']}, // OTP verification
+            {url: /\/api\/v1\/users\/resend-otp/, methods: ['POST']}, // Resend OTP
+            {url: /\/api\/v1\/users\/forgot-password/, methods: ['POST']}, // Password reset request
+            {url: /\/api\/v1\/users\/reset-password/, methods: ['POST']}, // Password reset confirm
+            {url: /\/api\/v1\/users\/cleanup-test-users/, methods: ['DELETE']}, // Cleanup for testing
             {url: /\/api\/v1\/users$/, methods: ['POST']}, // For registration endpoint
             // Frontend routes (non-API)
             {url: /^(?!\/api).*/, methods: ['GET','OPTIONS']},

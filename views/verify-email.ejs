@@ -319,13 +319,13 @@
                 });
 
                 if (response.data.success) {
-                    // Store token if auto-login is provided
+                    // Store token for auto-login
                     if (response.data.token) {
-                        localStorage.setItem('token', response.data.token);
+                        localStorage.setItem('userToken', response.data.token);
                         localStorage.setItem('user', JSON.stringify(response.data.user));
                     }
                     
-                    showAlert('Email verified successfully! Redirecting...', 'success');
+                    showAlert('✅ Email verified successfully! Logging you in...', 'success');
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 1500);
