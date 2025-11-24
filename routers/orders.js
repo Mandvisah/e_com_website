@@ -1,5 +1,6 @@
 const {Order} = require('../models/order');
 const {OrderItem} = require('../models/order-item');
+const {Product} = require('../models/product');
 const express = require('express'); 
 const router = express.Router();
 const jwt = require('jsonwebtoken');

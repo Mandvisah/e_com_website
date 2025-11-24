@@ -169,6 +169,26 @@ document.getElementById('login-form').addEventListener('submit', async function(
         console.error('Error response:', error.response?.data);
         const message = error.response?.data?.message || 'Login failed. Please try again.';
         
+        // Check if email verification is needed
+        if (error.response?.data?.needsVerification) {
+            const resend = confirm(message + '\n\nWould you like to resend the verification code?');
+            if (resend) {
+                try {
+                    await axios.post('/api/v1/users/resend-otp', { email: loginData.email });
+                    alert('Verification code sent! Redirecting to verification page...');
+                    setTimeout(() => {
+                        window.location.href = `/verify-email?email=${encodeURIComponent(loginData.email)}`;
+                    }, 1000);
+                } catch (resendError) {
+                    alert('Failed to resend verification code. Please try again later.');
+                }
+            } else {
+                // User declined, redirect to verification page anyway
+                window.location.href = `/verify-email?email=${encodeURIComponent(loginData.email)}`;
+            }
+            return;
+        }
+        
         if (typeof showToast === 'function') {
             showToast(message, 'error');
         } else {

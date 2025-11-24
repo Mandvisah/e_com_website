@@ -47,6 +47,37 @@ router.get('/register', (req, res) => {
     res.render('register', { title: 'Register - E-Commerce Store', layout: false });
 });
 
+// Email verification (OTP) page
+router.get('/verify-email', (req, res) => {
+    res.render('verify-email', { 
+        title: 'Verify Email - E-Commerce Store', 
+        layout: false,
+        email: req.query.email 
+    });
+});
+
+// Forgot password page
+router.get('/forgot-password', (req, res) => {
+    res.render('forgot-password', { title: 'Forgot Password - E-Commerce Store', layout: false });
+});
+
+// Reset password page
+router.get('/reset-password', (req, res) => {
+    res.render('reset-password', { 
+        title: 'Reset Password - E-Commerce Store', 
+        layout: false,
+        token: req.query.token 
+    });
+});
+
+// Cleanup test users page (for development)
+router.get('/cleanup-users', (req, res) => {
+    res.render('cleanup-users', { 
+        title: 'Cleanup Test Users - E-Commerce Store', 
+        layout: false
+    });
+});
+
 // Checkout page
 router.get('/checkout', (req, res) => {
     res.render('checkout', { title: 'Checkout - E-Commerce Store' });
