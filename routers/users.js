@@ -26,9 +26,9 @@ const transporter = nodemailer.createTransport({
 // Email sending utility for OTP
 const sendVerificationEmail = async (email, otp, name) => {
     const mailOptions = {
-    from: '"E-Commerce Store" <mandvigupta35@gmail.com>',
+    from: '"M-Vi Shopio" <mandvigupta35@gmail.com>',
     to: email,
-    subject: 'Your Verification Code - E-Commerce Store',
+    subject: 'Your Verification Code - M-Vi Shopio',
     text: `Hi ${name}, Your verification code is: ${otp}. This code will expire in 10 minutes.`,
     html: `
       <!DOCTYPE html>
@@ -66,7 +66,7 @@ const sendVerificationEmail = async (email, otp, name) => {
           </div>
           <div class="footer">
             <p>If you didn't create an account with us, please ignore this email.</p>
-            <p>© 2025 E-Commerce Store. All rights reserved.</p>
+            <p>© 2025 M-Vi Shopio. All rights reserved.</p>
           </div>
         </div>
       </body>
@@ -88,7 +88,7 @@ const sendPasswordResetEmail = async (email, token, name) => {
   const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${token}`;
   
   const mailOptions = {
-    from: '"E-Commerce Store" <mandvigupta35@gmail.com>',
+    from: '"M-Vi Shopio" <mandvigupta35@gmail.com>',
     to: email,
     subject: 'Reset Your Password',
     html: `
@@ -126,7 +126,7 @@ const sendPasswordResetEmail = async (email, token, name) => {
           </div>
           <div class="footer">
             <p>If you didn't request a password reset, please ignore this email or contact support if you have concerns.</p>
-            <p>© 2025 E-Commerce Store. All rights reserved.</p>
+            <p>© 2025 M-Vi Shopio. All rights reserved.</p>
           </div>
         </div>
       </body>
