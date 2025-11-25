@@ -213,12 +213,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
             // Redirect to OTP verification page
             const email = response.data.email || registerData.email;
             
-            // Show OTP in alert if email failed
-            if (response.data.otpForTesting) {
-                alert(`📧 Email delivery failed!\n\n🔑 Your verification code is:\n\n${response.data.otpForTesting}\n\nPlease enter this code on the next page.`);
-            } else {
-                alert('📧 Verification code sent to your email! Please check your inbox.');
-            }
+            alert('📧 Verification code sent to your email! Please check your inbox.');
             
             window.location.href = `/verify-email?email=${encodeURIComponent(email)}`;
         } else {

@@ -9,38 +9,23 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
-// Email configuration - Using mock transport since SMTP is blocked
-// This logs emails instead of sending them - perfect for development
+// Email configuration
 const transporter = nodemailer.createTransport({
-  streamTransport: true,
-  newline: 'unix',
-  buffer: true
+    service: 'gmail',
+    auth: {
+        user: 'mandvigupta35@gmail.com',
+        pass: 'cybkksanpnfhlggy'
+    },
+    tls: {
+        rejectUnauthorized: false
+    },
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 10000
 });
 
-console.log('📧 Email Service: Development Mode (SMTP blocked by ISP/Firewall)');
-console.log('✅ OTP codes will be shown in alerts and console logs');
-console.log('💡 For production: Use SendGrid, Mailgun, or Brevo with API keys');
-
-// Email sending utility for OTP - Mock mode (logs instead of sending)
+// Email sending utility for OTP
 const sendVerificationEmail = async (email, otp, name) => {
-  // Log the OTP for development use
-  console.log('\n📧 ========================================');
-  console.log('📬 VERIFICATION EMAIL (Mock Mode)');
-  console.log('📧 ========================================');
-  console.log(`👤 To: ${email}`);
-  console.log(`👋 Name: ${name}`);
-  console.log(`🔑 OTP CODE: ${otp}`);
-  console.log(`⏰ Valid for: 10 minutes`);
-  console.log('📧 ========================================\n');
-  
-  // Simulate email sending success
-  return Promise.resolve({
-    accepted: [email],
-    response: 'Mock email sent successfully'
-  });
-  
-  /* Original email template for when SMTP works:
-  const mailOptions = {
+    const mailOptions = {
     from: '"E-Commerce Store" <mandvigupta35@gmail.com>',
     to: email,
     subject: 'Your Verification Code - E-Commerce Store',
@@ -88,26 +73,18 @@ const sendVerificationEmail = async (email, otp, name) => {
       </html>
     `
   };
-  */ 
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Message sent: %s', info.messageId);
+    return info;
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
 };
 
 const sendPasswordResetEmail = async (email, token, name) => {
-  // Log password reset for development
-  console.log('\n🔐 ========================================');
-  console.log('📬 PASSWORD RESET EMAIL (Mock Mode)');
-  console.log('🔐 ========================================');
-  console.log(`👤 To: ${email}`);
-  console.log(`👋 Name: ${name}`);
-  console.log(`🔑 Reset Token: ${token}`);
-  console.log(`🔗 Reset URL: http://localhost:3000/reset-password?token=${token}`);
-  console.log('🔐 ========================================\n');
-  
-  return Promise.resolve({
-    accepted: [email],
-    response: 'Mock email sent successfully'
-  });
-  
-  /* Original reset email for when SMTP works:
   const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${token}`;
   
   const mailOptions = {
@@ -156,7 +133,15 @@ const sendPasswordResetEmail = async (email, token, name) => {
       </html>
     `
   };
-  */
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Message sent: %s', info.messageId);
+    return info;
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
 };
 
 router.get('/', async (req, res) => {
