@@ -640,6 +640,7 @@ router.put('/:id', async (req, res) => {
 
   // Add a specific register route that matches frontend call
   router.post('/register', async (req, res) => {
+    try {
     // Check if user already exists
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
@@ -706,6 +707,13 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send({ 
             message: error.message || 'Registration failed', 
+            success: false 
+        });
+    }
+    } catch (error) {
+        console.error('Registration Critical Error:', error);
+        res.status(500).send({ 
+            message: error.message || 'Internal Server Error', 
             success: false 
         });
     }
