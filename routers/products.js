@@ -4,11 +4,13 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
+const path = require('path');
 
 const FILE_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpg',
     'image/jpg': 'jpg',
+    'image/webp': 'webp',
 }
 
 
@@ -19,7 +21,7 @@ const storage = multer.diskStorage({
         if (isValid) {
             uploaderror = null;
         }
-        cb(uploaderror, 'public/uploads');
+        cb(uploaderror, path.join(__dirname, '../public/uploads'));
     },
     filename: function (req, file, cb) {
         const extension = FILE_TYPE_MAP[file.mimetype];
@@ -62,6 +64,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', uploadOptions.single('image'), async (req, res) => {
     try {
+        console.log('Received product creation request');
+        console.log('Body:', req.body);
+        
+        if (!mongoose.isValidObjectId(req.body.category)) {
+             return res.status(400).send({ message: 'Invalid Category ID', success: false });
+        }
+
         const category = await Category.findById(req.body.category);
         if (!category) {
             return res.status(400).send({ message: 'Invalid category', success: false });
@@ -85,7 +94,7 @@ router.post('/', uploadOptions.single('image'), async (req, res) => {
             category: req.body.category,
             countInStock: req.body.countInStock,
             rating: req.body.rating || 0,
-            numReview: req.body.numReview || 0,
+            numReviews: req.body.numReview || 0,
             isFeatured: req.body.isFeatured === 'true' || req.body.isFeatured === true,
             admin: req.auth?.userId // Assign product to the current admin
         });
