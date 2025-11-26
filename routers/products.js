@@ -5,6 +5,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const FILE_TYPE_MAP = {
     'image/png': 'png',
@@ -13,22 +15,43 @@ const FILE_TYPE_MAP = {
     'image/webp': 'webp',
 }
 
+// Cloudinary Configuration
+if (process.env.CLOUDINARY_CLOUD_NAME) {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+}
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const isValid = FILE_TYPE_MAP[file.mimetype];
-        let uploaderror = new Error('Invalid image type');
-        if (isValid) {
-            uploaderror = null;
+let storage;
+
+// Switch between Cloudinary and Local Storage based on Env
+if (process.env.CLOUDINARY_CLOUD_NAME) {
+    storage = new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+            folder: 'e-com-website',
+            allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+        },
+    });
+} else {
+    storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            const isValid = FILE_TYPE_MAP[file.mimetype];
+            let uploaderror = new Error('Invalid image type');
+            if (isValid) {
+                uploaderror = null;
+            }
+            cb(uploaderror, path.join(__dirname, '../public/uploads'));
+        },
+        filename: function (req, file, cb) {
+            const extension = FILE_TYPE_MAP[file.mimetype];
+            const fileName = file.originalname.split(' ').join('-');
+            cb(null, `${Date.now()}-${fileName}.${extension}`);
         }
-        cb(uploaderror, path.join(__dirname, '../public/uploads'));
-    },
-    filename: function (req, file, cb) {
-        const extension = FILE_TYPE_MAP[file.mimetype];
-        const fileName = file.originalname.split(' ').join('-');
-        cb(null, `${Date.now()}-${fileName}.${extension}`);
-    }
-});
+    });
+}
 
 const uploadOptions = multer({ storage: storage });
 
@@ -62,13 +85,27 @@ router.get('/:id', async (req, res) => {
  
 });
 
-router.post('/', uploadOptions.single('image'), async (req, res) => {
+router.post('/', (req, res, next) => {
+    const upload = uploadOptions.single('image');
+    upload(req, res, function (err) {
+        if (err) {
+            console.error('Multer Upload Error:', err);
+            return res.status(400).json({ message: 'Image upload failed: ' + err.message, success: false });
+        }
+        next();
+    });
+}, async (req, res) => {
     try {
         console.log('Received product creation request');
         console.log('Body:', req.body);
+        console.log('File:', req.file);
         
+        if (!req.body.category) {
+            return res.status(400).send({ message: 'Category is required', success: false });
+        }
+
         if (!mongoose.isValidObjectId(req.body.category)) {
-             return res.status(400).send({ message: 'Invalid Category ID', success: false });
+             return res.status(400).send({ message: 'Invalid Category ID format', success: false });
         }
 
         const category = await Category.findById(req.body.category);
@@ -81,14 +118,20 @@ router.post('/', uploadOptions.single('image'), async (req, res) => {
             return res.status(400).send({ message: 'No image in the request', success: false });
         }
 
-        const fileName = req.file.filename;
-        const basePath = `${req.protocol}://${req.get('host')}/uploads/`;
+        let imagePath;
+        if (file.path && (file.path.startsWith('http') || file.path.startsWith('https'))) {
+             imagePath = file.path;
+        } else {
+             const fileName = req.file.filename;
+             const basePath = `${req.protocol}://${req.get('host')}/uploads/`;
+             imagePath = `${basePath}${fileName}`;
+        }
         
         const product = new Product({
             name: req.body.name,
             description: req.body.description,
             richDescription: req.body.richDescription,
-            image: `${basePath}${fileName}`,
+            image: imagePath,
             brand: req.body.brand,
             price: req.body.price,
             category: req.body.category,
