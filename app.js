@@ -26,6 +26,8 @@ const api = process.env.API_URL || '/api/v1/';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
+app.use(authJwt());
+
 
 // Express session setup
 app.use(session({
